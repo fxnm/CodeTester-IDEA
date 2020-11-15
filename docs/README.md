@@ -1,8 +1,8 @@
 ![CodeTester-IDEA Logo](https://github.com/fxnm/CodeTester-IDEA/blob/development/docs/images/logo/CodeTester-IDEA.png)
 
 # CodeTester-IDEA
-![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/fxnm/CodeTester-IDEA/Grade%2520Build/master?label=master%20build)
-![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/fxnm/CodeTester-IDEA/Grade%2520Build/development?label=development%20build)
+![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/fxnm/CodeTester-IDEA/Master%20Build/master?label=Master%20Build)
+![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/fxnm/CodeTester-IDEA/Development%20Build/development?label=Development%20Build)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/fxnm/CodeTester-IDEA)
 ![GitHub](https://img.shields.io/github/license/fxnm/CodeTester-IDEA)
 
