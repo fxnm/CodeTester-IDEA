@@ -37,7 +37,7 @@ repositories {
 }
 dependencies {
     implementation(group = "com.squareup.okhttp3", name = "okhttp", version = "4.9.0")
-    implementation(group = "io.sentry", name = "sentry", version = "3.1.3") {
+    implementation(group = "io.sentry", name = "sentry", version = "3.2.0") {
         exclude(group = "org.slf4j")
     }
     implementation(group = "org.projectlombok", name = "lombok", version = "1.18.16")
