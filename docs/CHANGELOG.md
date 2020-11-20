@@ -4,6 +4,7 @@
 ### Added
 
 ### Changed
+- Migrated settings.gradle to Kotlin 
 
 ### Fixed
 
