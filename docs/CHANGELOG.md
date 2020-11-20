@@ -4,6 +4,7 @@
 ### Added
 
 ### Changed
+- Changed Login Dialog implementation
 
 ### Fixed
 
