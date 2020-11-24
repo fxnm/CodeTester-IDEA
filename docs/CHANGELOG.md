@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 ### Added
+- Added predefined Run / Debug / Test Configurations
 
 ### Changed
 - Migrated settings.gradle to Kotlin 
