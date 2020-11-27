@@ -7,6 +7,7 @@
 - Changed Login Dialog implementation
 
 ### Fixed
+- Fixed Login Dialog and error if login was canceled
 
 ### Removed
 

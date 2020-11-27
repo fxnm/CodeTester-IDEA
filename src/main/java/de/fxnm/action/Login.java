@@ -44,7 +44,8 @@ public class Login extends BaseAction {
         final Presentation presentation = event.getPresentation();
         final ProjectStateService projectState = ProjectStateService.getService(event.getProject());
 
-        presentation.setEnabled(projectState.isServerConnectionEstablished()
+        presentation.setEnabled(
+                projectState.isServerConnectionEstablished()
                 && projectState.isManualLoginLogoutConfig());
 
         if (ProjectStateService.getService(event.getProject()).isLoginConnectionEstablished()) {

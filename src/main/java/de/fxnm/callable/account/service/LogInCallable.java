@@ -56,7 +56,9 @@ public class LogInCallable extends BaseCallable<Boolean> {
 
                 super.finishedCallable("Login successful");
                 this.loginAbleWithSaveCredentials = true;
-
+            } catch (final UsernamePasswordException e) {
+                super.failedCallable("Login abort");
+                this.loginAbleWithSaveCredentials = false;
             } catch (final Throwable e) {
                 super.failedCallable("Failed to login");
                 LOG.warn(e);
