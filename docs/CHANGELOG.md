@@ -3,9 +3,11 @@
 ## [Unreleased]
 ### Added
 - Added predefined Run / Debug / Test Configurations
+- Added new Pull Request Template
 
 ### Changed
-- Migrated settings.gradle to Kotlin 
+- Migrated settings.gradle to Kotlin
+- Changed Feature Request Issue Template label  
 
 ### Fixed
 
