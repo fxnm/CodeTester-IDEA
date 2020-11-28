@@ -3,6 +3,7 @@
 ## [Unreleased]
 ### Added
 - Added predefined Run / Debug / Test Configurations
+- Added Security Policy
 
 ### Changed
 - Changed Login Dialog implementation
