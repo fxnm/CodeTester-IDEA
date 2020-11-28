@@ -38,7 +38,10 @@ public class ConnectionFeedbackListener extends FeedbackListener {
             this.toolWindow().displayErrorMessage(false, details[0].toString());
         }
 
-        PopupNotifier.notify(this.project(), "Connection Failed", "", "", NotificationType.ERROR, PluginIcons.STATUS_ERROR);
+        PopupNotifier.notify(this.project(), "Connection Failed", "",
+                "Please check your internet connection to fully use this plugin!",
+                NotificationType.ERROR,
+                PluginIcons.STATUS_ERROR);
 
         ProjectStateService.getService(this.project())
                 .setServerConnectionEstablished(false, this.project());

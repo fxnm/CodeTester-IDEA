@@ -15,11 +15,13 @@ import de.fxnm.util.CodeTesterBundle;
 
 public class CodeTesterToolWindowFactory implements ToolWindowFactory {
 
+    private static final int MAX_LENGTH = 10;
+
     public static void createResultToolWindow(final @NotNull ToolWindow toolWindow,
                                               final ResultTreeNode resultTreeNode) {
         final Content content = toolWindow.getContentManager().getFactory().createContent(
                 new ResultToolWindowPanel(resultTreeNode).getComponent(),
-                resultTreeNode.getCheck().getCheckName(),
+                restrictStringLength(MAX_LENGTH, resultTreeNode.getCheck().getCheckName()),
                 true);
         content.putUserData(ToolWindow.SHOW_CONTENT_ICON, Boolean.TRUE);
 
@@ -27,6 +29,24 @@ public class CodeTesterToolWindowFactory implements ToolWindowFactory {
 
         toolWindow.getContentManager().addContent(content);
         toolWindow.getContentManager().setSelectedContent(content);
+    }
+
+
+    private static String restrictStringLength(final int maxLength, final String string) {
+        if (string.length() <= maxLength) {
+            return string;
+        }
+
+        final String[] a = string.split("");
+        final StringBuilder stringBuilder = new StringBuilder();
+
+        for (int i = 0; i < maxLength; i++) {
+            stringBuilder.append(a[i]);
+        }
+
+        stringBuilder.append("...");
+
+        return stringBuilder.toString();
     }
 
     @Override

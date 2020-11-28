@@ -6,10 +6,16 @@
 - Added new Pull Request Template
 
 ### Changed
+- Changed Login Dialog implementation
+- Changed ToolWindow Base and simplified the component structure
 - Migrated settings.gradle to Kotlin
 - Changed Feature Request Issue Template label  
 
 ### Fixed
+- Fixed Login Dialog and error if login was canceled
+- Fixed typos
+- Fixed not disabling logout action if CodeTester is running 
+- Fixed check result filtering after rerun
 
 ### Removed
 
