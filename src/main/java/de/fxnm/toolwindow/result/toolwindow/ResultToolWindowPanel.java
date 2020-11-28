@@ -14,7 +14,7 @@ import de.fxnm.ui.check.CheckInOutResultPanel;
 import de.fxnm.ui.errormessage.ErrorMessage;
 import de.fxnm.ui.errormessage.ErrorMessagePanel;
 import de.fxnm.ui.util.ActionToolBar;
-import de.fxnm.ui.util.HorizontalBox;
+import de.fxnm.ui.util.HorizontalComponentBox;
 import de.fxnm.ui.util.TitleRow;
 import de.fxnm.web.components.submission.success.Check;
 import de.fxnm.web.components.submission.success.CheckFileData;
@@ -65,18 +65,18 @@ public class ResultToolWindowPanel {
     }
 
     public JPanel getComponent() {
-        return this.baseToolWindow.getBasePanel();
+        return this.baseToolWindow.getPanel();
     }
 
 
     private JComponent createTopLineComponent() {
-        final HorizontalBox horizontalBox = new HorizontalBox();
+        final HorizontalComponentBox horizontalComponentBox = new HorizontalComponentBox();
 
-        horizontalBox.addComponent(new JLabel(this.resultTreeNode.getIcon()));
-        horizontalBox.addComponent(new JLabel(this.check.getResult().toString()), 20);
-        horizontalBox.addComponent(new JLabel(this.check.getCheckName()));
+        horizontalComponentBox.addComponent(new JLabel(this.resultTreeNode.getIcon()));
+        horizontalComponentBox.addComponent(new JLabel(this.check.getResult().toString()), 20);
+        horizontalComponentBox.addComponent(new JLabel(this.check.getCheckName()));
 
-        return horizontalBox.get();
+        return horizontalComponentBox.get();
     }
 
     public JComponent createCenterComponent() {

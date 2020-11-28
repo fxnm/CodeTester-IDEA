@@ -1,13 +1,16 @@
 package de.fxnm.ui.errormessage
 
+import de.fxnm.ui.util.HorizontalComponentBox
 import java.awt.BorderLayout
 import javax.swing.Icon
 import javax.swing.JLabel
 import javax.swing.JPanel
 
-class ErrorMessage(private val icon: Icon, private val message: String, val autoRemove: Boolean) : JPanel(BorderLayout()) {
+class ErrorMessage(icon: Icon, message: String, val autoRemove: Boolean) : JPanel(BorderLayout()) {
     init {
-        this.add(JLabel(icon), BorderLayout.WEST)
-        this.add(JLabel(message), BorderLayout.CENTER)
+        val horizontalComponentBox = HorizontalComponentBox()
+        horizontalComponentBox.addComponent(JLabel(icon))
+        horizontalComponentBox.addComponent(JLabel(message))
+        this.add(horizontalComponentBox.get())
     }
 }

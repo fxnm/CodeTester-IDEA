@@ -27,7 +27,7 @@ import de.fxnm.ui.check.CheckResultSummaryPanel;
 import de.fxnm.ui.errormessage.ErrorMessage;
 import de.fxnm.ui.errormessage.ErrorMessagePanel;
 import de.fxnm.ui.util.ActionToolBar;
-import de.fxnm.ui.util.HorizontalBox;
+import de.fxnm.ui.util.HorizontalComponentBox;
 import de.fxnm.util.CodeTesterBundle;
 import de.fxnm.web.components.category.Category;
 import de.fxnm.web.components.submission.SubmissionResult;
@@ -58,7 +58,7 @@ public class CodeTesterToolWindowPanel extends JPanel implements ConfigurationLi
 
         this.categoryComboBox = new CategoryComboBox();
         this.createToolPanel();
-        this.add(this.toolWindowBase.getBasePanel());
+        this.add(this.toolWindowBase.getPanel());
         this.setVisible(true);
     }
 
@@ -90,13 +90,13 @@ public class CodeTesterToolWindowPanel extends JPanel implements ConfigurationLi
         this.checkResultSummaryPanel.addMouseListener(new ToolWindowMouseListener());
         this.checkResultSummaryPanel.addKeyListener(new ToolWindowKeyboardListener());
 
-        final HorizontalBox horizontalBox = new HorizontalBox();
-        horizontalBox.addComponent(new JLabel((CodeTesterBundle.message("plugin.check.category"))));
-        horizontalBox.addComponent(this.categoryComboBox.getComboBox());
+        final HorizontalComponentBox horizontalComponentBox = new HorizontalComponentBox();
+        horizontalComponentBox.addComponent(new JLabel((CodeTesterBundle.message("plugin.check.category"))));
+        horizontalComponentBox.addComponent(this.categoryComboBox.getComboBox());
 
 
         this.toolWindowBase = new ToolWindowBase(
-                horizontalBox.get(),
+                horizontalComponentBox.get(),
                 new ActionToolBar(ID_TOOL_WINDOW, MAIN_ACTION_GROUP, false),
                 this.checkResultSummaryPanel.getPanel(),
                 this.errorMessagePanel.get()

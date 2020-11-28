@@ -10,11 +10,20 @@ import javax.swing.JPanel;
 
 public class ToolWindowBase {
 
-    private static final ComboBox<String> COMBOBOX = new ComboBox<>(new String[]{"TEST"});
+    /**
+     * This combo box is only used to determine the larger.
+     * This is used as a reference for the northern, eastern and western components as their height / width.
+     * DO NOT USE THIS COMPONENT ANYWHERE ELSE!
+     */
+    private static final ComboBox<String> SIZE_COMBOBOX = new ComboBox<>(new String[]{"TEST"});
 
     private final JPanel basePanel;
 
     private final JComponent northComponent;
+
+    /**
+     * Currently not in use but it has to stay due to symmetry.
+     */
     private final JComponent eastComponent = new JPanel();
     private final JComponent westComponent;
     private final JComponent centerComponent;
@@ -39,7 +48,7 @@ public class ToolWindowBase {
     }
 
     private void setSize() {
-        final int size = COMBOBOX.getMinimumSize().height;
+        final int size = SIZE_COMBOBOX.getMinimumSize().height;
         final int height = this.westComponent.getMinimumSize().height + 2;
 
         this.setComponentSize(this.northComponent, 0, height);
@@ -69,7 +78,7 @@ public class ToolWindowBase {
         this.basePanel.add(this.westComponent, BorderLayout.WEST);
     }
 
-    public JPanel getBasePanel() {
+    public JPanel getPanel() {
         return this.basePanel;
     }
 }

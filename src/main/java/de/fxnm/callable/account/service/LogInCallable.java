@@ -86,8 +86,8 @@ public class LogInCallable extends BaseCallable<Boolean> {
     }
 
     private Pair<String, String> createLoginForm() throws UsernamePasswordException {
-        final LoginDialog dialogWrapper = new LoginDialog(CodeTesterBundle.message("plugin.runner.LoginRunner"
-                + ".Title"));
+        final LoginDialog dialogWrapper =
+                new LoginDialog(CodeTesterBundle.message("plugin.runner.LoginRunner.Title"));
         if (dialogWrapper.showAndGet()) {
             return dialogWrapper.getUserInput();
         } else {

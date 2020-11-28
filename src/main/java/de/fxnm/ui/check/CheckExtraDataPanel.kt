@@ -22,9 +22,9 @@ class CheckExtraDataPanel(private val checkFileData: CheckFileData) {
                         }
                     }
 
-                    for (s in checkFileData.contentArray) {
+                    for (content in checkFileData.contentArray) {
                         row {
-                            label(s)
+                            label(content)
                         }
                     }
                 }

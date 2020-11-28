@@ -25,9 +25,9 @@ class CheckInOutResultPanel(private val resultLines: Array<CheckOutputLineData>)
 
     init {
         panel = panel {
-            for (r in resultLines) {
-                row(r.type) {
-                    label(r.getContent())
+            for (line in resultLines) {
+                row(line.type) {
+                    label(line.getContent())
                 }
             }
         }

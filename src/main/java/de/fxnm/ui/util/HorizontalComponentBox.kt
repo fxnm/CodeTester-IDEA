@@ -4,7 +4,7 @@ import com.intellij.util.ui.JBEmptyBorder
 import javax.swing.Box
 import javax.swing.JComponent
 
-class HorizontalBox {
+class HorizontalComponentBox {
     private val box: Box = Box.createHorizontalBox()
 
     @JvmOverloads
