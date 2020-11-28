@@ -31,7 +31,7 @@ public class LogInFeedbackListener extends FeedbackListener {
     @Override
     public void scanFailedImp(final Object... details) {
         if (this.toolWindow() != null) {
-            this.toolWindow().displayErrorMessage(true, "Login failed");
+            this.toolWindow().displayErrorMessage(true, (String) details[0]);
         }
     }
 }

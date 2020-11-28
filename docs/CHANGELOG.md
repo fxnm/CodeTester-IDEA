@@ -5,9 +5,15 @@
 - Added predefined Run / Debug / Test Configurations
 
 ### Changed
+- Changed Login Dialog implementation
+- Changed ToolWindow Base and simplified the component structure
 - Migrated settings.gradle to Kotlin 
 
 ### Fixed
+- Fixed Login Dialog and error if login was canceled
+- Fixed typos
+- Fixed not disabling logout action if CodeTester is running 
+- Fixed check result filtering after rerun
 
 ### Removed
 

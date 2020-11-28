@@ -1,6 +1,5 @@
 package de.fxnm.listener.scanner.service;
 
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
 
 import de.fxnm.listener.FeedbackListener;
@@ -11,13 +10,6 @@ public class UiScannerFeedbackListener extends FeedbackListener {
 
     public UiScannerFeedbackListener(final Project project) {
         super(project);
-    }
-
-    @Override
-    public void scanStarting(final Object... details) {
-        ApplicationManager.getApplication().invokeLater(() -> {
-
-        });
     }
 
     @Override
@@ -34,7 +26,7 @@ public class UiScannerFeedbackListener extends FeedbackListener {
     @Override
     public void scanCompletedImp(final Object... details) {
         if (this.toolWindow() != null) {
-            this.toolWindow().displayCheckResult((SubmissionResult) details[0]);
+            this.toolWindow().displayCheckResult((SubmissionResult) details[0], this.project());
         }
 
         ProjectStateService.getService(this.project()).setManualLoginLogoutConfig(true);

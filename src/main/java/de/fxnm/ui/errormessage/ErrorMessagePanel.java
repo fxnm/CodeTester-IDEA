@@ -1,89 +1,81 @@
 package de.fxnm.ui.errormessage;
 
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.ui.components.JBList;
-import com.intellij.util.ui.JBUI;
 
-import java.awt.BorderLayout;
-import java.util.concurrent.Callable;
+import java.awt.GridBagLayout;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
-import javax.swing.DefaultListModel;
-import javax.swing.Icon;
 import javax.swing.JPanel;
 
+import de.fxnm.util.ComponentStatics;
 import de.fxnm.util.PooledThread;
 
-
-public class ErrorMessagePanel extends JPanel {
-
-    public static final int MS_TILL_AUTO_REMOVE = 5000;
-    private static final Logger LOG = Logger.getInstance(ErrorMessage.class);
-
-    private JBList<ErrorMessage> errorMessageJList;
-    private DefaultListModel<ErrorMessage> defaultListModel;
+public class ErrorMessagePanel {
+    private static final int MS_TILL_AUTO_REMOVE = 5000;
+    private static final Logger LOG = Logger.getInstance(ErrorMessagePanel.class);
+    private final List<ErrorMessage> errorMessageList = Collections.synchronizedList(new LinkedList<>());
+    private final JPanel panel;
 
     public ErrorMessagePanel() {
-        super(new BorderLayout());
-        this.createComponent();
-
-        this.setBorder(JBUI.Borders.empty(1));
-        this.setVisible(false);
+        this.panel = new JPanel(new GridBagLayout());
+        this.panel.setVisible(true);
     }
 
-    public void setErrorMessages(final Icon icon, final Boolean autoRemove, final String message) {
-        final ErrorMessage errorMessage = new ErrorMessage(icon, message);
-        final AutoRemoveListener autoRemoveListener = new AutoRemoveListener(errorMessage, autoRemove);
-        this.defaultListModel.addElement(errorMessage);
-        PooledThread.execute(autoRemoveListener);
-
-        this.setVisible(true);
-        this.invalidate();
-        this.repaint();
+    public void addErrorMessage(final ErrorMessage errorMessage) {
+        this.errorMessageList.add(errorMessage);
+        PooledThread.execute(new AutoRemoveListener(errorMessage));
+        this.generate();
     }
 
     public void removeErrorMessage(final ErrorMessage errorMessage) {
-        this.defaultListModel.removeElement(errorMessage);
-        if (this.errorMessageJList.isEmpty()) {
-            this.setVisible(false);
+        this.errorMessageList.remove(errorMessage);
+        this.generate();
+    }
+
+    public void removeAllErrorMessages() {
+        this.errorMessageList.clear();
+        this.generate();
+    }
+
+    private void generate() {
+        this.panel.removeAll();
+        for (int i = 0; i < this.errorMessageList.size(); i++) {
+            ComponentStatics.addComponent(this.errorMessageList.get(i), 0, i, this.panel);
         }
 
-
+        this.panel.invalidate();
+        this.panel.repaint();
     }
 
-    private void createComponent() {
-        this.defaultListModel = new DefaultListModel<>();
-        this.errorMessageJList = new JBList<>(this.defaultListModel);
-        this.errorMessageJList.setCellRenderer(new ErrorMessageCellRenderer());
-        this.errorMessageJList.setSelectionModel(new NoSelectionModel());
-
-        this.add(this.errorMessageJList, BorderLayout.CENTER);
+    public JPanel get() {
+        return this.panel;
     }
 
-    private final class AutoRemoveListener implements Callable<Boolean> {
+    public boolean isEmpty() {
+        return this.errorMessageList.isEmpty();
+    }
+
+    private class AutoRemoveListener implements Runnable {
 
         private final ErrorMessage errorMessage;
-        private final Boolean autoRemove;
 
-        private AutoRemoveListener(final ErrorMessage errorMessage, final Boolean autoRemove) {
+        public AutoRemoveListener(final ErrorMessage errorMessage) {
             this.errorMessage = errorMessage;
-            this.autoRemove = autoRemove;
         }
 
-
         @Override
-        public Boolean call() {
-            if (!this.autoRemove) {
-                return true;
+        public void run() {
+            if (!this.errorMessage.getAutoRemove()) {
+                return;
             }
             try {
                 Thread.sleep(MS_TILL_AUTO_REMOVE);
             } catch (final InterruptedException exception) {
-                LOG.error(exception);
+                LOG.error("Error Message auto remove failed", exception, this.errorMessage.toString());
             }
-
             ErrorMessagePanel.this.removeErrorMessage(this.errorMessage);
-            return true;
         }
     }
 }
-
