@@ -6,7 +6,6 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.ui.content.Content;
-import com.intellij.ui.treeStructure.Tree;
 
 import java.awt.BorderLayout;
 import java.awt.event.KeyAdapter;
@@ -14,22 +13,21 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JToolBar;
-import javax.swing.JTree;
-import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import de.fxnm.config.ConfigurationListener;
-import de.fxnm.result.tree.ResultTreeModel;
 import de.fxnm.result.tree.ResultTreeNode;
-import de.fxnm.result.tree.ResultTreeRenderer;
 import de.fxnm.result.tree.ToggleableTreeNode;
 import de.fxnm.toolwindow.CodeTesterToolWindowFactory;
 import de.fxnm.toolwindow.ToolWindowBase;
 import de.fxnm.ui.CategoryComboBox;
+import de.fxnm.ui.check.CheckResultSummaryPanel;
+import de.fxnm.ui.errormessage.ErrorMessage;
+import de.fxnm.ui.errormessage.ErrorMessagePanel;
+import de.fxnm.ui.util.ActionToolBar;
+import de.fxnm.ui.util.HorizontalBox;
 import de.fxnm.util.CodeTesterBundle;
 import de.fxnm.web.components.category.Category;
 import de.fxnm.web.components.submission.SubmissionResult;
@@ -46,11 +44,10 @@ public class CodeTesterToolWindowPanel extends JPanel implements ConfigurationLi
     private final Project project;
 
     private final CategoryComboBox categoryComboBox;
-    private final ToolWindowBase toolWindowBase;
+    private final ErrorMessagePanel errorMessagePanel = new ErrorMessagePanel();
+    private ToolWindowBase toolWindowBase;
 
-    private JToolBar progressPanel;
-    private ResultTreeModel treeModel;
-    private Tree resultsTree;
+    private CheckResultSummaryPanel checkResultSummaryPanel;
 
 
     public CodeTesterToolWindowPanel(final ToolWindow toolWindow, final Project project) {
@@ -60,10 +57,8 @@ public class CodeTesterToolWindowPanel extends JPanel implements ConfigurationLi
         this.project = project;
 
         this.categoryComboBox = new CategoryComboBox();
-        this.toolWindowBase = new ToolWindowBase(ID_TOOL_WINDOW);
-
         this.createToolPanel();
-        this.add(this.toolWindowBase);
+        this.add(this.toolWindowBase.getBasePanel());
         this.setVisible(true);
     }
 
@@ -89,96 +84,50 @@ public class CodeTesterToolWindowPanel extends JPanel implements ConfigurationLi
         return null;
     }
 
-
-    private void expandNode(final JTree tree, final TreeNode node, final TreePath path, final int level) {
-        if (level <= 0) {
-            return;
-        }
-
-        tree.expandPath(path);
-
-        for (int i = 0; i < node.getChildCount(); ++i) {
-            final TreeNode childNode = node.getChildAt(i);
-            this.expandNode(tree, childNode, path.pathByAddingChild(childNode), level - 1);
-        }
-    }
-
     private void createToolPanel() {
 
+        this.checkResultSummaryPanel = new CheckResultSummaryPanel();
+        this.checkResultSummaryPanel.addMouseListener(new ToolWindowMouseListener());
+        this.checkResultSummaryPanel.addKeyListener(new ToolWindowKeyboardListener());
 
-        this.treeModel = new ResultTreeModel();
-        this.resultsTree = new Tree(this.treeModel);
-        this.resultsTree.setRootVisible(false);
-        this.resultsTree.setVisible(false);
-
-        this.resultsTree.addMouseListener(new ToolWindowMouseListener());
-        this.resultsTree.addKeyListener(new ToolWindowKeyboardListener());
-
-        this.resultsTree.setCellRenderer(new ResultTreeRenderer());
+        final HorizontalBox horizontalBox = new HorizontalBox();
+        horizontalBox.addComponent(new JLabel((CodeTesterBundle.message("plugin.check.category"))));
+        horizontalBox.addComponent(this.categoryComboBox.getComboBox());
 
 
-        this.progressPanel = new JToolBar(JToolBar.HORIZONTAL);
-        this.progressPanel.add(Box.createHorizontalStrut(4));
-
-        this.progressPanel.add(new JLabel((CodeTesterBundle.message("plugin.check.category"))));
-        this.progressPanel.add(Box.createHorizontalStrut(4));
-        this.progressPanel.add(this.categoryComboBox.getComboBox());
-        this.progressPanel.add(Box.createHorizontalStrut(4));
-
-        this.progressPanel.add(Box.createHorizontalGlue());
-        this.progressPanel.setFloatable(false);
-        this.progressPanel.setOpaque(false);
-        this.progressPanel.setBorder(null);
-
-
-        this.toolWindowBase.createUI(
-                MAIN_ACTION_GROUP,
-                this.progressPanel,
-                this.resultsTree,
-                new JPanel()
+        this.toolWindowBase = new ToolWindowBase(
+                horizontalBox.get(),
+                new ActionToolBar(ID_TOOL_WINDOW, MAIN_ACTION_GROUP, false),
+                this.checkResultSummaryPanel.getPanel(),
+                this.errorMessagePanel.get()
         );
     }
 
 
     @Override
     public void displayErrorMessage(final Boolean autoRemove, final String message) {
-        this.toolWindowBase.setMessage(PluginIcons.STATUS_ERROR, autoRemove, message);
-        this.invalidate();
-        this.repaint();
+        this.errorMessagePanel.addErrorMessage(new ErrorMessage(PluginIcons.STATUS_ERROR, message, autoRemove));
     }
 
     @Override
     public void displayInfoMessage(final Boolean autoRemove, final String message) {
-        this.toolWindowBase.setMessage(PluginIcons.STATUS_INFO, autoRemove, message);
-        this.invalidate();
-        this.repaint();
+        this.errorMessagePanel.addErrorMessage(new ErrorMessage(PluginIcons.STATUS_INFO, message, autoRemove));
     }
 
     @Override
     public void displayCheckResult(final SubmissionResult submissionResult) {
-        this.treeModel.setModel(submissionResult);
-        this.resultsTree.setVisible(true);
-        this.invalidate();
-        this.repaint();
-        this.expandTree();
+        this.checkResultSummaryPanel.setModel(submissionResult);
     }
 
     @Override
     public void removeCheckResult() {
-        this.resultsTree.setVisible(false);
-        this.treeModel.clear();
+        this.checkResultSummaryPanel.removeCheckResult();
     }
 
     @Override
     public void setCategories(final Category[] categories) {
         this.categoryComboBox.setCategories(categories);
     }
-
-    private void expandTree() {
-        this.expandNode(this.resultsTree, this.treeModel.getVisibleRootNode(),
-                new TreePath(this.treeModel.getPathToRoot(this.treeModel.getVisibleRootNode())), 3);
-    }
-
 
     public Category getCurrentSelectedCategory() {
         return this.categoryComboBox.getSelectedCategory();
@@ -205,8 +154,7 @@ public class CodeTesterToolWindowPanel extends JPanel implements ConfigurationLi
     }
 
     public void filterDisplayedResults(final boolean errors, final boolean success) {
-        this.treeModel.filter(errors, success);
-        this.expandTree();
+        this.checkResultSummaryPanel.filterDisplayedResults(errors, success);
     }
 
     protected class ToolWindowMouseListener extends MouseAdapter {
@@ -216,7 +164,7 @@ public class CodeTesterToolWindowPanel extends JPanel implements ConfigurationLi
                 return;
             }
 
-            final TreePath treePath = CodeTesterToolWindowPanel.this.resultsTree.getPathForLocation(
+            final TreePath treePath = CodeTesterToolWindowPanel.this.checkResultSummaryPanel.getResultTree().getPathForLocation(
                     e.getX(), e.getY());
 
             if (treePath == null) {
@@ -234,7 +182,7 @@ public class CodeTesterToolWindowPanel extends JPanel implements ConfigurationLi
                 return;
             }
 
-            final TreePath treePath = CodeTesterToolWindowPanel.this.resultsTree.getSelectionPath();
+            final TreePath treePath = CodeTesterToolWindowPanel.this.checkResultSummaryPanel.getResultTree().getSelectionPath();
 
             if (treePath == null) {
                 return;

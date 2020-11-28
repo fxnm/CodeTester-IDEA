@@ -5,6 +5,7 @@
 
 ### Changed
 - Changed Login Dialog implementation
+- Changed ToolWindow Base and simplified the component structure
 
 ### Fixed
 - Fixed Login Dialog and error if login was canceled

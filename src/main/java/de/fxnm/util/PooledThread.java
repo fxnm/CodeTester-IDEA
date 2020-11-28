@@ -15,9 +15,12 @@ public final class PooledThread {
     }
 
     public static <T> Future<T> execute(final Callable<T> callable) {
-        LOG.info(String.format("%s Executed", callable.getClass()));
+        LOG.info(callable.getClass() + " Executed");
         return ApplicationManager.getApplication().executeOnPooledThread(callable);
     }
 
-
+    public static void execute(final Runnable runnable) {
+        LOG.info(runnable.getClass() + " Executed");
+        ApplicationManager.getApplication().executeOnPooledThread(runnable);
+    }
 }

@@ -8,7 +8,11 @@ import javax.swing.JComponent
 import javax.swing.JPasswordField
 import javax.swing.JTextField
 
-class LoginDialog (title: String) : DialogWrapper(true) {
+/**
+ * Class that creates a LoginFrom that contains username and password.
+ * This is done by extending the DialogWrapper.
+ */
+class LoginDialog(title: String) : DialogWrapper(true) {
 
     private val userNameField = JTextField()
     private val passwordField = JPasswordField()

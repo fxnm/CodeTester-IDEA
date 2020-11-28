@@ -46,7 +46,7 @@ public class Login extends BaseAction {
 
         presentation.setEnabled(
                 projectState.isServerConnectionEstablished()
-                && projectState.isManualLoginLogoutConfig());
+                        && projectState.isManualLoginLogoutConfig());
 
         if (ProjectStateService.getService(event.getProject()).isLoginConnectionEstablished()) {
             presentation.setIcon(PluginIcons.LOGIN_GREEN);
