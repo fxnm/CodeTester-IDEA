@@ -2,10 +2,12 @@
 
 ## [Unreleased]
 ### Added
+- Added predefined Run / Debug / Test Configurations
 
 ### Changed
 - Changed Login Dialog implementation
 - Changed ToolWindow Base and simplified the component structure
+- Migrated settings.gradle to Kotlin 
 
 ### Fixed
 - Fixed Login Dialog and error if login was canceled
