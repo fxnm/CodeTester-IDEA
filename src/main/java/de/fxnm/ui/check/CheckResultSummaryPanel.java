@@ -1,5 +1,6 @@
 package de.fxnm.ui.check;
 
+import com.intellij.openapi.project.Project;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.treeStructure.Tree;
 import com.intellij.util.ui.JBEmptyBorder;
@@ -14,6 +15,7 @@ import javax.swing.tree.TreePath;
 
 import de.fxnm.result.tree.ResultTreeModel;
 import de.fxnm.result.tree.ResultTreeRenderer;
+import de.fxnm.service.ProjectStateService;
 import de.fxnm.web.components.submission.SubmissionResult;
 import lombok.Getter;
 
@@ -60,11 +62,13 @@ public class CheckResultSummaryPanel {
         }
     }
 
-    public void setModel(final SubmissionResult submissionResult) {
+    public void setModel(final SubmissionResult submissionResult, final Project project) {
         this.treeModel.setModel(submissionResult);
+
+        final ProjectStateService projectStateService = ProjectStateService.getService(project);
+        this.filterDisplayedResults(projectStateService.isDisplayingError(),
+                projectStateService.isDisplayingSuccess());
         this.resultTree.setVisible(true);
-        this.resultTree.invalidate();
-        this.resultTree.repaint();
         this.expandTree();
     }
 

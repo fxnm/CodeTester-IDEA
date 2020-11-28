@@ -13,6 +13,7 @@
 - Fixed Login Dialog and error if login was canceled
 - Fixed typos
 - Fixed not disabling logout action if CodeTester is running 
+- Fixed check result filtering after rerun
 
 ### Removed
 

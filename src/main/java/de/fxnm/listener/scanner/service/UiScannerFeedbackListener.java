@@ -26,7 +26,7 @@ public class UiScannerFeedbackListener extends FeedbackListener {
     @Override
     public void scanCompletedImp(final Object... details) {
         if (this.toolWindow() != null) {
-            this.toolWindow().displayCheckResult((SubmissionResult) details[0]);
+            this.toolWindow().displayCheckResult((SubmissionResult) details[0], this.project());
         }
 
         ProjectStateService.getService(this.project()).setManualLoginLogoutConfig(true);

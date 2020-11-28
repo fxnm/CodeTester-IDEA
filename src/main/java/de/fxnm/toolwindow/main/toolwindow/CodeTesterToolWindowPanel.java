@@ -115,8 +115,8 @@ public class CodeTesterToolWindowPanel extends JPanel implements ConfigurationLi
     }
 
     @Override
-    public void displayCheckResult(final SubmissionResult submissionResult) {
-        this.checkResultSummaryPanel.setModel(submissionResult);
+    public void displayCheckResult(final SubmissionResult submissionResult, final Project project) {
+        this.checkResultSummaryPanel.setModel(submissionResult, project);
     }
 
     @Override
