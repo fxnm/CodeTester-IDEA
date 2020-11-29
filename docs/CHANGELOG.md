@@ -11,6 +11,7 @@
 - Changed ToolWindow Base and simplified the component structure
 - Migrated settings.gradle to Kotlin
 - Changed Feature Request Issue Template label  
+- Changed Multi Threading to Runnable and the corresponding Futures 
 
 ### Fixed
 - Fixed Login Dialog and error if login was canceled

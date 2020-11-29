@@ -1,15 +1,18 @@
 package de.fxnm.service;
 
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.Pair;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.Future;
 
+import de.fxnm.runnable.BaseRunnable;
+
 public abstract class BaseService {
 
     private final Project project;
-    private final Set<Future<?>> progress = new HashSet<>();
+    private final Set<Pair<Future<?>, BaseRunnable>> progress = new HashSet<>();
 
 
     public BaseService(final Project project) {
@@ -20,28 +23,29 @@ public abstract class BaseService {
         return this.project;
     }
 
-    public Set<Future<?>> progress() {
-        return this.progress;
-    }
 
-    public <T> Future<T> checkStart(final Future<T> checkFuture) {
-        synchronized (this.progress()) {
+    public <T> Future<T> checkStart(final Future<T> checkFuture, final BaseRunnable runnable) {
+        synchronized (this.progress) {
             if (!checkFuture.isDone()) {
-                this.progress().add(checkFuture);
+                this.progress.add(new Pair<>(checkFuture, runnable));
             }
         }
         return checkFuture;
     }
 
     public boolean isCheckInProgress() {
-        synchronized (this.progress()) {
-            return !this.progress().isEmpty();
+        synchronized (this.progress) {
+            return !this.progress.isEmpty();
         }
     }
 
     public void stopChecks() {
         synchronized (this.progress) {
-            this.progress.forEach(task -> task.cancel(true));
+            this.progress.forEach(task -> {
+                task.first.cancel(true);
+                task.second.failedRunnable("Forced Stop");
+
+            });
             this.progress.clear();
         }
     }
@@ -52,8 +56,8 @@ public abstract class BaseService {
             return;
         }
 
-        synchronized (this.progress()) {
-            this.progress().remove(task);
+        synchronized (this.progress) {
+            this.progress.removeIf(t -> t.first.equals(task));
         }
     }
 }

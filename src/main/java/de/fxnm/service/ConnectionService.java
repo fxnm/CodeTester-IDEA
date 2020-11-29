@@ -5,7 +5,7 @@ import com.intellij.openapi.project.Project;
 
 import java.util.concurrent.Future;
 
-import de.fxnm.callable.connection.service.ConnectionCallable;
+import de.fxnm.runnable.connection.service.ConnectionRunnable;
 import de.fxnm.listener.FeedbackListener;
 import de.fxnm.listener.connection.service.ConnectionFeedbackListener;
 import de.fxnm.util.PooledThread;
@@ -21,21 +21,21 @@ public class ConnectionService extends BaseService {
     }
 
     public void asyncCheckConnection() {
-        final ConnectionCallable connectionCallable = new ConnectionCallable(this.project());
+        final ConnectionRunnable connectionCallable = new ConnectionRunnable(this.project());
         connectionCallable.addListener(new ConnectionFeedbackListener(this.project()));
         this.async(connectionCallable);
     }
 
-    private void async(final ConnectionCallable callable) {
-        final Future<Boolean> future = super.checkStart(PooledThread.execute(callable));
-        callable.addListener(new ConnectionService.ScanCompletionTracker(future));
+    private void async(final ConnectionRunnable runnable) {
+        final Future<?> future = super.checkStart(PooledThread.execute(runnable), runnable);
+        runnable.addListener(new ConnectionService.ScanCompletionTracker(future));
     }
 
     private class ScanCompletionTracker extends FeedbackListener {
 
-        private final Future<Boolean> future;
+        private final Future<?> future;
 
-        ScanCompletionTracker(final Future<Boolean> future) {
+        ScanCompletionTracker(final Future<?> future) {
             super(ConnectionService.super.project());
             this.future = future;
         }

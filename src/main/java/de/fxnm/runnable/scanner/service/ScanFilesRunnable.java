@@ -1,4 +1,4 @@
-package de.fxnm.callable.scanner.service;
+package de.fxnm.runnable.scanner.service;
 
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
@@ -15,19 +15,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import de.fxnm.callable.BaseCallable;
+import de.fxnm.runnable.BaseRunnable;
 import de.fxnm.exceptions.InternetConnectionException;
 import de.fxnm.exceptions.PasswordSafeException;
 import de.fxnm.web.components.submission.SubmissionResult;
 import de.fxnm.web.grabber.SubmitionGrabber;
 import de.fxnm.web.grabber.access_token.AccessTokenGrabber;
 
-public class ScanFilesCallable extends BaseCallable<SubmissionResult> {
+public class ScanFilesRunnable extends BaseRunnable {
 
     final int checkID;
     private final List<PsiFile> files;
 
-    public ScanFilesCallable(final Project project,
+    public ScanFilesRunnable(final Project project,
                              final List<VirtualFile> virtualFileList,
                              final int checkID) {
         super(project);
@@ -56,15 +56,13 @@ public class ScanFilesCallable extends BaseCallable<SubmissionResult> {
     }
 
     @Override
-    public SubmissionResult call() {
+    public void run() {
         try {
-            this.startCallable("Scanning", "Started scanning files");
+            this.startRunnable("Scanning", "Started scanning files");
             final SubmissionResult scanResult = this.processFilesForModuleInfoAndScan(this.files, this.checkID);
-            this.finishedCallable(scanResult);
-            return scanResult;
+            this.finishedRunnable(scanResult);
         } catch (final Throwable e) {
-            this.failedCallable("Failed to call Scan Files");
-            return null;
+            this.failedRunnable("Failed to call Scan Files");
         }
     }
 
