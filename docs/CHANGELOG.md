@@ -5,6 +5,7 @@
 - Added predefined Run / Debug / Test Configurations
 - Added new Pull Request Template
 - Added Security Policy
+- Added Copy Button in the Check Result for each In- and Output Line
 
 ### Changed
 - Changed Login Dialog implementation

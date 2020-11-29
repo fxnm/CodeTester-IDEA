@@ -9,4 +9,8 @@ class CheckOutputLineData(val type: String, private val content: String) {
             content.replace(" ", "␣")
         }
     }
+
+    fun getRawContent(): String {
+        return content
+    }
 }

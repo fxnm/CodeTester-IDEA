@@ -17,4 +17,6 @@ public interface PluginIcons {
 
     Icon SHOW_ERROR = AllIcons.General.BalloonWarning;
     Icon SHOW_SUCCESS = AllIcons.General.InspectionsOK;
+
+    Icon COPY = AllIcons.General.CopyHovered;
 }
