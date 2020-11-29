@@ -3,12 +3,14 @@
 ## [Unreleased]
 ### Added
 - Added predefined Run / Debug / Test Configurations
+- Added new Pull Request Template
 - Added Security Policy
 
 ### Changed
 - Changed Login Dialog implementation
 - Changed ToolWindow Base and simplified the component structure
-- Migrated settings.gradle to Kotlin 
+- Migrated settings.gradle to Kotlin
+- Changed Feature Request Issue Template label  
 
 ### Fixed
 - Fixed Login Dialog and error if login was canceled
