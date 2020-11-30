@@ -36,7 +36,7 @@ import icons.PluginIcons;
 
 public class CodeTesterToolWindowPanel extends JPanel implements ConfigurationListener {
 
-    public static final String ID_TOOL_WINDOW = "CodeTester";
+    public static final String ID_MAIN_TOOL_WINDOW = "CodeTester";
     private static final String MAIN_ACTION_GROUP = "CodeTesterPluginActions";
     private static final Logger LOG = Logger.getInstance(CodeTesterToolWindowPanel.class);
 
@@ -66,9 +66,9 @@ public class CodeTesterToolWindowPanel extends JPanel implements ConfigurationLi
     public static CodeTesterToolWindowPanel panelFor(final Project project) {
         final ToolWindowManager toolWindowManager = ToolWindowManager.getInstance(project);
 
-        final ToolWindow toolWindow = toolWindowManager.getToolWindow(ID_TOOL_WINDOW);
+        final ToolWindow toolWindow = toolWindowManager.getToolWindow(ID_MAIN_TOOL_WINDOW);
         if (toolWindow == null) {
-            LOG.error("Couldn't get tool window for ID " + ID_TOOL_WINDOW,
+            LOG.error("Couldn't get tool window for ID " + ID_MAIN_TOOL_WINDOW,
                     new Gson().toJson(project));
             return null;
         }
@@ -79,7 +79,7 @@ public class CodeTesterToolWindowPanel extends JPanel implements ConfigurationLi
             }
         }
 
-        LOG.error("Could not find tool window panel on tool window with ID " + ID_TOOL_WINDOW,
+        LOG.error("Could not find tool window panel on tool window with ID " + ID_MAIN_TOOL_WINDOW,
                 new Gson().toJson(project));
         return null;
     }
@@ -97,7 +97,7 @@ public class CodeTesterToolWindowPanel extends JPanel implements ConfigurationLi
 
         this.toolWindowBase = new ToolWindowBase(
                 horizontalComponentBox.get(),
-                new ActionToolBar(ID_TOOL_WINDOW, MAIN_ACTION_GROUP, false),
+                new ActionToolBar(ID_MAIN_TOOL_WINDOW, MAIN_ACTION_GROUP, false),
                 this.checkResultSummaryPanel.getPanel(),
                 this.errorMessagePanel.get()
         );

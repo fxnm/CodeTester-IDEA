@@ -35,7 +35,7 @@ public class UiScannerFeedbackListener extends FeedbackListener {
     @Override
     public void scanFailedImp(final Object... details) {
         if (this.toolWindow() != null) {
-            this.toolWindow().displayErrorMessage(false, details[0].toString());
+            this.toolWindow().displayErrorMessage(true, details[0].toString());
         }
         ProjectStateService.getService(this.project()).setManualLoginLogoutConfig(true);
 

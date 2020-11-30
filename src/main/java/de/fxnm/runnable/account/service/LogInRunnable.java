@@ -1,4 +1,4 @@
-package de.fxnm.callable.account.service;
+package de.fxnm.runnable.account.service;
 
 import com.intellij.credentialStore.Credentials;
 import com.intellij.openapi.application.ApplicationManager;
@@ -9,7 +9,7 @@ import com.intellij.openapi.util.Pair;
 import java.io.IOException;
 import java.util.Objects;
 
-import de.fxnm.callable.BaseCallable;
+import de.fxnm.runnable.BaseRunnable;
 import de.fxnm.config.settings.password_safe.PasswordManager;
 import de.fxnm.exceptions.InternetConnectionException;
 import de.fxnm.exceptions.PasswordSafeException;
@@ -21,12 +21,12 @@ import de.fxnm.web.grabber.access_token.LoginTokenGrabber;
 
 import static de.fxnm.config.settings.password_safe.PasswordManager.LOGIN_DATE;
 
-public class LogInCallable extends BaseCallable<Boolean> {
+public class LogInRunnable extends BaseRunnable {
 
-    private static final Logger LOG = Logger.getInstance(LogInCallable.class);
+    private static final Logger LOG = Logger.getInstance(LogInRunnable.class);
     private boolean loginAbleWithSaveCredentials = false;
 
-    public LogInCallable(final Project project) {
+    public LogInRunnable(final Project project) {
         super(project);
 
         if (this.tryLoginWithPasswordSafeCredentials()) {
@@ -36,12 +36,12 @@ public class LogInCallable extends BaseCallable<Boolean> {
     }
 
     @Override
-    public Boolean call() {
-        super.startCallable("Logging in...", "Trying to login");
+    public void run() {
+        super.startRunnable("Logging in...", "Trying to login");
 
         if (this.loginAbleWithSaveCredentials) {
-            super.finishedCallable("Login successful");
-            return true;
+            super.finishedRunnable("Login successful");
+            return;
         }
 
         ApplicationManager.getApplication().invokeLater(() -> {
@@ -54,19 +54,15 @@ public class LogInCallable extends BaseCallable<Boolean> {
                     throw new PasswordSafeException("Wrong password");
                 }
 
-                super.finishedCallable("Login successful");
-                this.loginAbleWithSaveCredentials = true;
+                super.finishedRunnable("Login successful");
+
             } catch (final UsernamePasswordException e) {
-                super.failedCallable("Login abort");
-                this.loginAbleWithSaveCredentials = false;
+                super.failedRunnable("Login abort");
             } catch (final Throwable e) {
-                super.failedCallable("Failed to login");
+                super.failedRunnable("Failed to login");
                 LOG.warn(e);
-                this.loginAbleWithSaveCredentials = false;
             }
         });
-
-        return this.loginAbleWithSaveCredentials;
     }
 
     private boolean tryLoginWithPasswordSafeCredentials() {

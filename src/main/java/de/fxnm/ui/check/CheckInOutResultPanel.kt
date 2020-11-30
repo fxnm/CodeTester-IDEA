@@ -4,8 +4,14 @@ import com.intellij.ui.components.JBScrollPane
 import com.intellij.ui.layout.panel
 import com.intellij.util.ui.JBEmptyBorder
 import com.intellij.util.ui.JBUI
+import de.fxnm.util.CopyUtil
+import de.fxnm.util.PopupNotifier
 import de.fxnm.web.components.submission.success.CheckOutputLineData
+import icons.PluginIcons
+import java.awt.event.MouseAdapter
+import java.awt.event.MouseEvent
 import javax.swing.JComponent
+import javax.swing.JLabel
 import javax.swing.JPanel
 
 /**
@@ -26,8 +32,18 @@ class CheckInOutResultPanel(private val resultLines: Array<CheckOutputLineData>)
     init {
         panel = panel {
             for (line in resultLines) {
+                val copyLabel = JLabel(PluginIcons.COPY);
+                copyLabel.addMouseListener(object : MouseAdapter() {
+                    override fun mouseClicked(e: MouseEvent) {
+                       CopyUtil.copyToClipBoard(line.getRawContent())
+                    }
+                })
+
                 row(line.type) {
                     label(line.getContent())
+                    right {
+                        component(copyLabel)
+                    }
                 }
             }
         }

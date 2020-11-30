@@ -14,11 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
 
-import de.fxnm.callable.scanner.service.ScanFilesCallable;
+import de.fxnm.runnable.scanner.service.ScanFilesRunnable;
 import de.fxnm.listener.FeedbackListener;
 import de.fxnm.listener.scanner.service.UiScannerFeedbackListener;
 import de.fxnm.util.PooledThread;
-import de.fxnm.web.components.submission.SubmissionResult;
 
 public class ScannerService extends BaseService {
 
@@ -40,14 +39,14 @@ public class ScannerService extends BaseService {
             return;
         }
 
-        final ScanFilesCallable scanFilesCallable = new ScanFilesCallable(this.project(), files, checkId);
+        final ScanFilesRunnable scanFilesCallable = new ScanFilesRunnable(this.project(), files, checkId);
         scanFilesCallable.addListener(new UiScannerFeedbackListener(this.project()));
         this.runAsyncCodeTester(scanFilesCallable);
     }
 
-    private void runAsyncCodeTester(final ScanFilesCallable scanFilesCallable) {
-        final Future<SubmissionResult> checkFilesFuture = super.checkStart(PooledThread.execute(scanFilesCallable));
-        scanFilesCallable.addListener(new ScanCompletionTracker(checkFilesFuture));
+    private void runAsyncCodeTester(final ScanFilesRunnable runnable) {
+        final Future<?> checkFilesFuture = super.checkStart(PooledThread.execute(runnable), runnable);
+        runnable.addListener(new ScanCompletionTracker(checkFilesFuture));
     }
 
 
@@ -76,9 +75,9 @@ public class ScannerService extends BaseService {
 
     private class ScanCompletionTracker extends FeedbackListener {
 
-        private final Future<SubmissionResult> future;
+        private final Future<?> future;
 
-        ScanCompletionTracker(final Future<SubmissionResult> future) {
+        ScanCompletionTracker(final Future<?> future) {
             super(ScannerService.super.project());
             this.future = future;
         }

@@ -5,12 +5,14 @@
 - Added predefined Run / Debug / Test Configurations
 - Added new Pull Request Template
 - Added Security Policy
+- Added Copy Button in the Check Result for each In- and Output Line
 
 ### Changed
 - Changed Login Dialog implementation
 - Changed ToolWindow Base and simplified the component structure
 - Migrated settings.gradle to Kotlin
 - Changed Feature Request Issue Template label  
+- Changed Multi Threading to Runnable and the corresponding Futures 
 
 ### Fixed
 - Fixed Login Dialog and error if login was canceled
