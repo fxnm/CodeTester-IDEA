@@ -7,6 +7,7 @@ import com.intellij.openapi.wm.ToolWindow;
 
 import org.jetbrains.annotations.NotNull;
 
+import de.fxnm.exceptions.RunnableException;
 import de.fxnm.service.ScannerService;
 import de.fxnm.toolwindow.ToolWindowAccess;
 
@@ -20,7 +21,11 @@ public class StopTest extends BaseAction {
             try {
                 final ToolWindow toolWindow = ToolWindowAccess.toolWindow(project);
                 toolWindow.activate(() -> {
-                    ScannerService.getService(project).stopChecks();
+                    try {
+                        ScannerService.getService(project).stopChecks();
+                    } catch (final RunnableException e) {
+                        LOG.error("No scan to be stopped", e);
+                    }
                 });
             } catch (final Throwable e) {
                 LOG.warn("Abort Scan Action failed", e);

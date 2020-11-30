@@ -49,6 +49,6 @@ public final class ToolWindowAccess {
     public static ToolWindow toolWindow(final Project project) {
         return ToolWindowManager
                 .getInstance(project)
-                .getToolWindow(CodeTesterToolWindowPanel.ID_TOOL_WINDOW);
+                .getToolWindow(CodeTesterToolWindowPanel.ID_MAIN_TOOL_WINDOW);
     }
 }

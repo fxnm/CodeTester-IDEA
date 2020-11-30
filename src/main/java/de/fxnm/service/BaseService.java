@@ -3,16 +3,17 @@ package de.fxnm.service;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Pair;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.Future;
 
+import de.fxnm.exceptions.RunnableException;
 import de.fxnm.runnable.BaseRunnable;
 
 public abstract class BaseService {
 
     private final Project project;
-    private final Set<Pair<Future<?>, BaseRunnable>> progress = new HashSet<>();
+    private final List<Pair<Future<?>, BaseRunnable>> progress = new LinkedList<>();
 
 
     public BaseService(final Project project) {
@@ -39,8 +40,12 @@ public abstract class BaseService {
         }
     }
 
-    public void stopChecks() {
+    public void stopChecks() throws RunnableException {
         synchronized (this.progress) {
+            if (this.progress.isEmpty()) {
+                throw new RunnableException("No Runnables are active");
+            }
+
             this.progress.forEach(task -> {
                 task.first.cancel(true);
                 task.second.failedRunnable("Forced Stop");

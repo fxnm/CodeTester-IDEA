@@ -24,8 +24,8 @@ import static javax.swing.SwingConstants.BOTTOM;
 
 public class ResultToolWindowPanel {
 
-    private static final String ID_RESULT_TOOL_WINDOW = "CodeTesterResultWindow";
     private static final String RESULT_ACTION_GROUP = "CodeTesterResultActions";
+    private static String ID_RESULT_TOOL_WINDOW = "Not set yet!";
     private final ResultTreeNode resultTreeNode;
     private final Check check;
 
@@ -35,9 +35,9 @@ public class ResultToolWindowPanel {
 
 
     public ResultToolWindowPanel(final ResultTreeNode resultTreeNode) {
-
         this.resultTreeNode = resultTreeNode;
         this.check = resultTreeNode.getCheck();
+        ID_RESULT_TOOL_WINDOW = "CodeTesterResultWindow-" + this.check.getCheckName();
 
         for (final String error : this.check.getErrorMessage()) {
             if (!error.equals("")) {

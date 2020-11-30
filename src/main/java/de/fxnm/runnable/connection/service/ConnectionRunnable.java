@@ -19,10 +19,11 @@ public class ConnectionRunnable extends BaseRunnable {
     public void run() {
         super.startRunnable("Checking Connection...", "Checking internet Connection");
         try {
-            if (!this.checkConnectionStatus()) {
-                throw new IOException("Internet Connection check failed");
+            if (this.checkConnectionStatus()) {
+                super.finishedRunnable("Internet Connection check finished");
+            } else {
+                super.failedRunnable("Internet Connection check failed");
             }
-            super.finishedRunnable("Internet Connection check finished");
         } catch (final IOException e) {
             super.failedRunnable("Internet Connection check failed");
         }
