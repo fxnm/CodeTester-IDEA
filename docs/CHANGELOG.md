@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 ### Added
+- Added new Modul Structure
 - Added predefined Run / Debug / Test Configurations
 - Added new Pull Request Template
 - Added Security Policy

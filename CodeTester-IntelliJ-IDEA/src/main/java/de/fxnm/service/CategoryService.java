@@ -28,7 +28,7 @@ public class CategoryService extends BaseService {
 
     private void async(final CategoryRunnable runnable) {
         final Future<?> future = super.checkStart(PooledThread.execute(runnable), runnable);
-        runnable.addListener(new CategoryService.ScanCompletionTracker(future));
+        runnable.addListener(new ScanCompletionTracker(future));
     }
 
     private class ScanCompletionTracker extends FeedbackListener {
