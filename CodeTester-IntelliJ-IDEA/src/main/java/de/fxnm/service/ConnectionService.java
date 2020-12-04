@@ -28,7 +28,7 @@ public class ConnectionService extends BaseService {
 
     private void async(final ConnectionRunnable runnable) {
         final Future<?> future = super.checkStart(PooledThread.execute(runnable), runnable);
-        runnable.addListener(new ConnectionService.ScanCompletionTracker(future));
+        runnable.addListener(new ScanCompletionTracker(future));
     }
 
     private class ScanCompletionTracker extends FeedbackListener {

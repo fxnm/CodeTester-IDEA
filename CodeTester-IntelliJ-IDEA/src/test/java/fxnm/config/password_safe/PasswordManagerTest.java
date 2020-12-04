@@ -1,4 +1,4 @@
-package de.fxnm.config.password_safe;
+package fxnm.config.password_safe;
 
 import com.intellij.credentialStore.Credentials;
 import com.intellij.testFramework.fixtures.LightJavaCodeInsightFixtureTestCase;
