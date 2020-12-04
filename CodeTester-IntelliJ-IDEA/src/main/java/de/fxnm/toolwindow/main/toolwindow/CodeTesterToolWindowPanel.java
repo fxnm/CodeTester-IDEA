@@ -1,6 +1,7 @@
 package de.fxnm.toolwindow.main.toolwindow;
 
 import com.google.gson.Gson;
+import com.intellij.notification.NotificationType;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
@@ -29,8 +30,10 @@ import de.fxnm.ui.errormessage.ErrorMessagePanel;
 import de.fxnm.ui.util.ActionToolBar;
 import de.fxnm.ui.util.HorizontalComponentBox;
 import de.fxnm.util.CodeTesterBundle;
+import de.fxnm.util.PopupNotifier;
 import de.fxnm.web.components.category.Category;
 import de.fxnm.web.components.submission.SubmissionResult;
+import de.fxnm.web.components.submission.success.Successful;
 import icons.PluginIcons;
 
 
@@ -116,7 +119,13 @@ public class CodeTesterToolWindowPanel extends JPanel implements ConfigurationLi
 
     @Override
     public void displayCheckResult(final SubmissionResult submissionResult, final Project project) {
-        this.checkResultSummaryPanel.setModel(submissionResult, project);
+        if (submissionResult instanceof Successful) {
+            this.checkResultSummaryPanel.setModel(submissionResult, project);
+        } else {
+            this.displayErrorMessage(true, "Check Failed, for details view log");
+            PopupNotifier.notify(project, "Check Failed", "", submissionResult.toString(),
+                    NotificationType.ERROR, PluginIcons.STATUS_ERROR);
+        }
     }
 
     @Override

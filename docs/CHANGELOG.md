@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 ### Added
+- Added indication if the test crashed
 - Added Plugin Verifier IDE Version 202.3
 - Added new Modul Structure
 - Added predefined Run / Debug / Test Configurations
