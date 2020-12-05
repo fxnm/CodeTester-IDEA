@@ -68,6 +68,9 @@ public class ResultToolWindowPanel {
         return this.baseToolWindow.getPanel();
     }
 
+    public String getCheckName() {
+        return this.check.getCheckName();
+    }
 
     private JComponent createTopLineComponent() {
         final HorizontalComponentBox horizontalComponentBox = new HorizontalComponentBox();

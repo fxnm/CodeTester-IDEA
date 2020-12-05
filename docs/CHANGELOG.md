@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 ### Added
+- Added Button to Jump directly to the Check Result Summary Tool Window
+- Added Button to close all open Check Result Panels
 - Added indication if the test crashed
 - Added Plugin Verifier IDE Version 202.3
 - Added new Modul Structure

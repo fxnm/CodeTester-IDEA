@@ -5,19 +5,19 @@ import com.intellij.openapi.diagnostic.Logger;
 
 import org.jetbrains.annotations.NotNull;
 
-import static de.fxnm.toolwindow.ToolWindowAccess.toolWindow;
+import de.fxnm.toolwindow.CodeTesterToolWindowManager;
 
-public class Close extends BaseAction {
+public class JumpToSummaryScreen extends BaseAction {
 
-    private static final Logger LOG = Logger.getInstance(Close.class);
+    private static final Logger LOG = Logger.getInstance(JumpToSummaryScreen.class);
 
     @Override
     public void actionPerformed(@NotNull final AnActionEvent event) {
         this.project(event).ifPresent(project -> {
             try {
-                toolWindow(project).hide(null);
+                CodeTesterToolWindowManager.getService(project).showCheckSummaryToolWindow();
             } catch (final Throwable e) {
-                LOG.error("Close Action failed", e);
+                LOG.error("Jump to Summary Screen Failed", e);
             }
         });
     }

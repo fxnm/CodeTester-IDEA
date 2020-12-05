@@ -10,6 +10,8 @@ public interface PluginIcons {
 
     Icon LOGIN_GREEN = IconLoader.getIcon("/de/fxnm/icons/login/status/LoginGreen.svg", PluginIcons.class);
     Icon LOGIN_RED = IconLoader.getIcon("/de/fxnm/icons/login/status/LoginRed.svg", PluginIcons.class);
+    Icon REMOVE = IconLoader.getIcon("/de/fxnm/icons/util/Remove.svg", PluginIcons.class);
+
 
     Icon STATUS_SUCCESS = AllIcons.Actions.Commit;
     Icon STATUS_ERROR = AllIcons.Vcs.Remove;
