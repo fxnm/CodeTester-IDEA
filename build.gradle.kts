@@ -14,7 +14,7 @@ val platformDownloadSources: String by project
 val javaVersion: String by project
 
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.4.20" apply false
+    id("org.jetbrains.kotlin.jvm") version "1.4.21" apply false
 }
 
 
