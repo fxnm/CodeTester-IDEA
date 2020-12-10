@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import de.fxnm.ui.util.TitleRow;
 import de.fxnm.util.ComponentStatics;
 import de.fxnm.util.PooledThread;
 
@@ -50,7 +51,12 @@ public class ErrorMessagePanel {
     }
 
     public JPanel get() {
-        return this.panel;
+        // TODO: 10.12.2020 Bug wenn keine Error Nachricht am Anfang da war
+        if (this.errorMessageList.isEmpty()) {
+            return new JPanel();
+        }
+
+        return TitleRow.Companion.getHideableTitleRow("Error Messages", this.panel);
     }
 
     public boolean isEmpty() {

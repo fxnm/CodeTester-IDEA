@@ -21,4 +21,7 @@ public interface PluginIcons {
     Icon SHOW_SUCCESS = AllIcons.General.InspectionsOK;
 
     Icon COPY = AllIcons.General.CopyHovered;
+
+    Icon UNKNOWN = AllIcons.Nodes.Unknown;
+    Icon WARNING = AllIcons.General.Warning;
 }

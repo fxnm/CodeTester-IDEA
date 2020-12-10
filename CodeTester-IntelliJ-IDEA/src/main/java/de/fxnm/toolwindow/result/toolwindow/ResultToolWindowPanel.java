@@ -1,7 +1,10 @@
 package de.fxnm.toolwindow.result.toolwindow;
 
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.ui.components.JBTabbedPane;
+import com.intellij.ui.content.Content;
 
+import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -24,14 +27,18 @@ import static javax.swing.SwingConstants.BOTTOM;
 
 public class ResultToolWindowPanel {
 
+    private static final Logger LOG = Logger.getInstance(ResultToolWindowPanel.class);
+
     private static final String RESULT_ACTION_GROUP = "CodeTesterResultActions";
     private static String ID_RESULT_TOOL_WINDOW = "Not set yet!";
     private final ResultTreeNode resultTreeNode;
-    private final Check check;
-
     private final ToolWindowBase baseToolWindow;
     private final ErrorMessagePanel errorMessagePanel = new ErrorMessagePanel();
+    private final JLabel checkResultIcon = new JLabel();
+    private final JLabel checkResultStatus = new JLabel();
+    private Check check;
     private CheckInOutResultPanel checkInOutResultPanel;
+    private Content content;
 
 
     public ResultToolWindowPanel(final ResultTreeNode resultTreeNode) {
@@ -39,6 +46,21 @@ public class ResultToolWindowPanel {
         this.check = resultTreeNode.getCheck();
         ID_RESULT_TOOL_WINDOW = "CodeTesterResultWindow-" + this.check.getCheckName();
 
+        this.addCheckErrorMessages();
+
+        this.baseToolWindow = new ToolWindowBase(
+                this.createTopLineComponent(),
+                new ActionToolBar(ID_RESULT_TOOL_WINDOW, RESULT_ACTION_GROUP, false),
+                this.createCenterComponent(),
+                this.errorMessagePanel.get()
+        );
+    }
+
+    public JPanel getComponent() {
+        return this.baseToolWindow.getPanel();
+    }
+
+    public void addCheckErrorMessages() {
         for (final String error : this.check.getErrorMessage()) {
             if (!error.equals("")) {
                 this.errorMessagePanel.addErrorMessage(
@@ -50,36 +72,10 @@ public class ResultToolWindowPanel {
             this.errorMessagePanel.addErrorMessage(new ErrorMessage(
                     PluginIcons.STATUS_ERROR, this.check.getErrorOutput(), false));
         }
-
-        final JPanel invisible = new JPanel();
-        invisible.setVisible(false);
-
-        this.baseToolWindow = new ToolWindowBase(
-                this.createTopLineComponent(),
-                new ActionToolBar(ID_RESULT_TOOL_WINDOW, RESULT_ACTION_GROUP, false),
-                this.createCenterComponent(),
-                this.errorMessagePanel.isEmpty()
-                        ? invisible
-                        : TitleRow.Companion.getHideableTitleRow("Error Messages", this.errorMessagePanel.get())
-        );
-    }
-
-    public JPanel getComponent() {
-        return this.baseToolWindow.getPanel();
     }
 
     public String getCheckName() {
         return this.check.getCheckName();
-    }
-
-    private JComponent createTopLineComponent() {
-        final HorizontalComponentBox horizontalComponentBox = new HorizontalComponentBox();
-
-        horizontalComponentBox.addComponent(new JLabel(this.resultTreeNode.getIcon()));
-        horizontalComponentBox.addComponent(new JLabel(this.check.getResult().toString()), 20);
-        horizontalComponentBox.addComponent(new JLabel(this.check.getCheckName()));
-
-        return horizontalComponentBox.get();
     }
 
     public JComponent createCenterComponent() {
@@ -94,10 +90,66 @@ public class ResultToolWindowPanel {
         return tabbedPane;
     }
 
+    public void addThisContent(final Content content) {
+        this.content = content;
+    }
+
+    public void newCheckIsRunning() {
+        this.checkInOutResultPanel.removeLines();
+        this.changeIcon(PluginIcons.UNKNOWN);
+        this.errorMessagePanel.removeAllErrorMessages();
+        this.checkResultStatus.setText("UNKNOWN");
+    }
+
+    public void newCheckCompleted(final Check check) {
+        this.check = check;
+        this.checkInOutResultPanel.addLines(check.getOutput());
+        this.changeIcon(check.getCheckResultIcon());
+        this.addCheckErrorMessages();
+        this.checkResultStatus.setText(check.getResult().toString());
+    }
+
+    public void newCheckCompletedNotInSet() {
+        this.errorMessagePanel.addErrorMessage(new ErrorMessage(PluginIcons.STATUS_ERROR, "This Check is not in the newest set of check results", false));
+        this.checkResultStatus.setText("UNKNOWN - NOT IN TEST SET");
+        this.changeIcon(PluginIcons.WARNING);
+    }
+
+    public void newCheckFailed() {
+        this.errorMessagePanel.addErrorMessage(new ErrorMessage(PluginIcons.STATUS_ERROR, "Check Run Failed, the results of this check might not be right", false));
+    }
+
+    private JComponent createTopLineComponent() {
+        this.checkResultIcon.setIcon(this.resultTreeNode.getCheck().getCheckResultIcon());
+        this.checkResultStatus.setText(this.check.getResult().toString());
+
+        final HorizontalComponentBox horizontalComponentBox = new HorizontalComponentBox();
+
+        horizontalComponentBox.addComponent(this.checkResultIcon);
+        horizontalComponentBox.addComponent(this.checkResultStatus, 20);
+        horizontalComponentBox.addComponent(new JLabel(this.check.getCheckName()));
+
+        return horizontalComponentBox.get();
+    }
 
     private JPanel getInAndOutputResults() {
-        this.checkInOutResultPanel = new CheckInOutResultPanel(this.check.getOutput());
+        this.checkInOutResultPanel = new CheckInOutResultPanel();
+        this.checkInOutResultPanel.addLines(this.check.getOutput());
         return TitleRow.Companion.getTitleRow("In and Output",
-                this.checkInOutResultPanel.getAsScrollPanel());
+                this.checkInOutResultPanel.getComponent());
+    }
+
+    private void changeIcon(final Icon icon) {
+        this.checkResultIcon.setIcon(icon);
+
+        if (this.content == null) {
+            LOG.error("No Content available for " + this.getCheckName());
+            return;
+        } else {
+            this.content.setIcon(icon);
+        }
+
+        this.checkResultIcon.invalidate();
+        this.checkResultIcon.repaint();
     }
 }

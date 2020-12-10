@@ -49,9 +49,10 @@ public class CodeTesterToolWindowFactory implements ToolWindowFactory {
                 resultToolWindowPanel.getComponent(),
                 restrictStringLength(MAX_LENGTH, resultTreeNode.getCheck().getCheckName()),
                 true);
+        resultToolWindowPanel.addThisContent(content);
 
         content.putUserData(ToolWindow.SHOW_CONTENT_ICON, Boolean.TRUE);
-        content.setIcon(resultTreeNode.getIcon());
+        content.setIcon(resultTreeNode.getCheck().getCheckResultIcon());
         content.setDescription(resultTreeNode.getCheck().getCheckName());
 
         toolWindow.getContentManager().addContent(content);

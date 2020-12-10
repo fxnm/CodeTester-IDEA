@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 ### Added
+- Added AutoUpdate form open Check Result Tool Windows after a new Scan 
 - Added Button to Jump directly to the Check Result Summary Tool Window
 - Added Button to close all open Check Result Panels
 - Added indication if the test crashed

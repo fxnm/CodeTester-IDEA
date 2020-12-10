@@ -15,19 +15,19 @@ class CheckExtraDataPanel(private val checkFileData: CheckFileData) {
     fun asJComponent(): JComponent {
         val scrollPane = JBScrollPane()
         scrollPane.setViewportView(
-                panel {
-                    if (checkFileData.isEmpty()) {
-                        row {
-                            label("This file is empty", UIUtil.ComponentStyle.REGULAR, UIUtil.FontColor.BRIGHTER)
-                        }
-                    }
-
-                    for (content in checkFileData.contentArray) {
-                        row {
-                            label(content)
-                        }
+            panel {
+                if (checkFileData.isEmpty()) {
+                    row {
+                        label("This file is empty", UIUtil.ComponentStyle.REGULAR, UIUtil.FontColor.BRIGHTER)
                     }
                 }
+
+                for (content in checkFileData.contentArray) {
+                    row {
+                        label(content)
+                    }
+                }
+            }
         )
         scrollPane.border = JBEmptyBorder(0)
         return scrollPane

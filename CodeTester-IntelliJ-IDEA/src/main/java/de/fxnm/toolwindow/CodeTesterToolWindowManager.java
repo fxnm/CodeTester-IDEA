@@ -9,10 +9,14 @@ import com.intellij.ui.content.Content;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import de.fxnm.result.tree.ResultTreeNode;
 import de.fxnm.toolwindow.main.toolwindow.CodeTesterToolWindowPanel;
 import de.fxnm.toolwindow.result.toolwindow.ResultToolWindowPanel;
+import de.fxnm.web.components.submission.SubmissionResult;
+import de.fxnm.web.components.submission.success.Check;
+import de.fxnm.web.components.submission.success.Successful;
 
 public class CodeTesterToolWindowManager {
 
@@ -44,19 +48,89 @@ public class CodeTesterToolWindowManager {
     }
 
     public void showCheckSummaryToolWindow() {
-        final Content homeScreen = ToolWindowAccess.toolWindow(this.project).getContentManager().getContents()[0];
+        final Content[] toolWindows = ToolWindowAccess.toolWindow(this.project).getContentManager().getContents();
+        if (toolWindows.length == 0) {
+            LOG.error("ContentManger Content Array is Empty");
+            return;
+        }
+
+
+        Content homeScreen = null;
+        for (final Content toolWindow : toolWindows) {
+            if (toolWindow.getComponent() instanceof CodeTesterToolWindowPanel) {
+                homeScreen = toolWindow;
+                break;
+            }
+        }
+
         if (homeScreen == null) {
-            LOG.error("Did not found home Screen at ContentManger Content Positon 0");
+            LOG.error("ContentManager does not contain CheckSummaryToolWindow");
             return;
         }
-
-        if (!(homeScreen.getComponent() instanceof CodeTesterToolWindowPanel)) {
-            LOG.error("Content at position is not the Home Screen", homeScreen.getDescription());
-            return;
-        }
-
 
         ToolWindowAccess.toolWindow(this.project).getContentManager().setSelectedContent(homeScreen);
+    }
+
+    public boolean existResultToolWindows() {
+        return !this.resultWindowPairList.isEmpty();
+    }
+
+    public void closeAllResultToolWindows() {
+
+        for (final Pair<Content, ResultToolWindowPanel> pair : this.resultWindowPairList) {
+            if (this.isOpenToolWindow(pair)) {
+                ToolWindowAccess.toolWindow(this.project).getContentManager().removeContent(pair.first, true);
+            }
+        }
+
+        this.resultWindowPairList.clear();
+    }
+
+    public void newCheckRunning() {
+        for (final Pair<Content, ResultToolWindowPanel> resultToolWindowPanelPair : this.resultWindowPairList) {
+            resultToolWindowPanelPair.second.newCheckIsRunning();
+        }
+    }
+
+    public void newCheckCompleted(final SubmissionResult submissionResult) {
+        if (!(submissionResult instanceof Successful)) {
+            for (final Pair<Content, ResultToolWindowPanel> resultToolWindowPanelPair : this.resultWindowPairList) {
+                resultToolWindowPanelPair.second.newCheckFailed();
+            }
+            return;
+        }
+
+
+        final List<Content> openToolWindows = Arrays.asList(ToolWindowAccess.toolWindow(this.project).getContentManager().getContents());
+        final List<Check> successful = new LinkedList<>(Arrays.asList(((Successful) submissionResult).getChecks()));
+
+        for (final Pair<Content, ResultToolWindowPanel> resultToolWindowPanelPair : this.resultWindowPairList) {
+            if (!openToolWindows.contains(resultToolWindowPanelPair.first)) {
+                resultToolWindowPanelPair.second.newCheckCompletedNotInSet();
+                this.resultWindowPairList.remove(resultToolWindowPanelPair);
+                continue;
+            }
+
+            final String checkName = resultToolWindowPanelPair.second.getCheckName();
+            final List<Check> checkList = successful.stream().filter(c -> c.getCheckName().equals(checkName)).collect(Collectors.toList());
+
+            if (checkList.isEmpty()) {
+                resultToolWindowPanelPair.second.newCheckCompletedNotInSet();
+                return;
+            }
+
+            if (checkList.size() != 1) {
+                for (final Check c : checkList) {
+                    c.addNewErrorMessage("In the check results were several tests with the same name.\n"
+                            + " Therefore, this test may differ from the actual value.");
+                }
+                LOG.error("The ResultCheckSet does contain multiple checks with the same id for a CheckResultPanel", Arrays.deepToString(new List[]{checkList}));
+            }
+
+            resultToolWindowPanelPair.second.newCheckCompleted(checkList.get(0));
+        }
+
+
     }
 
     private boolean containsCheckResult(final ResultTreeNode resultTreeNode) {
@@ -98,20 +172,5 @@ public class CodeTesterToolWindowManager {
         }
 
         ToolWindowAccess.toolWindow(this.project).getContentManager().setSelectedContent(pair.first);
-    }
-
-    public boolean existResultToolWindows() {
-        return !this.resultWindowPairList.isEmpty();
-    }
-
-    public void closeAllResultToolWindows() {
-
-        for (final Pair<Content, ResultToolWindowPanel> pair : this.resultWindowPairList) {
-            if (this.isOpenToolWindow(pair)) {
-                ToolWindowAccess.toolWindow(this.project).getContentManager().removeContent(pair.first, true);
-            }
-        }
-
-        this.resultWindowPairList.clear();
     }
 }
