@@ -5,6 +5,7 @@ import com.intellij.openapi.project.Project;
 
 import de.fxnm.config.settings.password_safe.PasswordManager;
 import de.fxnm.runnable.BaseRunnable;
+import de.fxnm.toolwindow.CodeTesterToolWindowManager;
 
 import static de.fxnm.config.settings.password_safe.PasswordManager.LOGIN_DATE;
 
@@ -27,7 +28,11 @@ public class LogOutRunnable extends BaseRunnable {
 
     private void logout() {
         ApplicationManager.getApplication().invokeLater(() -> {
+            //Remove stored Password
             PasswordManager.remove(LOGIN_DATE);
+
+            //Close all open Check Result Tool Windows
+            CodeTesterToolWindowManager.getService(this.project()).closeAllResultToolWindows();
         });
     }
 }

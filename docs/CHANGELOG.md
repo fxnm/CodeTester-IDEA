@@ -21,6 +21,7 @@
 - Changed Multi Threading to Runnable and the corresponding Futures 
 
 ### Fixed
+- Fixed Removal of all open Check Result ToolWindows if user is logging out
 - Fixed Login Dialog and error if login was canceled
 - Fixed typos
 - Fixed not disabling logout action if CodeTester is running 
