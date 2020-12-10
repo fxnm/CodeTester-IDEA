@@ -3,14 +3,14 @@ package de.fxnm.util;
 
 import com.intellij.openapi.diagnostic.Logger;
 
-public final class EnviromentVariable {
+public final class EnvironmentVariable {
 
-    public static final String PASSWORD = "CodeTester_password";
-    public static final String USERNAME = "CodeTester_username";
+    public static final String PASSWORD = "CodeTester_PASSWORD";
+    public static final String USERNAME = "CodeTester_USERNAME";
 
-    private static final Logger LOG = Logger.getInstance(EnviromentVariable.class);
+    private static final Logger LOG = Logger.getInstance(EnvironmentVariable.class);
 
-    private EnviromentVariable() throws IllegalAccessException {
+    private EnvironmentVariable() throws IllegalAccessException {
         throw new IllegalAccessException();
     }
 

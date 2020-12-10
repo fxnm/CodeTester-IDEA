@@ -57,6 +57,9 @@ jobs:
 
       # Run detekt, ktlint and tests
       - name: Run Test
+        env:
+          CodeTester_USERNAME: ${{ secrets.CodeTester_USERNAME }}
+          CodeTester_PASSWORD: ${{ secrets.CODETESTER_PASSWORD }}
         run: ./gradlew check
 
       # Run verifyPlugin Gradle task

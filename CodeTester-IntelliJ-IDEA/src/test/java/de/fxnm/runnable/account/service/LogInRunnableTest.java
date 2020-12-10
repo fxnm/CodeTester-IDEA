@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions;
 
 import de.fxnm.config.settings.password_safe.PasswordManager;
 import de.fxnm.listener.Listener;
-import de.fxnm.util.EnviromentVariable;
+import de.fxnm.util.EnvironmentVariable;
 
 public class LogInRunnableTest extends LightJavaCodeInsightFixtureTestCase {
 
@@ -37,7 +37,7 @@ public class LogInRunnableTest extends LightJavaCodeInsightFixtureTestCase {
 
 
     public void testLoginWithWrongUsername() {
-        PasswordManager.store(PasswordManager.LOGIN_KEY, NOTHING, EnviromentVariable.get(EnviromentVariable.PASSWORD));
+        PasswordManager.store(PasswordManager.LOGIN_KEY, NOTHING, EnvironmentVariable.get(EnvironmentVariable.PASSWORD));
 
         this.logInRunnable = new LogInRunnable(this.getProject());
         this.logInRunnable.addListener(
@@ -62,7 +62,7 @@ public class LogInRunnableTest extends LightJavaCodeInsightFixtureTestCase {
 
 
     public void testLoginWithWrongPassword() {
-        PasswordManager.store(PasswordManager.LOGIN_KEY, EnviromentVariable.get(EnviromentVariable.USERNAME), NOTHING);
+        PasswordManager.store(PasswordManager.LOGIN_KEY, EnvironmentVariable.get(EnvironmentVariable.USERNAME), NOTHING);
 
         this.logInRunnable = new LogInRunnable(this.getProject());
         this.logInRunnable.addListener(
@@ -87,7 +87,7 @@ public class LogInRunnableTest extends LightJavaCodeInsightFixtureTestCase {
 
 
     public void testLoginCorrectCredentials() {
-        PasswordManager.store(PasswordManager.LOGIN_KEY, EnviromentVariable.get(EnviromentVariable.USERNAME), EnviromentVariable.get(EnviromentVariable.PASSWORD));
+        PasswordManager.store(PasswordManager.LOGIN_KEY, EnvironmentVariable.get(EnvironmentVariable.USERNAME), EnvironmentVariable.get(EnvironmentVariable.PASSWORD));
 
         this.logInRunnable = new LogInRunnable(this.getProject());
         this.logInRunnable.addListener(
@@ -111,7 +111,7 @@ public class LogInRunnableTest extends LightJavaCodeInsightFixtureTestCase {
 
 
     public void testLoginWithManualNoUsername() {
-        PasswordManager.store(PasswordManager.TEST_LOGIN_KEY, NOTHING, EnviromentVariable.get(EnviromentVariable.PASSWORD));
+        PasswordManager.store(PasswordManager.TEST_LOGIN_KEY, NOTHING, EnvironmentVariable.get(EnvironmentVariable.PASSWORD));
 
         this.logInRunnable = new LogInRunnable(this.getProject());
         this.logInRunnable.addListener(
@@ -134,7 +134,7 @@ public class LogInRunnableTest extends LightJavaCodeInsightFixtureTestCase {
     }
 
     public void testLoginWithManualNoPassword() {
-        PasswordManager.store(PasswordManager.TEST_LOGIN_KEY, EnviromentVariable.get(EnviromentVariable.USERNAME), NOTHING);
+        PasswordManager.store(PasswordManager.TEST_LOGIN_KEY, EnvironmentVariable.get(EnvironmentVariable.USERNAME), NOTHING);
 
         this.logInRunnable = new LogInRunnable(this.getProject());
         this.logInRunnable.addListener(
@@ -159,7 +159,7 @@ public class LogInRunnableTest extends LightJavaCodeInsightFixtureTestCase {
 
 
     public void testLoginWithManualCredentials() {
-        PasswordManager.store(PasswordManager.TEST_LOGIN_KEY, EnviromentVariable.get(EnviromentVariable.USERNAME), EnviromentVariable.get(EnviromentVariable.PASSWORD));
+        PasswordManager.store(PasswordManager.TEST_LOGIN_KEY, EnvironmentVariable.get(EnvironmentVariable.USERNAME), EnvironmentVariable.get(EnvironmentVariable.PASSWORD));
 
         this.logInRunnable = new LogInRunnable(this.getProject());
         this.logInRunnable.addListener(
