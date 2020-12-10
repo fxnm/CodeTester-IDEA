@@ -5,9 +5,9 @@ import com.intellij.openapi.project.Project;
 
 import java.io.IOException;
 
-import de.fxnm.runnable.BaseRunnable;
 import de.fxnm.exceptions.InternetConnectionException;
 import de.fxnm.exceptions.PasswordSafeException;
+import de.fxnm.runnable.BaseRunnable;
 import de.fxnm.web.components.category.Category;
 import de.fxnm.web.grabber.CheckCategoryGrabber;
 import de.fxnm.web.grabber.access_token.AccessTokenGrabber;

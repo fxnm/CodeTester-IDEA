@@ -14,8 +14,9 @@ import de.fxnm.util.ComponentStatics;
 import de.fxnm.util.PooledThread;
 
 public class ErrorMessagePanel {
-    private static final int MS_TILL_AUTO_REMOVE = 5000;
     private static final Logger LOG = Logger.getInstance(ErrorMessagePanel.class);
+    private static final int MS_TILL_AUTO_REMOVE = 5000;
+
     private final List<ErrorMessage> errorMessageList = Collections.synchronizedList(new LinkedList<>());
     private final JPanel panel;
 
@@ -40,16 +41,6 @@ public class ErrorMessagePanel {
         this.generate();
     }
 
-    private void generate() {
-        this.panel.removeAll();
-        for (int i = 0; i < this.errorMessageList.size(); i++) {
-            ComponentStatics.addComponent(this.errorMessageList.get(i), 0, i, this.panel);
-        }
-
-        this.panel.invalidate();
-        this.panel.repaint();
-    }
-
     public JPanel get() {
         // TODO: 10.12.2020 Bug wenn keine Error Nachricht am Anfang da war
         if (this.errorMessageList.isEmpty()) {
@@ -61,6 +52,16 @@ public class ErrorMessagePanel {
 
     public boolean isEmpty() {
         return this.errorMessageList.isEmpty();
+    }
+
+    private void generate() {
+        this.panel.removeAll();
+        for (int i = 0; i < this.errorMessageList.size(); i++) {
+            ComponentStatics.addComponent(this.errorMessageList.get(i), 0, i, this.panel);
+        }
+
+        this.panel.invalidate();
+        this.panel.repaint();
     }
 
     private class AutoRemoveListener implements Runnable {

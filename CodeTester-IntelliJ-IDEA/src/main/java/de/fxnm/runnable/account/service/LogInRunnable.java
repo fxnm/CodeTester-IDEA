@@ -9,11 +9,11 @@ import com.intellij.openapi.util.Pair;
 import java.io.IOException;
 import java.util.Objects;
 
-import de.fxnm.runnable.BaseRunnable;
 import de.fxnm.config.settings.password_safe.PasswordManager;
 import de.fxnm.exceptions.InternetConnectionException;
 import de.fxnm.exceptions.PasswordSafeException;
 import de.fxnm.exceptions.UsernamePasswordException;
+import de.fxnm.runnable.BaseRunnable;
 import de.fxnm.ui.account.LoginDialog;
 import de.fxnm.util.CodeTesterBundle;
 import de.fxnm.web.components.token.LoginToken;

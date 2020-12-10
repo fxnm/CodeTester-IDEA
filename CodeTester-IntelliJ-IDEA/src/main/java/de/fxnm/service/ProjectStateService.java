@@ -13,26 +13,26 @@ public class ProjectStateService {
 
     @Setter
     @Getter
-    boolean manualLoginLogoutConfig = true;
-    @Setter
-    @Getter
-    boolean manualRunConfig = true;
-    @Setter
-    @Getter
     boolean displayingError = true;
     @Setter
     @Getter
     boolean displayingSuccess = true;
-    /**
-     * Gibt an ob eine Server Verbindung zum Code Tester Server beseht.
-     */
+    @Setter
     @Getter
-    private boolean serverConnectionEstablished = false;
+    boolean manualLoginLogoutConfig = true;
+    @Setter
+    @Getter
+    boolean manualRunConfig = true;
     /**
      * Git an ob eine Login zu den Code Tester Servern besetzt.
      */
     @Getter
     private boolean loginConnectionEstablished = false;
+    /**
+     * Gibt an ob eine Server Verbindung zum Code Tester Server beseht.
+     */
+    @Getter
+    private boolean serverConnectionEstablished = false;
 
     public static ProjectStateService getService(final Project project) {
         return ServiceManager.getService(project, ProjectStateService.class);

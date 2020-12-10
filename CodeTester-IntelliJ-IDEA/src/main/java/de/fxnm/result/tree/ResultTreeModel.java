@@ -63,17 +63,6 @@ public class ResultTreeModel extends DefaultTreeModel {
         this.nodeStructureChanged(this.visibleRootNode);
     }
 
-    private void setChecks(final List<Check> checks) {
-        this.visibleRootNode.removeAllChildren();
-
-        for (final Check check : checks) {
-            final ResultTreeNode resultTreeNode = new ResultTreeNode(check);
-            final ToggleableTreeNode toggleableTreeNode = new ToggleableTreeNode(resultTreeNode);
-            this.visibleRootNode.add(toggleableTreeNode);
-        }
-        this.nodeStructureChanged(this.visibleRootNode);
-    }
-
     public void filter(final boolean errors, final boolean success) {
         if (this.successfulCheckResults == null) {
             return;
@@ -89,5 +78,16 @@ public class ResultTreeModel extends DefaultTreeModel {
                     return true;
             }
         }).collect(Collectors.toList()));
+    }
+
+    private void setChecks(final List<Check> checks) {
+        this.visibleRootNode.removeAllChildren();
+
+        for (final Check check : checks) {
+            final ResultTreeNode resultTreeNode = new ResultTreeNode(check);
+            final ToggleableTreeNode toggleableTreeNode = new ToggleableTreeNode(resultTreeNode);
+            this.visibleRootNode.add(toggleableTreeNode);
+        }
+        this.nodeStructureChanged(this.visibleRootNode);
     }
 }

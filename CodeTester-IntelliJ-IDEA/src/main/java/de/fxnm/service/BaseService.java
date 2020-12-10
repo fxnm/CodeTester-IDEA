@@ -12,8 +12,8 @@ import de.fxnm.runnable.BaseRunnable;
 
 public abstract class BaseService {
 
-    private final Project project;
     private final List<Pair<Future<?>, BaseRunnable>> progress = new LinkedList<>();
+    private final Project project;
 
 
     public BaseService(final Project project) {

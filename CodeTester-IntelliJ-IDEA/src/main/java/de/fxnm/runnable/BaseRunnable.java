@@ -16,9 +16,8 @@ import de.fxnm.listener.FeedbackListener;
 public abstract class BaseRunnable implements Runnable {
 
     private static final Logger LOG = Logger.getInstance(BaseRunnable.class);
-
-    private final Project project;
     private final List<FeedbackListener> listeners = new LinkedList<>();
+    private final Project project;
     private Boolean finished = false;
 
     public BaseRunnable(final Project project) {

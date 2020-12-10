@@ -14,9 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
 
-import de.fxnm.runnable.scanner.service.ScanFilesRunnable;
 import de.fxnm.listener.FeedbackListener;
 import de.fxnm.listener.scanner.service.UiScannerFeedbackListener;
+import de.fxnm.runnable.scanner.service.ScanFilesRunnable;
 import de.fxnm.util.PooledThread;
 
 public class ScannerService extends BaseService {
