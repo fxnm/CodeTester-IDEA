@@ -33,7 +33,7 @@ public class SettingsMenu implements SearchableConfigurable {
     @Override
     public @Nullable JComponent createComponent() {
         try {
-            final Credentials credentials = PasswordManager.retrieve(PasswordManager.LOGIN_DATE);
+            final Credentials credentials = PasswordManager.retrieve(PasswordManager.LOGIN_KEY);
             this.settingsMenuPanel.setCurrentLoggedInAccount(Objects.requireNonNull(credentials.getUserName()));
         } catch (final PasswordSafeException ignored) {
         }

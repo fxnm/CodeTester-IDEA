@@ -1,6 +1,5 @@
 package de.fxnm.toolwindow.main.toolwindow;
 
-import com.google.gson.Gson;
 import com.intellij.notification.NotificationType;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
@@ -71,8 +70,7 @@ public class CodeTesterToolWindowPanel extends JPanel implements ConfigurationLi
 
         final ToolWindow toolWindow = toolWindowManager.getToolWindow(ID_MAIN_TOOL_WINDOW);
         if (toolWindow == null) {
-            LOG.error("Couldn't get tool window for ID " + ID_MAIN_TOOL_WINDOW,
-                    new Gson().toJson(project));
+            LOG.error("Couldn't get tool window for ID " + ID_MAIN_TOOL_WINDOW, String.valueOf(project));
             return null;
         }
 
@@ -82,8 +80,8 @@ public class CodeTesterToolWindowPanel extends JPanel implements ConfigurationLi
             }
         }
 
-        LOG.error("Could not find tool window panel on tool window with ID " + ID_MAIN_TOOL_WINDOW,
-                new Gson().toJson(project));
+        LOG.error("Could not find tool window panel on tool window with ID "
+                + ID_MAIN_TOOL_WINDOW, String.valueOf(project));
         return null;
     }
 

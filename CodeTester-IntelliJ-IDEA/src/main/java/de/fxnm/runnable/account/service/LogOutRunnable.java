@@ -3,10 +3,10 @@ package de.fxnm.runnable.account.service;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
 
-import de.fxnm.runnable.BaseRunnable;
 import de.fxnm.config.settings.password_safe.PasswordManager;
+import de.fxnm.runnable.BaseRunnable;
 
-import static de.fxnm.config.settings.password_safe.PasswordManager.LOGIN_DATE;
+import static de.fxnm.config.settings.password_safe.PasswordManager.LOGIN_KEY;
 
 public class LogOutRunnable extends BaseRunnable {
 
@@ -26,8 +26,9 @@ public class LogOutRunnable extends BaseRunnable {
     }
 
     private void logout() {
-        ApplicationManager.getApplication().invokeLater(() -> {
-            PasswordManager.remove(LOGIN_DATE);
-        });
+        ApplicationManager.getApplication().invokeAndWait(() -> {
+                    PasswordManager.remove(LOGIN_KEY);
+                }
+        );
     }
 }

@@ -15,7 +15,8 @@ import static de.fxnm.CodeTesterPlugin.PLUGIN_ID;
 
 public final class PasswordManager {
 
-    public static final Key LOGIN_DATE = new Key(PLUGIN_ID + "Login");
+    public static final Key LOGIN_KEY = new Key(PLUGIN_ID + "Login");
+    public static final Key TEST_LOGIN_KEY = new Key(PLUGIN_ID + "Login");
 
     private PasswordManager() throws IllegalAccessException {
         throw new IllegalAccessException();

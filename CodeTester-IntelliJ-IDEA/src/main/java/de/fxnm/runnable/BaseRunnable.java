@@ -1,5 +1,6 @@
 package de.fxnm.runnable;
 
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
@@ -11,14 +12,13 @@ import org.jetbrains.annotations.NotNull;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.fxnm.listener.FeedbackListener;
+import de.fxnm.listener.Listener;
 
 public abstract class BaseRunnable implements Runnable {
 
     private static final Logger LOG = Logger.getInstance(BaseRunnable.class);
-
+    private final List<Listener> listeners = new LinkedList<>();
     private final Project project;
-    private final List<FeedbackListener> listeners = new LinkedList<>();
     private Boolean finished = false;
 
     public BaseRunnable(final Project project) {
@@ -29,7 +29,7 @@ public abstract class BaseRunnable implements Runnable {
         return this.project;
     }
 
-    public void addListener(final FeedbackListener listener) {
+    public void addListener(final Listener listener) {
         this.listeners.add(listener);
     }
 
@@ -52,6 +52,10 @@ public abstract class BaseRunnable implements Runnable {
     }
 
     private void backgroundLoadingBar(final String processName) {
+        if (ApplicationManager.getApplication().isUnitTestMode()) {
+            return;
+        }
+
         ProgressManager.getInstance().run(new Task.Backgroundable(this.project(), processName) {
             public void run(@NotNull final ProgressIndicator progressIndicator) {
                 while (!BaseRunnable.this.finished) {
