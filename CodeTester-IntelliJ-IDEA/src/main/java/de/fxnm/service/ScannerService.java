@@ -1,5 +1,6 @@
 package de.fxnm.service;
 
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
@@ -38,6 +39,7 @@ public class ScannerService extends BaseService {
             LOG.error("No file provided");
             return;
         }
+        ApplicationManager.getApplication().saveAll();
 
         final ScanFilesRunnable scanFilesCallable = new ScanFilesRunnable(this.project(), files, checkId);
         scanFilesCallable.addListener(new UiScannerFeedbackListener(this.project()));
