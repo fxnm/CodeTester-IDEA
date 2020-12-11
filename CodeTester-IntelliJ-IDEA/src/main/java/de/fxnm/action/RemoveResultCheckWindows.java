@@ -27,6 +27,7 @@ public class RemoveResultCheckWindows extends BaseAction {
     public void update(final @NotNull AnActionEvent event) {
        this.project(event).ifPresent(project -> {
             try {
+                super.update(event);
                 event.getPresentation().setEnabled(CodeTesterToolWindowManager.getService(project)
                         .existResultToolWindows());
             } catch (final Throwable e) {

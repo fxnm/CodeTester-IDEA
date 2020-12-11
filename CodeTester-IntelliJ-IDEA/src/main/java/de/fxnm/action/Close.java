@@ -24,5 +24,12 @@ public class Close extends BaseAction {
 
     @Override
     public void update(final @NotNull AnActionEvent event) {
+        this.project(event).ifPresent(project -> {
+            try {
+                super.update(event);
+            } catch (final Throwable e) {
+                LOG.error("Close Action Update failed", e);
+            }
+        });
     }
 }

@@ -17,12 +17,19 @@ public class JumpToSummaryScreen extends BaseAction {
             try {
                 CodeTesterToolWindowManager.getService(project).showCheckSummaryToolWindow();
             } catch (final Throwable e) {
-                LOG.error("Jump to Summary Screen Failed", e);
+                LOG.error("Jump to Summary Screen Action Failed", e);
             }
         });
     }
 
     @Override
     public void update(final @NotNull AnActionEvent event) {
+        this.project(event).ifPresent(project -> {
+            try {
+                super.update(event);
+            } catch (final Throwable e) {
+                LOG.error("Jump to Summary Screen Action Update Failed", e);
+            }
+        });
     }
 }

@@ -35,10 +35,11 @@ public class StopTest extends BaseAction {
 
     @Override
     public void update(final @NotNull AnActionEvent event) {
-        super.update(event);
+
 
         this.project(event).ifPresent(project -> {
             try {
+                super.update(event);
                 final Presentation presentation = event.getPresentation();
                 presentation.setEnabled(ScannerService.getService(project).isCheckInProgress());
 
