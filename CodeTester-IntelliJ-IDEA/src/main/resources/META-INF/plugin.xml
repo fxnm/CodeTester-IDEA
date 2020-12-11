@@ -135,6 +135,21 @@
                     description="Jumps to the check result summary"
                     icon="AllIcons.Nodes.HomeFolder">
             </action>
+
+            <separator/>
+
+            <action id="CodeTesterReRunTestAction"
+                    class="de.fxnm.action.RunTest"
+                    text="Reruns the selected Test"
+                    description="Reruns the selected Test on your Code."
+                    icon="AllIcons.Actions.Restart"/>
+
+            <action id="CodeTesterRerunStopTestAction"
+                    class="de.fxnm.action.StopTest"
+                    text="Stop the Running Test"
+                    description="Stop the test currently being executed."
+                    icon="AllIcons.Actions.Suspend">
+            </action>
         </group>
     </actions>
 
