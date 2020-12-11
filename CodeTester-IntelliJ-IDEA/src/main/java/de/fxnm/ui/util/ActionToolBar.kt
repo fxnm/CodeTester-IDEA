@@ -9,7 +9,7 @@ class ActionToolBar(toolWindowName: String, actionToolbarName: String, horizonta
     init {
         val actionGroup = ActionManager.getInstance().getAction(actionToolbarName) as ActionGroup
         val actionToolbar = ActionManager.getInstance()
-                .createActionToolbar(toolWindowName, actionGroup, horizontal)
+            .createActionToolbar(toolWindowName, actionGroup, horizontal)
         val toolBox = Box.createHorizontalBox()
         toolBox.add(actionToolbar.component)
         this.add(toolBox)

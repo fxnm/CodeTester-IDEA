@@ -15,14 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import de.fxnm.runnable.BaseRunnable;
 import de.fxnm.exceptions.InternetConnectionException;
 import de.fxnm.exceptions.PasswordSafeException;
+import de.fxnm.runnable.BaseRunnable;
 import de.fxnm.web.components.submission.SubmissionResult;
 import de.fxnm.web.grabber.SubmitionGrabber;
 import de.fxnm.web.grabber.access_token.AccessTokenGrabber;
 
-public class ScanFilesRunnable extends BaseRunnable {
+public class ScanFilesRunnable extends BaseRunnable<ScanFilesRunnable> {
 
     final int checkID;
     private final List<PsiFile> files;
@@ -30,10 +30,21 @@ public class ScanFilesRunnable extends BaseRunnable {
     public ScanFilesRunnable(final Project project,
                              final List<VirtualFile> virtualFileList,
                              final int checkID) {
-        super(project);
+        super(project, ScanFilesRunnable.class);
 
         this.files = this.findAllPsiFilesFor(virtualFileList);
         this.checkID = checkID;
+    }
+
+    @Override
+    public void run() {
+        try {
+            this.startRunnable("Scanning", "Started scanning files");
+            final SubmissionResult scanResult = this.processFilesForModuleInfoAndScan(this.files, this.checkID);
+            this.finishedRunnable(scanResult);
+        } catch (final Throwable e) {
+            this.failedRunnable("Failed to call Scan Files");
+        }
     }
 
     private List<PsiFile> findAllPsiFilesFor(@NotNull final List<VirtualFile> virtualFiles) {
@@ -55,17 +66,6 @@ public class ScanFilesRunnable extends BaseRunnable {
         return allChildFiles;
     }
 
-    @Override
-    public void run() {
-        try {
-            this.startRunnable("Scanning", "Started scanning files");
-            final SubmissionResult scanResult = this.processFilesForModuleInfoAndScan(this.files, this.checkID);
-            this.finishedRunnable(scanResult);
-        } catch (final Throwable e) {
-            this.failedRunnable("Failed to call Scan Files");
-        }
-    }
-
     private SubmissionResult processFilesForModuleInfoAndScan(final List<PsiFile> files, final int checkID)
             throws PasswordSafeException, IOException, InternetConnectionException {
 
@@ -77,9 +77,9 @@ public class ScanFilesRunnable extends BaseRunnable {
 
     private static class FindChildFiles extends VirtualFileVisitor<PsiFile> {
 
-        private final VirtualFile virtualFile;
-        private final PsiManager psiManager;
         private final List<PsiFile> locatedFiles = new ArrayList<>();
+        private final PsiManager psiManager;
+        private final VirtualFile virtualFile;
 
         FindChildFiles(final VirtualFile virtualFile, final PsiManager psiManager) {
             this.virtualFile = virtualFile;

@@ -32,13 +32,20 @@ public class NewTest extends BaseAction {
 
     @Override
     public void update(final @NotNull AnActionEvent event) {
-        super.update(event);
+        this.project(event).ifPresent(project -> {
+            try {
+                super.update(event);
 
-        final Presentation presentation = event.getPresentation();
-        final ProjectStateService projectStateService = ProjectStateService.getService(event.getProject());
+                final Presentation presentation = event.getPresentation();
+                final ProjectStateService projectStateService = ProjectStateService.getService(project);
 
-        presentation.setEnabled(
-                projectStateService.isServerConnectionEstablished()
-                        && Desktop.isDesktopSupported());
+                presentation.setEnabled(
+                        projectStateService.isServerConnectionEstablished()
+                                && Desktop.isDesktopSupported());
+
+            } catch (final Throwable e) {
+                LOG.error("New Test Action Update failed", e);
+            }
+        });
     }
 }

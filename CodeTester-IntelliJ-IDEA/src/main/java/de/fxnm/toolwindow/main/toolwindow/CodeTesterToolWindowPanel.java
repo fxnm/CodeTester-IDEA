@@ -20,7 +20,7 @@ import javax.swing.tree.TreePath;
 import de.fxnm.config.ConfigurationListener;
 import de.fxnm.result.tree.ResultTreeNode;
 import de.fxnm.result.tree.ToggleableTreeNode;
-import de.fxnm.toolwindow.CodeTesterToolWindowFactory;
+import de.fxnm.toolwindow.CodeTesterToolWindowManager;
 import de.fxnm.toolwindow.ToolWindowBase;
 import de.fxnm.ui.CategoryComboBox;
 import de.fxnm.ui.check.CheckResultSummaryPanel;
@@ -44,7 +44,6 @@ public class CodeTesterToolWindowPanel extends JPanel implements ConfigurationLi
 
     private final ToolWindow toolWindow;
     private final Project project;
-
     private final CategoryComboBox categoryComboBox;
     private final ErrorMessagePanel errorMessagePanel = new ErrorMessagePanel();
     private ToolWindowBase toolWindowBase;
@@ -157,7 +156,7 @@ public class CodeTesterToolWindowPanel extends JPanel implements ConfigurationLi
             return;
         }
 
-        CodeTesterToolWindowFactory.createResultToolWindow(this.toolWindow, checkNode);
+        CodeTesterToolWindowManager.getService(this.project).showResultToolWindow(checkNode);
     }
 
     public void filterDisplayedResults(final boolean errors, final boolean success) {

@@ -24,6 +24,9 @@
         <projectService serviceImplementation="de.fxnm.service.CategoryService"/>
         <projectService serviceImplementation="de.fxnm.service.ConnectionService"/>
 
+        <projectService serviceImplementation="de.fxnm.toolwindow.CodeTesterToolWindowManager"/>
+        <projectService serviceImplementation="de.fxnm.toolwindow.CodeTesterToolWindowFactory"/>
+
         <projectService serviceImplementation="de.fxnm.config.settings.project.ProjectSettingsService"/>
         <applicationService serviceImplementation="de.fxnm.config.settings.global.GlobalSettingsService"/>
 
@@ -98,6 +101,13 @@
                     icon="AllIcons.FileTypes.AddAny">
             </action>
 
+            <action id="CodeTesterRemoveResultCheckWindowsAction"
+                    class="de.fxnm.action.RemoveResultCheckWindows"
+                    text="Removes all open Tests"
+                    description="Removes all previously opend Check Result Tool Windows"
+                    icon="PluginIcons.REMOVE">
+            </action>
+
             <separator/>
 
             <action id="CodeTesterRefreshTestAction"
@@ -116,6 +126,30 @@
                     text="Close Code Tester Window"
                     description="Close the Code Tester tool window"
                     icon="AllIcons.Actions.Cancel"/>
+
+            <separator/>
+
+            <action id="CodeTesterJumpToSummaryScreenAction"
+                    class="de.fxnm.action.JumpToSummaryScreen"
+                    text="To Homescreen"
+                    description="Jumps to the check result summary"
+                    icon="AllIcons.Nodes.HomeFolder">
+            </action>
+
+            <separator/>
+
+            <action id="CodeTesterReRunTestAction"
+                    class="de.fxnm.action.RunTest"
+                    text="Reruns the selected Test"
+                    description="Reruns the selected Test on your Code."
+                    icon="AllIcons.Actions.Restart"/>
+
+            <action id="CodeTesterRerunStopTestAction"
+                    class="de.fxnm.action.StopTest"
+                    text="Stop the Running Test"
+                    description="Stop the test currently being executed."
+                    icon="AllIcons.Actions.Suspend">
+            </action>
         </group>
     </actions>
 

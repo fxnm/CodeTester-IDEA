@@ -5,13 +5,15 @@ import com.intellij.openapi.project.Project;
 
 import de.fxnm.config.settings.password_safe.PasswordManager;
 import de.fxnm.runnable.BaseRunnable;
+import de.fxnm.runnable.BaseRunnable;
+import de.fxnm.toolwindow.CodeTesterToolWindowManager;
 
 import static de.fxnm.config.settings.password_safe.PasswordManager.LOGIN_KEY;
 
 public class LogOutRunnable extends BaseRunnable {
 
     public LogOutRunnable(final Project project) {
-        super(project);
+        super(project, LogOutRunnable.class);
     }
 
     @Override
@@ -27,8 +29,11 @@ public class LogOutRunnable extends BaseRunnable {
 
     private void logout() {
         ApplicationManager.getApplication().invokeAndWait(() -> {
-                    PasswordManager.remove(LOGIN_KEY);
-                }
-        );
+            //Remove stored Password
+            PasswordManager.remove(LOGIN_KEY);
+
+            //Close all open Check Result Tool Windows
+            CodeTesterToolWindowManager.getService(this.project()).closeAllResultToolWindows();
+        });
     }
 }

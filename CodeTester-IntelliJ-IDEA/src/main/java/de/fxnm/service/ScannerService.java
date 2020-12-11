@@ -1,5 +1,6 @@
 package de.fxnm.service;
 
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
@@ -14,9 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
 
-import de.fxnm.runnable.scanner.service.ScanFilesRunnable;
 import de.fxnm.listener.FeedbackListener;
 import de.fxnm.listener.scanner.service.UiScannerFeedbackListener;
+import de.fxnm.runnable.scanner.service.ScanFilesRunnable;
 import de.fxnm.util.PooledThread;
 
 public class ScannerService extends BaseService {
@@ -38,6 +39,7 @@ public class ScannerService extends BaseService {
             LOG.error("No file provided");
             return;
         }
+        ApplicationManager.getApplication().saveAll();
 
         final ScanFilesRunnable scanFilesCallable = new ScanFilesRunnable(this.project(), files, checkId);
         scanFilesCallable.addListener(new UiScannerFeedbackListener(this.project()));

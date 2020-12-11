@@ -9,20 +9,22 @@ import com.intellij.openapi.project.Project;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 import de.fxnm.listener.Listener;
 
-public abstract class BaseRunnable implements Runnable {
+public abstract class BaseRunnable<T> implements Runnable {
 
-    private static final Logger LOG = Logger.getInstance(BaseRunnable.class);
+    public static Logger LOG;
     private final List<Listener> listeners = new LinkedList<>();
     private final Project project;
     private Boolean finished = false;
 
-    public BaseRunnable(final Project project) {
+    public BaseRunnable(final Project project, final Class<T> loggerClass) {
         this.project = project;
+        LOG = Logger.getInstance(loggerClass);
     }
 
     public Project project() {
@@ -40,13 +42,23 @@ public abstract class BaseRunnable implements Runnable {
     }
 
     public void finishedRunnable(final Object... details) {
+        if (this.finished.equals(Boolean.TRUE)) {
+            LOG.info("Finished or failed Callable got already executed");
+            return;
+        }
+
         LOG.info("Finished Callable successful");
         this.finished = true;
         this.listeners.forEach(listener -> listener.scanCompleted(details));
     }
 
     public void failedRunnable(final Object... details) {
-        LOG.info("Finished Callable with error");
+        if (this.finished.equals(Boolean.TRUE)) {
+            LOG.info("Finished or failed Callable got already executed, " + Arrays.deepToString(details));
+            return;
+        }
+
+        LOG.info("Finished Callable with error, " + Arrays.deepToString(details));
         this.finished = true;
         this.listeners.forEach(listener -> listener.scanFailed(details));
     }
@@ -58,7 +70,7 @@ public abstract class BaseRunnable implements Runnable {
 
         ProgressManager.getInstance().run(new Task.Backgroundable(this.project(), processName) {
             public void run(@NotNull final ProgressIndicator progressIndicator) {
-                while (!BaseRunnable.this.finished) {
+                while (BaseRunnable.this.finished.equals(Boolean.FALSE)) {
                     progressIndicator.setIndeterminate(true);
                 }
             }

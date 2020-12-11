@@ -8,49 +8,36 @@ import de.fxnm.web.components.category.Category;
 import lombok.Getter;
 import lombok.Setter;
 
+// TODO: 04.12.2020 REMOVE THIS!
 public class ProjectStateService {
 
     @Setter
     @Getter
-    boolean manualLoginLogoutConfig = true;
-
-
-    @Setter
-    @Getter
-    boolean manualRunConfig = true;
-
-    @Setter
-    @Getter
     boolean displayingError = true;
-
     @Setter
     @Getter
     boolean displayingSuccess = true;
+    @Setter
+    @Getter
+    boolean manualLoginLogoutConfig = true;
+    @Setter
+    @Getter
+    boolean manualRunConfig = true;
+    /**
+     * Git an ob eine Login zu den Code Tester Servern besetzt.
+     */
+    @Getter
+    private boolean loginConnectionEstablished = false;
     /**
      * Gibt an ob eine Server Verbindung zum Code Tester Server beseht.
      */
     @Getter
     private boolean serverConnectionEstablished = false;
 
-    /**
-     * Git an ob eine Login zu den Code Tester Servern besetzt.
-     */
-    @Getter
-    private boolean loginConnectionEstablished = false;
-
-    /**
-     * Gibt an ob aktuell ein Test des Codes ausgeführt wird.
-     */
-    @Getter
-    private boolean codeTesterRunning = false;
-
     public static ProjectStateService getService(final Project project) {
         return ServiceManager.getService(project, ProjectStateService.class);
     }
 
-    public void setCodeTesterRunning(final boolean codeTesterRunning, final Project project) {
-        this.codeTesterRunning = codeTesterRunning;
-    }
 
     public void setLoginConnectionEstablished(final boolean loginConnectionEstablished, final Project project) {
         this.loginConnectionEstablished = loginConnectionEstablished;
