@@ -2,7 +2,6 @@ package de.fxnm.toolwindow;
 
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowFactory;
 import com.intellij.openapi.wm.ToolWindowType;
@@ -40,8 +39,8 @@ public class CodeTesterToolWindowFactory implements ToolWindowFactory {
         return stringBuilder.toString();
     }
 
-    public Pair<Content, ResultToolWindowPanel> createResultToolWindow(final @NotNull ToolWindow toolWindow,
-                                                                       final @NotNull ResultTreeNode resultTreeNode) {
+    public ResultToolWindowPanel createResultToolWindow(final @NotNull ToolWindow toolWindow,
+                                                        final @NotNull ResultTreeNode resultTreeNode) {
 
         final ResultToolWindowPanel resultToolWindowPanel = new ResultToolWindowPanel(resultTreeNode);
 
@@ -58,7 +57,7 @@ public class CodeTesterToolWindowFactory implements ToolWindowFactory {
         toolWindow.getContentManager().addContent(content);
         toolWindow.getContentManager().setSelectedContent(content);
 
-        return new Pair<>(content, resultToolWindowPanel);
+        return resultToolWindowPanel;
     }
 
     @Override

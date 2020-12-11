@@ -31,11 +31,11 @@ public class ResultToolWindowPanel {
 
     private static final String RESULT_ACTION_GROUP = "CodeTesterResultActions";
     private static String ID_RESULT_TOOL_WINDOW = "Not set yet!";
-    private final ResultTreeNode resultTreeNode;
     private final ToolWindowBase baseToolWindow;
-    private final ErrorMessagePanel errorMessagePanel = new ErrorMessagePanel();
     private final JLabel checkResultIcon = new JLabel();
     private final JLabel checkResultStatus = new JLabel();
+    private final ErrorMessagePanel errorMessagePanel = new ErrorMessagePanel();
+    private final ResultTreeNode resultTreeNode;
     private Check check;
     private CheckInOutResultPanel checkInOutResultPanel;
     private Content content;
@@ -110,13 +110,22 @@ public class ResultToolWindowPanel {
     }
 
     public void newCheckCompletedNotInSet() {
-        this.errorMessagePanel.addErrorMessage(new ErrorMessage(PluginIcons.STATUS_ERROR, "This Check is not in the newest set of check results", false));
+        this.errorMessagePanel.addErrorMessage(new ErrorMessage(PluginIcons.STATUS_ERROR,
+                "This Check is not in the newest set of check results", false));
         this.checkResultStatus.setText("UNKNOWN - NOT IN TEST SET");
         this.changeIcon(PluginIcons.WARNING);
     }
 
     public void newCheckFailed() {
-        this.errorMessagePanel.addErrorMessage(new ErrorMessage(PluginIcons.STATUS_ERROR, "Check Run Failed, the results of this check might not be right", false));
+        this.errorMessagePanel.addErrorMessage(new ErrorMessage(PluginIcons.STATUS_ERROR,
+                "Check Run Failed, the results of this check might not be right", false));
+    }
+
+    public Content getAsContent() {
+        if (this.content == null) {
+            LOG.error("Access con Content but Content is null", this.getCheckName());
+        }
+        return this.content;
     }
 
     private JComponent createTopLineComponent() {

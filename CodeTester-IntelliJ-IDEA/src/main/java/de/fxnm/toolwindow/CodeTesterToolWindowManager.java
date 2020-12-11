@@ -3,7 +3,6 @@ package de.fxnm.toolwindow;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Pair;
 import com.intellij.ui.content.Content;
 
 import java.util.Arrays;
@@ -23,7 +22,7 @@ public class CodeTesterToolWindowManager {
     private static final Logger LOG = Logger.getInstance(CodeTesterToolWindowManager.class);
 
     private final Project project;
-    private final List<Pair<Content, ResultToolWindowPanel>> resultWindowPairList = new LinkedList<>();
+    private final List<ResultToolWindowPanel> resultWindowList = new LinkedList<>();
 
     public CodeTesterToolWindowManager(final Project project) {
         this.project = project;
@@ -39,12 +38,11 @@ public class CodeTesterToolWindowManager {
             return;
         }
 
-        final Pair<Content, ResultToolWindowPanel> createdToolWindow =
+
+        this.resultWindowList.add(
                 CodeTesterToolWindowFactory.getService(this.project).createResultToolWindow(
                         ToolWindowAccess.toolWindow(this.project),
-                        resultTreeNode);
-
-        this.resultWindowPairList.add(createdToolWindow);
+                        resultTreeNode));
     }
 
     public void showCheckSummaryToolWindow() {
@@ -72,30 +70,30 @@ public class CodeTesterToolWindowManager {
     }
 
     public boolean existResultToolWindows() {
-        return !this.resultWindowPairList.isEmpty();
+        return !this.resultWindowList.isEmpty();
     }
 
     public void closeAllResultToolWindows() {
 
-        for (final Pair<Content, ResultToolWindowPanel> pair : this.resultWindowPairList) {
-            if (this.isOpenToolWindow(pair)) {
-                ToolWindowAccess.toolWindow(this.project).getContentManager().removeContent(pair.first, true);
+        for (final ResultToolWindowPanel resultToolWindowPanel : this.resultWindowList) {
+            if (this.isOpenToolWindow(resultToolWindowPanel)) {
+                ToolWindowAccess.toolWindow(this.project).getContentManager().removeContent(resultToolWindowPanel.getAsContent(), true);
             }
         }
 
-        this.resultWindowPairList.clear();
+        this.resultWindowList.clear();
     }
 
     public void newCheckRunning() {
-        for (final Pair<Content, ResultToolWindowPanel> resultToolWindowPanelPair : this.resultWindowPairList) {
-            resultToolWindowPanelPair.second.newCheckIsRunning();
+        for (final ResultToolWindowPanel resultToolWindowPanel : this.resultWindowList) {
+            resultToolWindowPanel.newCheckIsRunning();
         }
     }
 
     public void newCheckCompleted(final SubmissionResult submissionResult) {
         if (!(submissionResult instanceof Successful)) {
-            for (final Pair<Content, ResultToolWindowPanel> resultToolWindowPanelPair : this.resultWindowPairList) {
-                resultToolWindowPanelPair.second.newCheckFailed();
+            for (final ResultToolWindowPanel resultToolWindowPanel : this.resultWindowList) {
+                resultToolWindowPanel.newCheckFailed();
             }
             return;
         }
@@ -104,18 +102,18 @@ public class CodeTesterToolWindowManager {
         final List<Content> openToolWindows = Arrays.asList(ToolWindowAccess.toolWindow(this.project).getContentManager().getContents());
         final List<Check> successful = new LinkedList<>(Arrays.asList(((Successful) submissionResult).getChecks()));
 
-        for (final Pair<Content, ResultToolWindowPanel> resultToolWindowPanelPair : this.resultWindowPairList) {
-            if (!openToolWindows.contains(resultToolWindowPanelPair.first)) {
-                resultToolWindowPanelPair.second.newCheckCompletedNotInSet();
-                this.resultWindowPairList.remove(resultToolWindowPanelPair);
+        for (final ResultToolWindowPanel resultToolWindowPanel : this.resultWindowList) {
+            if (!openToolWindows.contains(resultToolWindowPanel.getAsContent())) {
+                resultToolWindowPanel.newCheckCompletedNotInSet();
+                this.resultWindowList.remove(resultToolWindowPanel);
                 continue;
             }
 
-            final String checkName = resultToolWindowPanelPair.second.getCheckName();
+            final String checkName = resultToolWindowPanel.getCheckName();
             final List<Check> checkList = successful.stream().filter(c -> c.getCheckName().equals(checkName)).collect(Collectors.toList());
 
             if (checkList.isEmpty()) {
-                resultToolWindowPanelPair.second.newCheckCompletedNotInSet();
+                resultToolWindowPanel.newCheckCompletedNotInSet();
                 return;
             }
 
@@ -127,36 +125,36 @@ public class CodeTesterToolWindowManager {
                 LOG.error("The ResultCheckSet does contain multiple checks with the same id for a CheckResultPanel", Arrays.deepToString(new List[]{checkList}));
             }
 
-            resultToolWindowPanelPair.second.newCheckCompleted(checkList.get(0));
+            resultToolWindowPanel.newCheckCompleted(checkList.get(0));
         }
 
 
     }
 
     private boolean containsCheckResult(final ResultTreeNode resultTreeNode) {
-        final Pair<Content, ResultToolWindowPanel> pair = this.getPair(resultTreeNode);
-        if (pair == null) {
+        final ResultToolWindowPanel resultToolWindowPanel = this.getPair(resultTreeNode);
+        if (resultToolWindowPanel == null) {
             return false;
         }
 
 
-        if (!this.isOpenToolWindow(pair)) {
-            this.resultWindowPairList.remove(pair);
+        if (!this.isOpenToolWindow(resultToolWindowPanel)) {
+            this.resultWindowList.remove(resultToolWindowPanel);
             return false;
         }
 
         return true;
     }
 
-    private boolean isOpenToolWindow(final Pair<Content, ResultToolWindowPanel> pair) {
+    private boolean isOpenToolWindow(final ResultToolWindowPanel resultToolWindowPanel) {
         return ToolWindowAccess.toolWindow(this.project).getContentManager()
-                .getContent(pair.second.getComponent()) != null;
+                .getContent(resultToolWindowPanel.getAsContent().getComponent()) != null;
     }
 
-    private Pair<Content, ResultToolWindowPanel> getPair(final ResultTreeNode resultTreeNode) {
+    private ResultToolWindowPanel getPair(final ResultTreeNode resultTreeNode) {
         final String checkName = resultTreeNode.getCheck().getCheckName();
-        for (final Pair<Content, ResultToolWindowPanel> pair : this.resultWindowPairList) {
-            if (pair.second.getCheckName().equals(checkName)) {
+        for (final ResultToolWindowPanel pair : this.resultWindowList) {
+            if (pair.getCheckName().equals(checkName)) {
                 return pair;
             }
         }
@@ -164,13 +162,13 @@ public class CodeTesterToolWindowManager {
     }
 
     private void setFocusOn(final ResultTreeNode resultTreeNode) {
-        final Pair<Content, ResultToolWindowPanel> pair = this.getPair(resultTreeNode);
-        if (pair == null) {
+        final ResultToolWindowPanel resultToolWindowPanel = this.getPair(resultTreeNode);
+        if (resultToolWindowPanel == null) {
             LOG.error("No Check Result Tool Window found under:" + resultTreeNode.getCheck().getCheckName(),
-                    Arrays.deepToString(this.resultWindowPairList.toArray()));
+                    Arrays.deepToString(this.resultWindowList.toArray()));
             return;
         }
 
-        ToolWindowAccess.toolWindow(this.project).getContentManager().setSelectedContent(pair.first);
+        ToolWindowAccess.toolWindow(this.project).getContentManager().setSelectedContent(resultToolWindowPanel.getAsContent());
     }
 }
