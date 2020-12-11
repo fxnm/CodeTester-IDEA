@@ -9,10 +9,10 @@ import java.net.URL;
 import de.fxnm.runnable.BaseRunnable;
 import de.fxnm.web.grabber.CommonUrl;
 
-public class ConnectionRunnable extends BaseRunnable {
+public class ConnectionRunnable extends BaseRunnable<ConnectionRunnable> {
 
     public ConnectionRunnable(final Project project) {
-        super(project);
+        super(project, ConnectionRunnable.class);
     }
 
     @Override

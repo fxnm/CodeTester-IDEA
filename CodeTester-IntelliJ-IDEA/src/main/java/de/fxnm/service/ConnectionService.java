@@ -5,9 +5,9 @@ import com.intellij.openapi.project.Project;
 
 import java.util.concurrent.Future;
 
-import de.fxnm.runnable.connection.service.ConnectionRunnable;
 import de.fxnm.listener.FeedbackListener;
 import de.fxnm.listener.connection.service.ConnectionFeedbackListener;
+import de.fxnm.runnable.connection.service.ConnectionRunnable;
 import de.fxnm.util.PooledThread;
 
 public class ConnectionService extends BaseService {

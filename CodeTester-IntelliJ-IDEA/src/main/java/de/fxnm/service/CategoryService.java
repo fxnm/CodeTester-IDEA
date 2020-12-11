@@ -5,9 +5,9 @@ import com.intellij.openapi.project.Project;
 
 import java.util.concurrent.Future;
 
-import de.fxnm.runnable.category.service.CategoryRunnable;
 import de.fxnm.listener.FeedbackListener;
 import de.fxnm.listener.category.service.ReloadFeedbackListener;
+import de.fxnm.runnable.category.service.CategoryRunnable;
 import de.fxnm.util.PooledThread;
 
 public class CategoryService extends BaseService {

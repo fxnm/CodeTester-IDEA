@@ -20,12 +20,11 @@ public class Login extends BaseAction {
     public void actionPerformed(@NotNull final AnActionEvent event) {
         super.update(event);
 
-        final boolean isLoggedIn = ProjectStateService.getService(event.getProject()).isLoginConnectionEstablished();
 
         this.project(event).ifPresent(project -> {
             try {
                 ToolWindowAccess.toolWindow(project).activate(() -> {
-                    if (isLoggedIn) {
+                    if (ProjectStateService.getService(project).isLoginConnectionEstablished()) {
                         AccountService.getService(project).asyncLogOut();
                     } else {
                         AccountService.getService(project).asyncLogIn();
@@ -39,24 +38,30 @@ public class Login extends BaseAction {
 
     @Override
     public void update(final @NotNull AnActionEvent event) {
-        super.update(event);
+        this.project(event).ifPresent(project -> {
+            try {
+                super.update(event);
 
-        final Presentation presentation = event.getPresentation();
-        final ProjectStateService projectState = ProjectStateService.getService(event.getProject());
+                final Presentation presentation = event.getPresentation();
+                final ProjectStateService projectState = ProjectStateService.getService(project);
 
-        presentation.setEnabled(
-                projectState.isServerConnectionEstablished()
+                presentation.setEnabled(projectState.isServerConnectionEstablished()
                         && projectState.isManualLoginLogoutConfig());
 
-        if (ProjectStateService.getService(event.getProject()).isLoginConnectionEstablished()) {
-            presentation.setIcon(PluginIcons.LOGIN_GREEN);
-            presentation.setDescription(CodeTesterBundle.message("plugin.action.login.logout.description"));
-            presentation.setText(CodeTesterBundle.message("plugin.action.login.logout.text"));
+                if (ProjectStateService.getService(project).isLoginConnectionEstablished()) {
+                    presentation.setIcon(PluginIcons.LOGIN_GREEN);
+                    presentation.setDescription(CodeTesterBundle.message("plugin.action.login.logout.description"));
+                    presentation.setText(CodeTesterBundle.message("plugin.action.login.logout.text"));
 
-        } else {
-            presentation.setIcon(PluginIcons.LOGIN_RED);
-            presentation.setDescription(CodeTesterBundle.message("plugin.action.login.login.description"));
-            presentation.setText(CodeTesterBundle.message("plugin.action.login.login.text"));
-        }
+                } else {
+                    presentation.setIcon(PluginIcons.LOGIN_RED);
+                    presentation.setDescription(CodeTesterBundle.message("plugin.action.login.login.description"));
+                    presentation.setText(CodeTesterBundle.message("plugin.action.login.login.text"));
+                }
+
+            } catch (final Throwable e) {
+                LOG.error("Login / Logout action Update failed", e);
+            }
+        });
     }
 }

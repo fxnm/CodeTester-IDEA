@@ -29,13 +29,19 @@ public class Reload extends BaseAction {
 
     @Override
     public void update(final @NotNull AnActionEvent event) {
-        super.update(event);
+        this.project(event).ifPresent(project -> {
+            try {
+                super.update(event);
 
-        final Presentation presentation = event.getPresentation();
-        final ProjectStateService projectStateService = ProjectStateService.getService(event.getProject());
+                final Presentation presentation = event.getPresentation();
+                final ProjectStateService projectStateService = ProjectStateService.getService(project);
 
-        presentation.setEnabled(
-                projectStateService.isServerConnectionEstablished()
-                        && projectStateService.isLoginConnectionEstablished());
+                presentation.setEnabled(
+                        projectStateService.isServerConnectionEstablished()
+                                && projectStateService.isLoginConnectionEstablished());
+            } catch (final Throwable e) {
+                LOG.error("Reload Action Update failed", e);
+            }
+        });
     }
 }

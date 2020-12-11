@@ -2,40 +2,48 @@ package de.fxnm.ui.check
 
 import com.intellij.ui.components.JBScrollPane
 import com.intellij.ui.layout.panel
-import com.intellij.util.ui.JBEmptyBorder
 import com.intellij.util.ui.JBUI
 import de.fxnm.util.CopyUtil
-import de.fxnm.util.PopupNotifier
 import de.fxnm.web.components.submission.success.CheckOutputLineData
 import icons.PluginIcons
 import java.awt.event.MouseAdapter
 import java.awt.event.MouseEvent
+import java.util.LinkedList
 import javax.swing.JComponent
 import javax.swing.JLabel
 import javax.swing.JPanel
+import javax.swing.JScrollPane
 
 /**
  * Class which is responsible for creating the visual representation of the overview of the results of all the checks.
  */
-class CheckInOutResultPanel(private val resultLines: Array<CheckOutputLineData>) {
+class CheckInOutResultPanel {
 
-    private val panel: JPanel
+    private val scrollPane: JScrollPane = JBScrollPane()
+    private var panel: JPanel = JPanel()
+    private var resultLines: MutableList<CheckOutputLineData> = LinkedList()
 
-    val asScrollPanel: JComponent
-        get() {
-            val scrollPane = JBScrollPane()
-            scrollPane.setViewportView(panel)
-            scrollPane.border = JBEmptyBorder(0)
-            return scrollPane
-        }
+    fun getComponent(): JComponent {
+        return scrollPane
+    }
 
-    init {
+    fun removeLines() {
+        resultLines.clear()
+        generateComponent()
+    }
+
+    fun addLines(resultLines: Array<CheckOutputLineData>) {
+        this.resultLines = resultLines.toMutableList()
+        generateComponent()
+    }
+
+    private fun generateComponent() {
         panel = panel {
             for (line in resultLines) {
-                val copyLabel = JLabel(PluginIcons.COPY);
+                val copyLabel = JLabel(PluginIcons.COPY)
                 copyLabel.addMouseListener(object : MouseAdapter() {
                     override fun mouseClicked(e: MouseEvent) {
-                       CopyUtil.copyToClipBoard(line.getRawContent())
+                        CopyUtil.copyToClipBoard(line.getRawContent())
                     }
                 })
 
@@ -48,6 +56,11 @@ class CheckInOutResultPanel(private val resultLines: Array<CheckOutputLineData>)
             }
         }
 
-        panel.border = JBUI.Borders.empty(0)
+        panel.border = JBUI.Borders.empty()
+        scrollPane.setViewportView(panel)
+    }
+
+    init {
+        scrollPane.border = JBUI.Borders.empty()
     }
 }

@@ -29,6 +29,7 @@ public abstract class BaseAction extends AnAction {
                 return;
             }
 
+            super.update(event);
             presentation.setVisible(true);
 
         } catch (final Throwable e) {

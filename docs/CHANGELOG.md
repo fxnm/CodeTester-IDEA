@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 ### Added
+- Added Button in Check Result Tool windows to stop current running check
+- Added Button in Check Result Tool Windows to directly rerun the checks
+- Added AutoUpdate form open Check Result Tool Windows after a new Scan
+- Added Button to Jump directly to the Check Result Summary Tool Window
+- Added Button to close all open Check Result Panels
 - Added indication if the test crashed
 - Added Plugin Verifier IDE Version 202.3
 - Added new Modul Structure
@@ -18,6 +23,8 @@
 - Changed Multi Threading to Runnable and the corresponding Futures 
 
 ### Fixed
+- Fixed not submitting the newest version of a file
+- Fixed Removal of all open Check Result ToolWindows if user is logging out
 - Fixed Login Dialog and error if login was canceled
 - Fixed typos
 - Fixed not disabling logout action if CodeTester is running 

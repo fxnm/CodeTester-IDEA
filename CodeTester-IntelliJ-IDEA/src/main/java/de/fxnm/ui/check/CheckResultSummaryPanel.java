@@ -24,9 +24,9 @@ import lombok.Getter;
  */
 public class CheckResultSummaryPanel {
 
-    private final ResultTreeModel treeModel;
     @Getter
     private final Tree resultTree;
+    private final ResultTreeModel treeModel;
 
     public CheckResultSummaryPanel() {
         this.treeModel = new ResultTreeModel();

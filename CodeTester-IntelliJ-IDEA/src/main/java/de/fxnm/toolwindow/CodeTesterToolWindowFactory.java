@@ -1,5 +1,6 @@
 package de.fxnm.toolwindow;
 
+import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowFactory;
@@ -17,20 +18,9 @@ public class CodeTesterToolWindowFactory implements ToolWindowFactory {
 
     private static final int MAX_LENGTH = 10;
 
-    public static void createResultToolWindow(final @NotNull ToolWindow toolWindow,
-                                              final ResultTreeNode resultTreeNode) {
-        final Content content = toolWindow.getContentManager().getFactory().createContent(
-                new ResultToolWindowPanel(resultTreeNode).getComponent(),
-                restrictStringLength(MAX_LENGTH, resultTreeNode.getCheck().getCheckName()),
-                true);
-        content.putUserData(ToolWindow.SHOW_CONTENT_ICON, Boolean.TRUE);
-
-        content.setIcon(resultTreeNode.getIcon());
-
-        toolWindow.getContentManager().addContent(content);
-        toolWindow.getContentManager().setSelectedContent(content);
+    public static CodeTesterToolWindowFactory getService(final Project project) {
+        return ServiceManager.getService(project, CodeTesterToolWindowFactory.class);
     }
-
 
     private static String restrictStringLength(final int maxLength, final String string) {
         if (string.length() <= maxLength) {
@@ -47,6 +37,27 @@ public class CodeTesterToolWindowFactory implements ToolWindowFactory {
         stringBuilder.append("...");
 
         return stringBuilder.toString();
+    }
+
+    public ResultToolWindowPanel createResultToolWindow(final @NotNull ToolWindow toolWindow,
+                                                        final @NotNull ResultTreeNode resultTreeNode) {
+
+        final ResultToolWindowPanel resultToolWindowPanel = new ResultToolWindowPanel(resultTreeNode);
+
+        final Content content = toolWindow.getContentManager().getFactory().createContent(
+                resultToolWindowPanel.getComponent(),
+                restrictStringLength(MAX_LENGTH, resultTreeNode.getCheck().getCheckName()),
+                true);
+        resultToolWindowPanel.addThisContent(content);
+
+        content.putUserData(ToolWindow.SHOW_CONTENT_ICON, Boolean.TRUE);
+        content.setIcon(resultTreeNode.getCheck().getCheckResultIcon());
+        content.setDescription(resultTreeNode.getCheck().getCheckName());
+
+        toolWindow.getContentManager().addContent(content);
+        toolWindow.getContentManager().setSelectedContent(content);
+
+        return resultToolWindowPanel;
     }
 
     @Override

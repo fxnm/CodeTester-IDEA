@@ -42,13 +42,20 @@ public class RunTest extends BaseAction {
 
     @Override
     public void update(final @NotNull AnActionEvent event) {
-        final Presentation presentation = event.getPresentation();
-        final ProjectStateService projectStateService = ProjectStateService.getService(event.getProject());
+        this.project(event).ifPresent(project -> {
+            try {
+                super.update(event);
+                final Presentation presentation = event.getPresentation();
+                final ProjectStateService projectStateService = ProjectStateService.getService(project);
 
-        presentation.setEnabled(projectStateService.isServerConnectionEstablished()
-                && projectStateService.isLoginConnectionEstablished()
-                && !ScannerService.getService(event.getProject()).isCheckInProgress()
-                && projectStateService.isManualRunConfig()
-        );
+                presentation.setEnabled(projectStateService.isServerConnectionEstablished()
+                        && projectStateService.isLoginConnectionEstablished()
+                        && !ScannerService.getService(project).isCheckInProgress()
+                        && projectStateService.isManualRunConfig());
+
+            } catch (final Throwable e) {
+                LOG.error("Run Test Action Update failed");
+            }
+        });
     }
 }

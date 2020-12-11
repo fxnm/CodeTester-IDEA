@@ -30,7 +30,7 @@ public class ResultTreeRenderer extends DefaultTreeCellRenderer {
             if (userObject instanceof ResultTreeNode) {
                 final ResultTreeNode treeNode = (ResultTreeNode) userObject;
 
-                this.setIcon(treeNode.getIcon());
+                this.setIcon(treeNode.getCheck().getCheckResultIcon());
                 this.setToolTipText(treeNode.getToolTip());
                 this.setText(treeNode.toString());
 

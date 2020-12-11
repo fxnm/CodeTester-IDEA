@@ -2,18 +2,17 @@ package de.fxnm.runnable.account.service;
 
 import com.intellij.credentialStore.Credentials;
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Pair;
 
 import java.io.IOException;
 import java.util.Objects;
 
-import de.fxnm.runnable.BaseRunnable;
 import de.fxnm.config.settings.password_safe.PasswordManager;
 import de.fxnm.exceptions.InternetConnectionException;
 import de.fxnm.exceptions.PasswordSafeException;
 import de.fxnm.exceptions.UsernamePasswordException;
+import de.fxnm.runnable.BaseRunnable;
 import de.fxnm.ui.account.LoginDialog;
 import de.fxnm.util.CodeTesterBundle;
 import de.fxnm.web.components.token.LoginToken;
@@ -21,13 +20,12 @@ import de.fxnm.web.grabber.access_token.LoginTokenGrabber;
 
 import static de.fxnm.config.settings.password_safe.PasswordManager.LOGIN_DATE;
 
-public class LogInRunnable extends BaseRunnable {
+public class LogInRunnable extends BaseRunnable<LogInRunnable> {
 
-    private static final Logger LOG = Logger.getInstance(LogInRunnable.class);
     private boolean loginAbleWithSaveCredentials = false;
 
     public LogInRunnable(final Project project) {
-        super(project);
+        super(project, LogInRunnable.class);
 
         if (this.tryLoginWithPasswordSafeCredentials()) {
             this.loginAbleWithSaveCredentials = true;
