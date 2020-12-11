@@ -1,7 +1,19 @@
 # CodeTester-IDEA Changelog
 
 ## [Unreleased]
+
 ### Added
+
+### Changed
+
+### Fixed
+
+### Removed
+
+## [2.0.0]
+
+### Added
+
 - Added Button in Check Result Tool windows to stop current running check
 - Added Button in Check Result Tool Windows to directly rerun the checks
 - Added AutoUpdate form open Check Result Tool Windows after a new Scan
@@ -16,24 +28,28 @@
 - Added Copy Button in the Check Result for each In- and Output Line
 
 ### Changed
+
 - Changed Login Dialog implementation
 - Changed ToolWindow Base and simplified the component structure
 - Migrated settings.gradle to Kotlin
-- Changed Feature Request Issue Template label  
-- Changed Multi Threading to Runnable and the corresponding Futures 
+- Changed Feature Request Issue Template label
+- Changed Multi Threading to Runnable and the corresponding Futures
 
 ### Fixed
+
 - Fixed not submitting the newest version of a file
 - Fixed Removal of all open Check Result ToolWindows if user is logging out
 - Fixed Login Dialog and error if login was canceled
 - Fixed typos
-- Fixed not disabling logout action if CodeTester is running 
+- Fixed not disabling logout action if CodeTester is running
 - Fixed check result filtering after rerun
 
 ### Removed
 
 ## [1.0.2]
+
 ### Added
+
 - Added settings Menu
 - Added Global Settings
 - Added Project Settings
@@ -41,29 +57,38 @@
 - Added Plugin Code support for Kotlin
 
 ### Changed
+
 - Changed BaseURL in CommonURL to use the BaseURL from Project Settings
 - Changed Implementation for the UI Feedback Listeners
 - Changed gradle to the Kotlin DSL
 - Changed Plugin appearance in the Settings/Plguins Menu
 
 ### Removed
+
 - Changelog Action from the master release workflow
 
 ### Fixed
+
 - Fixed missing dependency to com.intellij.java
 
 ## [1.0.1]
+
 ### Added
+
 - Added new gradle runPluginVerifier action
 
 ### Changed
+
 - Changed Runtime IDEA Version
 - Changed supported IDEA Types form all to only IntelliJ IC and IU
 
 ### Fixed
+
 - Fixed Master Release Merge Workflow by changing 'from_branch' to 'head_to_merge'
 - Fixed Deprecations form IDEA 203
 
 ## [1.0.0]
+
 ### Added
+
 - Initial release
