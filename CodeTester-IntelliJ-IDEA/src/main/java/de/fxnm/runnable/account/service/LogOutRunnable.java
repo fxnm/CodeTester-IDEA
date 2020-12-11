@@ -9,10 +9,10 @@ import de.fxnm.toolwindow.CodeTesterToolWindowManager;
 
 import static de.fxnm.config.settings.password_safe.PasswordManager.LOGIN_DATE;
 
-public class LogOutRunnable extends BaseRunnable {
+public class LogOutRunnable extends BaseRunnable<LogOutRunnable> {
 
     public LogOutRunnable(final Project project) {
-        super(project);
+        super(project, LogOutRunnable.class);
     }
 
     @Override

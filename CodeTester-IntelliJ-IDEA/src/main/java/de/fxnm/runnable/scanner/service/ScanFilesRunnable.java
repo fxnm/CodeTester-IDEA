@@ -22,7 +22,7 @@ import de.fxnm.web.components.submission.SubmissionResult;
 import de.fxnm.web.grabber.SubmitionGrabber;
 import de.fxnm.web.grabber.access_token.AccessTokenGrabber;
 
-public class ScanFilesRunnable extends BaseRunnable {
+public class ScanFilesRunnable extends BaseRunnable<ScanFilesRunnable> {
 
     final int checkID;
     private final List<PsiFile> files;
@@ -30,7 +30,7 @@ public class ScanFilesRunnable extends BaseRunnable {
     public ScanFilesRunnable(final Project project,
                              final List<VirtualFile> virtualFileList,
                              final int checkID) {
-        super(project);
+        super(project, ScanFilesRunnable.class);
 
         this.files = this.findAllPsiFilesFor(virtualFileList);
         this.checkID = checkID;
