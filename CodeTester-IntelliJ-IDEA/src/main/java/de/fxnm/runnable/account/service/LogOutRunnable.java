@@ -5,12 +5,11 @@ import com.intellij.openapi.project.Project;
 
 import de.fxnm.config.settings.password_safe.PasswordManager;
 import de.fxnm.runnable.BaseRunnable;
-import de.fxnm.runnable.BaseRunnable;
 import de.fxnm.toolwindow.CodeTesterToolWindowManager;
 
 import static de.fxnm.config.settings.password_safe.PasswordManager.LOGIN_KEY;
 
-public class LogOutRunnable extends BaseRunnable {
+public class LogOutRunnable extends BaseRunnable<LogOutRunnable> {
 
     public LogOutRunnable(final Project project) {
         super(project, LogOutRunnable.class);
