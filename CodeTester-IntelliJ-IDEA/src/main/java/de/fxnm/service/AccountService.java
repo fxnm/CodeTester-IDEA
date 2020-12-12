@@ -51,16 +51,17 @@ public class AccountService extends BaseService {
         }
 
         @Override
-        public void scanStartingImp(final Object... details) {
+        public void scanStartingImp(final String toolWindowMessage, final String backGroundProcessName, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
+
         }
 
         @Override
-        public void scanCompletedImp(final Object... details) {
+        public void scanCompletedImp(final String toolWindowMessage, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
             AccountService.this.checkComplete(this.future);
         }
 
         @Override
-        public void scanFailedImp(final Object... details) {
+        public void scanFailedImp(final String toolWindowMessage, final Throwable throwable, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
             AccountService.this.checkComplete(this.future);
         }
     }

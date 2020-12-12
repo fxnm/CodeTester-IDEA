@@ -2,7 +2,11 @@ package de.fxnm.listener;
 
 import com.intellij.openapi.project.Project;
 
+import java.util.Optional;
+
 import de.fxnm.toolwindow.main.toolwindow.CodeTesterToolWindowPanel;
+
+import static java.util.Optional.ofNullable;
 
 public abstract class FeedbackListener extends Listener {
 
@@ -13,7 +17,8 @@ public abstract class FeedbackListener extends Listener {
         this.toolWindow = CodeTesterToolWindowPanel.panelFor(this.project());
     }
 
-    public CodeTesterToolWindowPanel toolWindow() {
-        return this.toolWindow;
+
+    public Optional<CodeTesterToolWindowPanel> toolWindow() {
+        return ofNullable(this.toolWindow);
     }
 }

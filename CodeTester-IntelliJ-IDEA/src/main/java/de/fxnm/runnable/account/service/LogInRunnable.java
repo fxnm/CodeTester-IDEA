@@ -33,15 +33,14 @@ public class LogInRunnable extends BaseRunnable<LogInRunnable> {
         if (this.tryLoginWithPasswordSafeCredentials()) {
             this.loginAbleWithSaveCredentials = true;
         }
-
     }
 
     @Override
     public void run() {
-        super.startRunnable("Logging in...", "Trying to login");
+        super.startRunnable("Starting LogInRunnable", "Trying to login", "Logging in...");
 
         if (this.loginAbleWithSaveCredentials) {
-            super.finishedRunnable("Login successful");
+            super.finishedRunnable("Login successful with previously stored credentials", "Login Successful");
             return;
         }
 
@@ -51,17 +50,17 @@ public class LogInRunnable extends BaseRunnable<LogInRunnable> {
 
                 PasswordManager.store(LOGIN_KEY, cred.first, cred.second);
 
+                // TODO: 12.12.2020 remove throw
                 if (!this.tryLoginWithPasswordSafeCredentials()) {
                     throw new PasswordSafeException("Wrong password");
                 }
 
-                super.finishedRunnable("Login successful");
+                super.finishedRunnable("Login successful", "Login successful");
 
             } catch (final UsernamePasswordException e) {
-                super.failedRunnable("Login abort");
+                super.failedRunnable("Login abort", "Login abort");
             } catch (final Throwable e) {
-                super.failedRunnable(e, "Failed to login");
-                LOG.warn(e);
+                super.failedRunnable("Failed to login", "Failed to login", e);
             }
         });
     }

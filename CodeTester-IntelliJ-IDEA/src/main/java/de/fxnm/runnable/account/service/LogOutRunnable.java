@@ -18,11 +18,11 @@ public class LogOutRunnable extends BaseRunnable<LogOutRunnable> {
     @Override
     public void run() {
         try {
-            super.startRunnable("Logging out...", "Log out started");
+            super.startRunnable("Starting LogOutRunnable", "Trying to logout", "Logging out...");
             this.logout();
-            super.finishedRunnable("Logout successful");
+            super.finishedRunnable("Logout was successful and Runnable finished", "Logout Successful");
         } catch (final Throwable e) {
-            this.failedRunnable("Failed to logout");
+            this.failedRunnable("LogOut Runnable Failed", "Logout Failed, try it again later", e);
         }
     }
 

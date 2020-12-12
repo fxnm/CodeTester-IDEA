@@ -22,15 +22,15 @@ import de.fxnm.web.components.submission.SubmissionResult;
 import de.fxnm.web.grabber.SubmitionGrabber;
 import de.fxnm.web.grabber.access_token.AccessTokenGrabber;
 
-public class ScanFilesRunnable extends BaseRunnable<ScanFilesRunnable> {
+public class CheckFilesRunnable extends BaseRunnable<CheckFilesRunnable> {
 
     final int checkID;
     private final List<PsiFile> files;
 
-    public ScanFilesRunnable(final Project project,
-                             final List<VirtualFile> virtualFileList,
-                             final int checkID) {
-        super(project, ScanFilesRunnable.class);
+    public CheckFilesRunnable(final Project project,
+                              final List<VirtualFile> virtualFileList,
+                              final int checkID) {
+        super(project, CheckFilesRunnable.class);
 
         this.files = this.findAllPsiFilesFor(virtualFileList);
         this.checkID = checkID;
@@ -39,11 +39,11 @@ public class ScanFilesRunnable extends BaseRunnable<ScanFilesRunnable> {
     @Override
     public void run() {
         try {
-            this.startRunnable("Scanning", "Started scanning files");
+            this.startRunnable("Starting Check Files Runnable", "Started checking files", "Checking files...");
             final SubmissionResult scanResult = this.processFilesForModuleInfoAndScan(this.files, this.checkID);
-            this.finishedRunnable(scanResult);
+            this.finishedRunnable("Check Files was successful and Runnable finished", "Check files successful", scanResult);
         } catch (final Throwable e) {
-            this.failedRunnable("Failed to call Scan Files");
+            this.failedRunnable("Check File Runnable Failed", "Check files failed try it again later", e);
         }
     }
 

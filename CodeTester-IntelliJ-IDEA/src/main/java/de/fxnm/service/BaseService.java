@@ -48,7 +48,7 @@ public abstract class BaseService {
 
             this.progress.forEach(task -> {
                 task.first.cancel(false);
-                task.second.failedRunnable("Forced Stop");
+                task.second.failedRunnable("Forced Stopped Runnable", "Force stopped running task");
 
             });
             this.progress.clear();

@@ -13,31 +13,33 @@ public class ReloadFeedbackListener extends FeedbackListener {
     }
 
     @Override
-    public void scanStartingImp(final Object... details) {
-        if (this.toolWindow() != null) {
-            this.toolWindow().displayInfoMessage(true, details[0].toString());
-        }
+    public void scanStartingImp(final String toolWindowMessage, final String backGroundProcessName, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
+        this.toolWindow().ifPresent(codeTesterToolWindowPanel -> {
+            codeTesterToolWindowPanel.displayInfoMessage(true, toolWindowMessage);
+        });
 
         ProjectStateService.getService(this.project()).setManualLoginLogoutConfig(false);
         ProjectStateService.getService(this.project()).setManualRunConfig(false);
     }
 
     @Override
-    public void scanCompletedImp(final Object... details) {
-        if (this.toolWindow() != null) {
-            this.toolWindow().setCategories((Category[]) details[1]);
-            this.toolWindow().displayInfoMessage(true, details[0].toString());
-        }
+    public void scanCompletedImp(final String toolWindowMessage, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
+        this.toolWindow().ifPresent(codeTesterToolWindowPanel -> {
+            codeTesterToolWindowPanel.displayInfoMessage(true, toolWindowMessage);
+            codeTesterToolWindowPanel.setCategories((Category[]) argumentOne);
+        });
 
         ProjectStateService.getService(this.project()).setManualLoginLogoutConfig(true);
         ProjectStateService.getService(this.project()).setManualRunConfig(true);
     }
 
+
     @Override
-    public void scanFailedImp(final Object... details) {
-        if (this.toolWindow() != null) {
-            this.toolWindow().displayInfoMessage(true, details[0].toString());
-        }
+    public void scanFailedImp(final String toolWindowMessage, final Throwable throwable, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
+        this.toolWindow().ifPresent(codeTesterToolWindowPanel -> {
+            codeTesterToolWindowPanel.displayErrorMessage(true, toolWindowMessage);
+        });
+
         ProjectStateService.getService(this.project()).setManualLoginLogoutConfig(true);
         ProjectStateService.getService(this.project()).setManualRunConfig(true);
     }

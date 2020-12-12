@@ -17,15 +17,19 @@ public class ConnectionRunnable extends BaseRunnable<ConnectionRunnable> {
 
     @Override
     public void run() {
-        super.startRunnable("Checking Connection...", "Checking internet Connection");
+        super.startRunnable("Starting CodeTester Server Connection Check Runnable",
+                "Checking Server connection",
+                "Checking Server Connection...");
         try {
-            if (this.checkConnectionStatus()) {
-                super.finishedRunnable("Internet Connection check finished");
-            } else {
-                super.failedRunnable("Internet Connection check failed");
+            if (!this.checkConnectionStatus()) {
+                super.failedRunnable("Server Connection Check Failed", "Server Connection Failed, try it again later");
+                return;
             }
+
+            super.finishedRunnable("Server Connection Check successful and Runnable finished", "Server Connection established");
         } catch (final IOException e) {
-            super.failedRunnable("Internet Connection check failed");
+            super.failedRunnable("Server Connection Check Runnable Failed",
+                    "Server connection failed, try it again later", e);
         }
     }
 

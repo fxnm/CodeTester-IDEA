@@ -56,6 +56,4 @@ public class ProjectStateService {
     public void setServerConnectionEstablished(final boolean serverConnectionEstablished, final Project project) {
         this.serverConnectionEstablished = serverConnectionEstablished;
     }
-
-
 }

@@ -17,7 +17,7 @@ import java.util.concurrent.Future;
 
 import de.fxnm.listener.FeedbackListener;
 import de.fxnm.listener.scanner.service.UiScannerFeedbackListener;
-import de.fxnm.runnable.scanner.service.ScanFilesRunnable;
+import de.fxnm.runnable.scanner.service.CheckFilesRunnable;
 import de.fxnm.util.PooledThread;
 
 public class ScannerService extends BaseService {
@@ -41,12 +41,12 @@ public class ScannerService extends BaseService {
         }
         ApplicationManager.getApplication().saveAll();
 
-        final ScanFilesRunnable scanFilesCallable = new ScanFilesRunnable(this.project(), files, checkId);
+        final CheckFilesRunnable scanFilesCallable = new CheckFilesRunnable(this.project(), files, checkId);
         scanFilesCallable.addListener(new UiScannerFeedbackListener(this.project()));
         this.runAsyncCodeTester(scanFilesCallable);
     }
 
-    private void runAsyncCodeTester(final ScanFilesRunnable runnable) {
+    private void runAsyncCodeTester(final CheckFilesRunnable runnable) {
         final Future<?> checkFilesFuture = super.checkStart(PooledThread.execute(runnable), runnable);
         runnable.addListener(new ScanCompletionTracker(checkFilesFuture));
     }
@@ -85,17 +85,17 @@ public class ScannerService extends BaseService {
         }
 
         @Override
-        public void scanStartingImp(final Object... details) {
+        public void scanStartingImp(final String toolWindowMessage, final String backGroundProcessName, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
 
         }
 
         @Override
-        public void scanCompletedImp(final Object... details) {
+        public void scanCompletedImp(final String toolWindowMessage, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
             ScannerService.this.checkComplete(this.future);
         }
 
         @Override
-        public void scanFailedImp(final Object... details) {
+        public void scanFailedImp(final String toolWindowMessage, final Throwable throwable, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
             ScannerService.this.checkComplete(this.future);
         }
     }

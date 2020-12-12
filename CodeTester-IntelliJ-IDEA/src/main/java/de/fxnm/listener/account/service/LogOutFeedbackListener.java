@@ -12,29 +12,26 @@ public class LogOutFeedbackListener extends FeedbackListener {
     }
 
     @Override
-    public void scanStartingImp(final Object... details) {
-        if (this.toolWindow() != null) {
-            this.toolWindow().removeCheckResult();
-            this.toolWindow().displayInfoMessage(true, "Logging out");
-        }
-    }
-
-
-    @Override
-    public void scanCompletedImp(final Object... details) {
-
-        if (this.toolWindow() != null) {
-            this.toolWindow().displayInfoMessage(true, "Logged out");
-        }
-
-        ProjectStateService.getService(this.project())
-                .setLoginConnectionEstablished(false, this.project());
+    public void scanStartingImp(final String toolWindowMessage, final String backGroundProcessName, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
+        this.toolWindow().ifPresent(codeTesterToolWindowPanel -> {
+            codeTesterToolWindowPanel.removeCheckResult();
+            codeTesterToolWindowPanel.displayInfoMessage(true, toolWindowMessage);
+        });
     }
 
     @Override
-    public void scanFailedImp(final Object... details) {
-        if (this.toolWindow() != null) {
-            this.toolWindow().displayErrorMessage(true, "Logout failed!");
-        }
+    public void scanCompletedImp(final String toolWindowMessage, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
+        this.toolWindow().ifPresent(codeTesterToolWindowPanel -> {
+            codeTesterToolWindowPanel.displayInfoMessage(true, toolWindowMessage);
+        });
+
+        ProjectStateService.getService(this.project()).setLoginConnectionEstablished(false, this.project());
+    }
+
+    @Override
+    public void scanFailedImp(final String toolWindowMessage, final Throwable throwable, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
+        this.toolWindow().ifPresent(codeTesterToolWindowPanel -> {
+            codeTesterToolWindowPanel.displayErrorMessage(true, toolWindowMessage);
+        });
     }
 }

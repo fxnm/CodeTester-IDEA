@@ -15,35 +15,33 @@ public class ConnectionFeedbackListener extends FeedbackListener {
     }
 
     @Override
-    public void scanStartingImp(final Object... details) {
-        if (this.toolWindow() != null) {
-            this.toolWindow().removeCheckResult();
-            this.toolWindow().displayInfoMessage(true, details[0].toString());
-        }
+    public void scanStartingImp(final String toolWindowMessage, final String backGroundProcessName, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
+        this.toolWindow().ifPresent(codeTesterToolWindowPanel -> {
+            codeTesterToolWindowPanel.removeCheckResult();
+            codeTesterToolWindowPanel.displayInfoMessage(true, toolWindowMessage);
+        });
     }
 
     @Override
-    public void scanCompletedImp(final Object... details) {
-        if (this.toolWindow() != null) {
-            this.toolWindow().displayInfoMessage(true, details[0].toString());
-        }
+    public void scanCompletedImp(final String toolWindowMessage, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
+        this.toolWindow().ifPresent(codeTesterToolWindowPanel -> {
+            codeTesterToolWindowPanel.displayInfoMessage(true, toolWindowMessage);
+        });
 
-        ProjectStateService.getService(this.project())
-                .setServerConnectionEstablished(true, this.project());
+        ProjectStateService.getService(this.project()).setServerConnectionEstablished(true, this.project());
     }
 
     @Override
-    public void scanFailedImp(final Object... details) {
-        if (this.toolWindow() != null) {
-            this.toolWindow().displayErrorMessage(false, details[0].toString());
-        }
+    public void scanFailedImp(final String toolWindowMessage, final Throwable throwable, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
+        this.toolWindow().ifPresent(codeTesterToolWindowPanel -> {
+            codeTesterToolWindowPanel.displayErrorMessage(false, toolWindowMessage);
+        });
 
-        PopupNotifier.notify(this.project(), "Connection Failed", "",
+        PopupNotifier.notify(this.project(), toolWindowMessage, "",
                 "Please check your internet connection to fully use this plugin!",
                 NotificationType.ERROR,
                 PluginIcons.STATUS_ERROR);
 
-        ProjectStateService.getService(this.project())
-                .setServerConnectionEstablished(false, this.project());
+        ProjectStateService.getService(this.project()).setServerConnectionEstablished(false, this.project());
     }
 }

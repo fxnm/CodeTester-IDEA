@@ -11,25 +11,50 @@ public abstract class Listener {
         this.project = project;
     }
 
-    public void scanStarting(final Object... details) {
-        ApplicationManager.getApplication().invokeLater(() -> this.scanStartingImp(details));
+    public void scanStarting(final String toolWindowMessage,
+                             final String backGroundProcessName,
+                             final Object argumentOne,
+                             final Object argumentTwo,
+                             final Object argumentThree) {
+
+        ApplicationManager.getApplication().invokeLater(() -> this.scanStartingImp(toolWindowMessage, backGroundProcessName, argumentOne, argumentTwo, argumentThree));
     }
 
-    public abstract void scanStartingImp(Object... details);
+    public abstract void scanStartingImp(String toolWindowMessage,
+                                         String backGroundProcessName,
+                                         Object argumentOne,
+                                         Object argumentTwo,
+                                         Object argumentThree);
 
 
-    public void scanCompleted(final Object... details) {
-        ApplicationManager.getApplication().invokeLater(() -> this.scanCompletedImp(details));
+    public void scanCompleted(final String toolWindowMessage,
+                              final Object argumentOne,
+                              final Object argumentTwo,
+                              final Object argumentThree) {
+
+        ApplicationManager.getApplication().invokeLater(() -> this.scanCompletedImp(toolWindowMessage, argumentOne, argumentTwo, argumentThree));
     }
 
-    public abstract void scanCompletedImp(Object... details);
+    public abstract void scanCompletedImp(String toolWindowMessage,
+                                          Object argumentOne,
+                                          Object argumentTwo,
+                                          Object argumentThree);
 
 
-    public void scanFailed(final Object... details) {
-        ApplicationManager.getApplication().invokeLater(() -> this.scanFailedImp(details));
+    public void scanFailed(final String toolWindowMessage,
+                           final Throwable throwable,
+                           final Object argumentOne,
+                           final Object argumentTwo,
+                           final Object argumentThree) {
+
+        ApplicationManager.getApplication().invokeLater(() -> this.scanFailedImp(toolWindowMessage, throwable, argumentOne, argumentTwo, argumentThree));
     }
 
-    public abstract void scanFailedImp(Object... details);
+    public abstract void scanFailedImp(final String toolWindowMessage,
+                                       final Throwable throwable,
+                                       final Object argumentOne,
+                                       final Object argumentTwo,
+                                       final Object argumentThree);
 
     public Project project() {
         return this.project;
