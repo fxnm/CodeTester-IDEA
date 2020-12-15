@@ -9,12 +9,14 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.Desktop;
 import java.net.URI;
 
-import de.fxnm.service.ProjectStateService;
+import de.fxnm.config.settings.project.transientstate.ProjectTransientSettingsData;
+import de.fxnm.config.settings.project.transientstate.ProjectTransientSettingsService;
+import de.fxnm.util.CodeTesterBundle;
 import de.fxnm.web.grabber.CommonUrl;
 
-public class NewTest extends BaseAction {
+public class CreateNewCheck extends BaseAction {
 
-    public static final Logger LOG = Logger.getInstance(NewTest.class);
+    public static final Logger LOG = Logger.getInstance(CreateNewCheck.class);
 
     @Override
     public void actionPerformed(@NotNull final AnActionEvent event) {
@@ -25,7 +27,7 @@ public class NewTest extends BaseAction {
 
             desktop.browse(new URI(url));
         } catch (final Throwable e) {
-            LOG.error("New Test Action failed", e, url);
+            LOG.error(CodeTesterBundle.message("plugin.action.createNewChecks.actionFailed"), e, url);
         }
 
     }
@@ -37,14 +39,15 @@ public class NewTest extends BaseAction {
                 super.update(event);
 
                 final Presentation presentation = event.getPresentation();
-                final ProjectStateService projectStateService = ProjectStateService.getService(project);
+                final ProjectTransientSettingsData settingsData =
+                        ProjectTransientSettingsService.getService(project).getState();
 
                 presentation.setEnabled(
-                        projectStateService.isServerConnectionEstablished()
+                        settingsData.getInternetConnectionToCodeTester()
                                 && Desktop.isDesktopSupported());
 
             } catch (final Throwable e) {
-                LOG.error("New Test Action Update failed", e);
+                LOG.error(CodeTesterBundle.message("plugin.action.createNewChecks.updateFailed"), e);
             }
         });
     }

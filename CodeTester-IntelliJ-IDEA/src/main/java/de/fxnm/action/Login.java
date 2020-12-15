@@ -6,8 +6,9 @@ import com.intellij.openapi.diagnostic.Logger;
 
 import org.jetbrains.annotations.NotNull;
 
+import de.fxnm.config.settings.project.transientstate.ProjectTransientSettingsData;
+import de.fxnm.config.settings.project.transientstate.ProjectTransientSettingsService;
 import de.fxnm.service.AccountService;
-import de.fxnm.service.ProjectStateService;
 import de.fxnm.toolwindow.ToolWindowAccess;
 import de.fxnm.util.CodeTesterBundle;
 import icons.PluginIcons;
@@ -24,14 +25,14 @@ public class Login extends BaseAction {
         this.project(event).ifPresent(project -> {
             try {
                 ToolWindowAccess.toolWindow(project).activate(() -> {
-                    if (ProjectStateService.getService(project).isLoginConnectionEstablished()) {
+                    if (ProjectTransientSettingsService.getService(project).getState().getLoggedIn()) {
                         AccountService.getService(project).asyncLogOut();
                     } else {
                         AccountService.getService(project).asyncLogIn();
                     }
                 });
             } catch (final Throwable e) {
-                LOG.error("Login / Logout action failed", e);
+                LOG.error(CodeTesterBundle.message("plugin.action.login/logout.actionFailed"), e);
             }
         });
     }
@@ -43,24 +44,24 @@ public class Login extends BaseAction {
                 super.update(event);
 
                 final Presentation presentation = event.getPresentation();
-                final ProjectStateService projectState = ProjectStateService.getService(project);
+                @NotNull final ProjectTransientSettingsData settingsData = ProjectTransientSettingsService.getService(project).getState();
 
-                presentation.setEnabled(projectState.isServerConnectionEstablished()
-                        && projectState.isManualLoginLogoutConfig());
+                presentation.setEnabled(settingsData.getInternetConnectionToCodeTester()
+                        && settingsData.getLoginLogoutPossible());
 
-                if (ProjectStateService.getService(project).isLoginConnectionEstablished()) {
+                if (settingsData.getLoggedIn()) {
                     presentation.setIcon(PluginIcons.LOGIN_GREEN);
-                    presentation.setDescription(CodeTesterBundle.message("plugin.action.login.logout.description"));
-                    presentation.setText(CodeTesterBundle.message("plugin.action.login.logout.text"));
+                    presentation.setDescription(CodeTesterBundle.message("plugin.action.login/logout.logout.description"));
+                    presentation.setText(CodeTesterBundle.message("plugin.action.login/logout.logout.text"));
 
                 } else {
                     presentation.setIcon(PluginIcons.LOGIN_RED);
-                    presentation.setDescription(CodeTesterBundle.message("plugin.action.login.login.description"));
-                    presentation.setText(CodeTesterBundle.message("plugin.action.login.login.text"));
+                    presentation.setDescription(CodeTesterBundle.message("plugin.action.login/logout.login.description"));
+                    presentation.setText(CodeTesterBundle.message("plugin.action.login/logout.login.text"));
                 }
 
             } catch (final Throwable e) {
-                LOG.error("Login / Logout action Update failed", e);
+                LOG.error(CodeTesterBundle.message("plugin.action.login/logout.updateFailed"), e);
             }
         });
     }

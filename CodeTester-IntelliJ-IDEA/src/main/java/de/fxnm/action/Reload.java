@@ -6,9 +6,11 @@ import com.intellij.openapi.diagnostic.Logger;
 
 import org.jetbrains.annotations.NotNull;
 
+import de.fxnm.config.settings.project.transientstate.ProjectTransientSettingsData;
+import de.fxnm.config.settings.project.transientstate.ProjectTransientSettingsService;
 import de.fxnm.service.CategoryService;
-import de.fxnm.service.ProjectStateService;
 import de.fxnm.toolwindow.ToolWindowAccess;
+import de.fxnm.util.CodeTesterBundle;
 
 public class Reload extends BaseAction {
 
@@ -22,7 +24,7 @@ public class Reload extends BaseAction {
                     CategoryService.getService(project).asyncReloadCategories();
                 });
             } catch (final Throwable e) {
-                LOG.error("Reload Action failed", e);
+                LOG.error(CodeTesterBundle.message("plugin.action.reload.actionFailed"), e);
             }
         });
     }
@@ -34,13 +36,13 @@ public class Reload extends BaseAction {
                 super.update(event);
 
                 final Presentation presentation = event.getPresentation();
-                final ProjectStateService projectStateService = ProjectStateService.getService(project);
+                final @NotNull ProjectTransientSettingsData settingsData =
+                        ProjectTransientSettingsService.getService(project).getState();
 
                 presentation.setEnabled(
-                        projectStateService.isServerConnectionEstablished()
-                                && projectStateService.isLoginConnectionEstablished());
+                        settingsData.getInternetConnectionToCodeTester() && settingsData.getLoggedIn());
             } catch (final Throwable e) {
-                LOG.error("Reload Action Update failed", e);
+                LOG.error(CodeTesterBundle.message("plugin.action.reload.updateFailed"), e);
             }
         });
     }

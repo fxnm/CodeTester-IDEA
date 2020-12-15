@@ -7,13 +7,13 @@ import com.intellij.openapi.wm.ToolWindow;
 
 import org.jetbrains.annotations.NotNull;
 
-import de.fxnm.exceptions.RunnableException;
 import de.fxnm.service.ScannerService;
 import de.fxnm.toolwindow.ToolWindowAccess;
+import de.fxnm.util.CodeTesterBundle;
 
-public class StopTest extends BaseAction {
+public class CancelRunningChecks extends BaseAction {
 
-    private static final Logger LOG = Logger.getInstance(StopTest.class);
+    private static final Logger LOG = Logger.getInstance(CancelRunningChecks.class);
 
     @Override
     public void actionPerformed(@NotNull final AnActionEvent event) {
@@ -21,14 +21,12 @@ public class StopTest extends BaseAction {
             try {
                 final ToolWindow toolWindow = ToolWindowAccess.toolWindow(project);
                 toolWindow.activate(() -> {
-                    try {
-                        ScannerService.getService(project).stopChecks();
-                    } catch (final RunnableException e) {
-                        LOG.error("No scan to be stopped", e);
-                    }
+
+                    ScannerService.getService(project).stopChecks();
+
                 });
             } catch (final Throwable e) {
-                LOG.warn("Abort Scan Action failed", e);
+                LOG.warn(CodeTesterBundle.message("plugin.action.cancelRunningChecks.actionFailed"), e);
             }
         });
     }
@@ -40,11 +38,12 @@ public class StopTest extends BaseAction {
         this.project(event).ifPresent(project -> {
             try {
                 super.update(event);
+
                 final Presentation presentation = event.getPresentation();
                 presentation.setEnabled(ScannerService.getService(project).isCheckInProgress());
 
             } catch (final Throwable e) {
-                LOG.warn("Abort button update Action failed", e);
+                LOG.warn(CodeTesterBundle.message("plugin.action.cancelRunningChecks.updateFailed"), e);
             }
         });
     }

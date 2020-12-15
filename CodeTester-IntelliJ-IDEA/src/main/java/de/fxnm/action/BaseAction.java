@@ -10,6 +10,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
+import de.fxnm.util.CodeTesterBundle;
+
 import static java.util.Optional.ofNullable;
 
 public abstract class BaseAction extends AnAction {
@@ -25,7 +27,7 @@ public abstract class BaseAction extends AnAction {
             if (project == null) {
                 presentation.setEnabled(false);
                 presentation.setVisible(false);
-                LOG.warn("Action update failed but keep secret");
+                LOG.warn(CodeTesterBundle.message("plugin.action.base.updateFailed.silent"));
                 return;
             }
 
@@ -33,7 +35,7 @@ public abstract class BaseAction extends AnAction {
             presentation.setVisible(true);
 
         } catch (final Throwable e) {
-            LOG.warn("Action update failed", e);
+            LOG.warn(CodeTesterBundle.message("plugin.action.base.updateFailed"), e);
         }
     }
 

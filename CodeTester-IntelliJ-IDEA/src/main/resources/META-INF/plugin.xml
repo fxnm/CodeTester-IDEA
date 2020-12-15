@@ -60,18 +60,16 @@
                     description="Login in to the codetester"
                     icon="PluginIcons.LOGIN_RED"/>
 
-
             <separator/>
 
-
             <action id="CodeTesterRunTestAction"
-                    class="de.fxnm.action.RunTest"
+                    class="de.fxnm.action.RunChecks"
                     text="Executes the selected Test"
                     description="Executes the selected Test on your Code."
                     icon="AllIcons.Actions.Execute"/>
 
             <action id="CodeTesterStopTestAction"
-                    class="de.fxnm.action.StopTest"
+                    class="de.fxnm.action.CancelRunningChecks"
                     text="Stop the Running Test"
                     description="Stop the test currently being executed."
                     icon="AllIcons.Actions.Suspend">
@@ -80,22 +78,21 @@
             <separator/>
 
             <action id="CodeTesterShowTestErrorAction"
-                    class="de.fxnm.action.ShowErrorTest"
+                    class="de.fxnm.action.ShowErrorChecks"
                     text="Display Errors"
                     description="Display error results"
                     icon="PluginIcons.SHOW_ERROR"/>
 
             <action id="CodeTesterShowTestSuccessfulAction"
-                    class="de.fxnm.action.ShowSuccessfulTest"
+                    class="de.fxnm.action.ShowSuccessfulChecks"
                     text="Display Successes"
                     description="Display success results"
                     icon="PluginIcons.SHOW_SUCCESS"/>
 
-
             <separator/>
 
             <action id="CodeTesterAddNewTestAction"
-                    class="de.fxnm.action.NewTest"
+                    class="de.fxnm.action.CreateNewCheck"
                     text="Add Test"
                     description="Add a Test to the public test set"
                     icon="AllIcons.FileTypes.AddAny">
@@ -139,13 +136,13 @@
             <separator/>
 
             <action id="CodeTesterReRunTestAction"
-                    class="de.fxnm.action.RunTest"
+                    class="de.fxnm.action.RunChecks"
                     text="Reruns the selected Test"
                     description="Reruns the selected Test on your Code."
                     icon="AllIcons.Actions.Restart"/>
 
             <action id="CodeTesterRerunStopTestAction"
-                    class="de.fxnm.action.StopTest"
+                    class="de.fxnm.action.CancelRunningChecks"
                     text="Stop the Running Test"
                     description="Stop the test currently being executed."
                     icon="AllIcons.Actions.Suspend">

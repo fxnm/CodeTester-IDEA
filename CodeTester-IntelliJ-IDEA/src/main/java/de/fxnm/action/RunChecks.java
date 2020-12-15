@@ -6,14 +6,16 @@ import com.intellij.openapi.diagnostic.Logger;
 
 import org.jetbrains.annotations.NotNull;
 
-import de.fxnm.service.ProjectStateService;
+import de.fxnm.config.settings.project.transientstate.ProjectTransientSettingsData;
+import de.fxnm.config.settings.project.transientstate.ProjectTransientSettingsService;
 import de.fxnm.service.ScannerService;
 import de.fxnm.toolwindow.ToolWindowAccess;
 import de.fxnm.toolwindow.main.toolwindow.CodeTesterToolWindowPanel;
+import de.fxnm.util.CodeTesterBundle;
 import de.fxnm.web.components.category.Category;
 
-public class RunTest extends BaseAction {
-    private static final Logger LOG = Logger.getInstance(RunTest.class);
+public class RunChecks extends BaseAction {
+    private static final Logger LOG = Logger.getInstance(RunChecks.class);
 
 
     @Override
@@ -22,8 +24,7 @@ public class RunTest extends BaseAction {
                 CodeTesterToolWindowPanel::getCurrentSelectedCategory, new Category(-1, null));
 
         if (category.getId() == -1) {
-            LOG.error("Invalid  provided category",
-                    "",
+            LOG.error(CodeTesterBundle.message("plugin.action.runChecks.invalidCategory"),
                     category.errorDetails());
             return;
         }
@@ -35,7 +36,9 @@ public class RunTest extends BaseAction {
                     ScannerService.getService(project).asyncScanFiles(category.getId());
                 });
             } catch (final Throwable e) {
-                LOG.error("Run Test Action failed", e, category.toString());
+                LOG.error(CodeTesterBundle.message("plugin.action.runChecks.actionFailed"),
+                        e,
+                        category.toString());
             }
         });
     }
@@ -45,16 +48,18 @@ public class RunTest extends BaseAction {
         this.project(event).ifPresent(project -> {
             try {
                 super.update(event);
-                final Presentation presentation = event.getPresentation();
-                final ProjectStateService projectStateService = ProjectStateService.getService(project);
 
-                presentation.setEnabled(projectStateService.isServerConnectionEstablished()
-                        && projectStateService.isLoginConnectionEstablished()
-                        && !ScannerService.getService(project).isCheckInProgress()
-                        && projectStateService.isManualRunConfig());
+                final Presentation presentation = event.getPresentation();
+                final @NotNull ProjectTransientSettingsData settingsData =
+                        ProjectTransientSettingsService.getService(project).getState();
+
+                presentation.setEnabled(settingsData.getInternetConnectionToCodeTester()
+                        && settingsData.getLoggedIn()
+                        && settingsData.getRunPossible()
+                        && !ScannerService.getService(project).isCheckInProgress());
 
             } catch (final Throwable e) {
-                LOG.error("Run Test Action Update failed");
+                LOG.error(CodeTesterBundle.message("plugin.action.runChecks.updateFailed"), e);
             }
         });
     }

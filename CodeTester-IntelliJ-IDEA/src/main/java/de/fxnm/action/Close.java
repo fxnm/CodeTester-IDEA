@@ -5,6 +5,8 @@ import com.intellij.openapi.diagnostic.Logger;
 
 import org.jetbrains.annotations.NotNull;
 
+import de.fxnm.util.CodeTesterBundle;
+
 import static de.fxnm.toolwindow.ToolWindowAccess.toolWindow;
 
 public class Close extends BaseAction {
@@ -17,7 +19,7 @@ public class Close extends BaseAction {
             try {
                 toolWindow(project).hide(null);
             } catch (final Throwable e) {
-                LOG.error("Close Action failed", e);
+                LOG.error(CodeTesterBundle.message("plugin.action.close.actionFailed"), e);
             }
         });
     }
@@ -28,7 +30,7 @@ public class Close extends BaseAction {
             try {
                 super.update(event);
             } catch (final Throwable e) {
-                LOG.error("Close Action Update failed", e);
+                LOG.error(CodeTesterBundle.message("plugin.action.close.updateFailed"), e);
             }
         });
     }
