@@ -7,7 +7,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Future;
 
-import de.fxnm.exceptions.RunnableException;
 import de.fxnm.runnable.BaseRunnable;
 
 public abstract class BaseService {
@@ -40,10 +39,10 @@ public abstract class BaseService {
         }
     }
 
-    public void stopChecks() throws RunnableException {
+    public void stopChecks() {
         synchronized (this.progress) {
             if (this.progress.isEmpty()) {
-                throw new RunnableException("No Runnables are active");
+                return;
             }
 
             this.progress.forEach(task -> {

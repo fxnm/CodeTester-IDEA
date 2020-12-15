@@ -4,7 +4,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.ui.layout.panel
 import de.fxnm.config.settings.global.GlobalSettingsService
-import de.fxnm.config.settings.project.ProjectSettingsService
+import de.fxnm.config.settings.project.persistentstate.ProjectPersistentSettingsService
 import java.util.LinkedList
 import javax.swing.JPanel
 
@@ -18,7 +18,8 @@ class SettingsMenuPanel(project: Project) {
 
     init {
         codeTesterBaseURLs.addAll(GlobalSettingsService.getService().state?.codeTesterBaseURL!!)
-        currentSelectedCodeTesterBaseUrl = ProjectSettingsService.getService(project).state.selectedCodeTesterBaseURL
+        currentSelectedCodeTesterBaseUrl =
+            ProjectPersistentSettingsService.getService(project).state.selectedCodeTesterBaseURL
         if (!codeTesterBaseURLs.contains(currentSelectedCodeTesterBaseUrl)) {
             codeTesterBaseURLs.add(currentSelectedCodeTesterBaseUrl)
         }

@@ -2,8 +2,8 @@ package de.fxnm.listener.account.service;
 
 import com.intellij.openapi.project.Project;
 
+import de.fxnm.config.settings.project.transientstate.ProjectTransientSettingsService;
 import de.fxnm.listener.FeedbackListener;
-import de.fxnm.service.ProjectStateService;
 
 public class LogInFeedbackListener extends FeedbackListener {
 
@@ -24,7 +24,7 @@ public class LogInFeedbackListener extends FeedbackListener {
             codeTesterToolWindowPanel.displayInfoMessage(true, toolWindowMessage);
         });
 
-        ProjectStateService.getService(this.project()).setLoginConnectionEstablished(true, this.project());
+        ProjectTransientSettingsService.getService(this.project()).getState().setLoggedIn(true);
     }
 
     @Override

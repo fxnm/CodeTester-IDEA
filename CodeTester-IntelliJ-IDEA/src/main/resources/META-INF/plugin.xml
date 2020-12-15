@@ -18,7 +18,6 @@
 
         <postStartupActivity implementation="de.fxnm.startup.StartUp"/>
 
-        <projectService serviceImplementation="de.fxnm.service.ProjectStateService"/>
         <projectService serviceImplementation="de.fxnm.service.ScannerService"/>
         <projectService serviceImplementation="de.fxnm.service.AccountService"/>
         <projectService serviceImplementation="de.fxnm.service.CategoryService"/>
@@ -27,7 +26,10 @@
         <projectService serviceImplementation="de.fxnm.toolwindow.CodeTesterToolWindowManager"/>
         <projectService serviceImplementation="de.fxnm.toolwindow.CodeTesterToolWindowFactory"/>
 
-        <projectService serviceImplementation="de.fxnm.config.settings.project.ProjectSettingsService"/>
+        <projectService
+                serviceImplementation="de.fxnm.config.settings.project.persistentstate.ProjectPersistentSettingsService"/>
+        <projectService
+                serviceImplementation="de.fxnm.config.settings.project.transientstate.ProjectTransientSettingsService"/>
         <applicationService serviceImplementation="de.fxnm.config.settings.global.GlobalSettingsService"/>
 
         <errorHandler implementation="de.fxnm.errorhandling.SentryErrorReporter"/>

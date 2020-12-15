@@ -23,7 +23,7 @@ import de.fxnm.web.grabber.access_token.LoginTokenGrabber;
 import static de.fxnm.config.settings.password_safe.PasswordManager.LOGIN_KEY;
 import static de.fxnm.config.settings.password_safe.PasswordManager.TEST_LOGIN_KEY;
 
-public class LogInRunnable extends BaseRunnable<LogInRunnable> {
+public class LogInRunnable extends BaseRunnable {
 
     private boolean loginAbleWithSaveCredentials = false;
 
@@ -50,17 +50,19 @@ public class LogInRunnable extends BaseRunnable<LogInRunnable> {
 
                 PasswordManager.store(LOGIN_KEY, cred.first, cred.second);
 
-                // TODO: 12.12.2020 remove throw
                 if (!this.tryLoginWithPasswordSafeCredentials()) {
-                    throw new PasswordSafeException("Wrong password");
+                    this.failedRunnable("LogIn Runnable Failed due to invalid user input credentials",
+                            "Invalid credentials");
+                    return;
                 }
 
-                super.finishedRunnable("Login successful", "Login successful");
+                super.finishedRunnable("LogIn Runnable was successful and Runnable finished", "Login successful");
 
             } catch (final UsernamePasswordException e) {
-                super.failedRunnable("Login abort", "Login abort");
+                super.failedRunnable("LogIn Runnable Failed due to no user provided credentials", "Login abort, try "
+                        + "it again later");
             } catch (final Throwable e) {
-                super.failedRunnable("Failed to login", "Failed to login", e);
+                super.failedRunnable("LogIn Runnable Failed", "Login Failed, try it again later", e);
             }
         });
     }

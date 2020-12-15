@@ -2,6 +2,7 @@ package de.fxnm.runnable.scanner.service;
 
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.vfs.VfsUtilCore;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileVisitor;
@@ -22,17 +23,14 @@ import de.fxnm.web.components.submission.SubmissionResult;
 import de.fxnm.web.grabber.SubmitionGrabber;
 import de.fxnm.web.grabber.access_token.AccessTokenGrabber;
 
-public class CheckFilesRunnable extends BaseRunnable<CheckFilesRunnable> {
+public class CheckFilesRunnable extends BaseRunnable {
 
     final int checkID;
-    private final List<PsiFile> files;
 
     public CheckFilesRunnable(final Project project,
-                              final List<VirtualFile> virtualFileList,
                               final int checkID) {
-        super(project, CheckFilesRunnable.class);
 
-        this.files = this.findAllPsiFilesFor(virtualFileList);
+        super(project, CheckFilesRunnable.class);
         this.checkID = checkID;
     }
 
@@ -40,11 +38,39 @@ public class CheckFilesRunnable extends BaseRunnable<CheckFilesRunnable> {
     public void run() {
         try {
             this.startRunnable("Starting Check Files Runnable", "Started checking files", "Checking files...");
-            final SubmissionResult scanResult = this.processFilesForModuleInfoAndScan(this.files, this.checkID);
+
+            final List<PsiFile> files = this.findAllPsiFilesFor(this.getChildrenFiles(this.getProjectRootFiles(this.project())));
+
+            final SubmissionResult scanResult = this.processFilesForModuleInfoAndScan(files, this.checkID);
+
             this.finishedRunnable("Check Files was successful and Runnable finished", "Check files successful", scanResult);
         } catch (final Throwable e) {
             this.failedRunnable("Check File Runnable Failed", "Check files failed try it again later", e);
         }
+    }
+
+
+    private @NotNull VirtualFile[] getProjectRootFiles(final Project project) {
+        return ProjectRootManager.getInstance(project).getContentRoots();
+
+    }
+
+    private List<VirtualFile> getChildrenFiles(final VirtualFile[] files) {
+        final List<VirtualFile> flattened = new ArrayList<>();
+        if (files != null) {
+            for (final VirtualFile file : files) {
+                flattened.add(file);
+                VfsUtilCore.visitChildrenRecursively(file, new VirtualFileVisitor<Object>() {
+                    @Override
+                    @NotNull
+                    public Result visitFileEx(@NotNull final VirtualFile file) {
+                        flattened.add(file);
+                        return CONTINUE;
+                    }
+                });
+            }
+        }
+        return flattened;
     }
 
     private List<PsiFile> findAllPsiFilesFor(@NotNull final List<VirtualFile> virtualFiles) {

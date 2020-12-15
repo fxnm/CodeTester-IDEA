@@ -24,13 +24,13 @@ public class AccountService extends BaseService {
 
 
     public void asyncLogIn() {
-        final BaseRunnable logInCallable = new LogInRunnable(this.project());
+        final LogInRunnable logInCallable = new LogInRunnable(this.project());
         logInCallable.addListener(new LogInFeedbackListener(this.project()));
         this.async(logInCallable);
     }
 
     public void asyncLogOut() {
-        final BaseRunnable logOutCallable = new LogOutRunnable(this.project());
+        final LogOutRunnable logOutCallable = new LogOutRunnable(this.project());
         logOutCallable.addListener(new LogOutFeedbackListener(this.project()));
         this.async(logOutCallable);
     }

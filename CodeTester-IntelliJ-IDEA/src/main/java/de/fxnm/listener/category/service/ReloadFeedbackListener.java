@@ -2,8 +2,11 @@ package de.fxnm.listener.category.service;
 
 import com.intellij.openapi.project.Project;
 
+import org.jetbrains.annotations.NotNull;
+
+import de.fxnm.config.settings.project.transientstate.ProjectTransientSettingsData;
+import de.fxnm.config.settings.project.transientstate.ProjectTransientSettingsService;
 import de.fxnm.listener.FeedbackListener;
-import de.fxnm.service.ProjectStateService;
 import de.fxnm.web.components.category.Category;
 
 public class ReloadFeedbackListener extends FeedbackListener {
@@ -18,8 +21,9 @@ public class ReloadFeedbackListener extends FeedbackListener {
             codeTesterToolWindowPanel.displayInfoMessage(true, toolWindowMessage);
         });
 
-        ProjectStateService.getService(this.project()).setManualLoginLogoutConfig(false);
-        ProjectStateService.getService(this.project()).setManualRunConfig(false);
+        @NotNull final ProjectTransientSettingsData settingsData = ProjectTransientSettingsService.getService(this.project()).getState();
+        settingsData.setLoginLogoutPossible(false);
+        settingsData.setRunPossible(false);
     }
 
     @Override
@@ -28,9 +32,9 @@ public class ReloadFeedbackListener extends FeedbackListener {
             codeTesterToolWindowPanel.displayInfoMessage(true, toolWindowMessage);
             codeTesterToolWindowPanel.setCategories((Category[]) argumentOne);
         });
-
-        ProjectStateService.getService(this.project()).setManualLoginLogoutConfig(true);
-        ProjectStateService.getService(this.project()).setManualRunConfig(true);
+        @NotNull final ProjectTransientSettingsData settingsData = ProjectTransientSettingsService.getService(this.project()).getState();
+        settingsData.setLoginLogoutPossible(true);
+        settingsData.setRunPossible(true);
     }
 
 
@@ -40,7 +44,8 @@ public class ReloadFeedbackListener extends FeedbackListener {
             codeTesterToolWindowPanel.displayErrorMessage(true, toolWindowMessage);
         });
 
-        ProjectStateService.getService(this.project()).setManualLoginLogoutConfig(true);
-        ProjectStateService.getService(this.project()).setManualRunConfig(true);
+        @NotNull final ProjectTransientSettingsData settingsData = ProjectTransientSettingsService.getService(this.project()).getState();
+        settingsData.setLoginLogoutPossible(true);
+        settingsData.setRunPossible(true);
     }
 }

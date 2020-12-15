@@ -3,8 +3,8 @@ package de.fxnm.listener.connection.service;
 import com.intellij.notification.NotificationType;
 import com.intellij.openapi.project.Project;
 
+import de.fxnm.config.settings.project.transientstate.ProjectTransientSettingsService;
 import de.fxnm.listener.FeedbackListener;
-import de.fxnm.service.ProjectStateService;
 import de.fxnm.util.PopupNotifier;
 import icons.PluginIcons;
 
@@ -28,7 +28,7 @@ public class ConnectionFeedbackListener extends FeedbackListener {
             codeTesterToolWindowPanel.displayInfoMessage(true, toolWindowMessage);
         });
 
-        ProjectStateService.getService(this.project()).setServerConnectionEstablished(true, this.project());
+        ProjectTransientSettingsService.getService(this.project()).getState().setInternetConnectionToCodeTester(true);
     }
 
     @Override
@@ -42,6 +42,6 @@ public class ConnectionFeedbackListener extends FeedbackListener {
                 NotificationType.ERROR,
                 PluginIcons.STATUS_ERROR);
 
-        ProjectStateService.getService(this.project()).setServerConnectionEstablished(false, this.project());
+        ProjectTransientSettingsService.getService(this.project()).getState().setInternetConnectionToCodeTester(false);
     }
 }

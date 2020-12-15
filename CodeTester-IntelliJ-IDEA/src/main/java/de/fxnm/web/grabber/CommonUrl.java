@@ -2,7 +2,7 @@ package de.fxnm.web.grabber;
 
 import com.intellij.openapi.project.Project;
 
-import de.fxnm.config.settings.project.ProjectSettingsService;
+import de.fxnm.config.settings.project.persistentstate.ProjectPersistentSettingsService;
 
 public enum CommonUrl {
     BASE("/"),
@@ -19,6 +19,7 @@ public enum CommonUrl {
     }
 
     public String getUrl(final Project project) {
-        return ProjectSettingsService.getService(project).getState().getSelectedCodeTesterBaseURL() + this.url;
+        return ProjectPersistentSettingsService.getService(project).getState().getSelectedCodeTesterBaseURL()
+                + this.url;
     }
 }

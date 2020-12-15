@@ -9,7 +9,7 @@ import de.fxnm.toolwindow.CodeTesterToolWindowManager;
 
 import static de.fxnm.config.settings.password_safe.PasswordManager.LOGIN_KEY;
 
-public class LogOutRunnable extends BaseRunnable<LogOutRunnable> {
+public class LogOutRunnable extends BaseRunnable {
 
     public LogOutRunnable(final Project project) {
         super(project, LogOutRunnable.class);

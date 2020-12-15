@@ -2,8 +2,8 @@ package de.fxnm.listener.scanner.service;
 
 import com.intellij.openapi.project.Project;
 
+import de.fxnm.config.settings.project.transientstate.ProjectTransientSettingsService;
 import de.fxnm.listener.FeedbackListener;
-import de.fxnm.service.ProjectStateService;
 import de.fxnm.toolwindow.CodeTesterToolWindowManager;
 import de.fxnm.web.components.submission.SubmissionResult;
 
@@ -21,7 +21,7 @@ public class UiScannerFeedbackListener extends FeedbackListener {
         });
 
         CodeTesterToolWindowManager.getService(this.project()).newCheckRunning();
-        ProjectStateService.getService(this.project()).setManualLoginLogoutConfig(false);
+        ProjectTransientSettingsService.getService(this.project()).getState().setLoginLogoutPossible(false);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class UiScannerFeedbackListener extends FeedbackListener {
         });
 
         CodeTesterToolWindowManager.getService(this.project()).newCheckCompleted((SubmissionResult) argumentOne);
-        ProjectStateService.getService(this.project()).setManualLoginLogoutConfig(true);
+        ProjectTransientSettingsService.getService(this.project()).getState().setLoginLogoutPossible(true);
 
     }
 
@@ -43,6 +43,6 @@ public class UiScannerFeedbackListener extends FeedbackListener {
         });
 
         CodeTesterToolWindowManager.getService(this.project()).newCheckCompleted((SubmissionResult) argumentOne);
-        ProjectStateService.getService(this.project()).setManualLoginLogoutConfig(true);
+        ProjectTransientSettingsService.getService(this.project()).getState().setLoginLogoutPossible(true);
     }
 }

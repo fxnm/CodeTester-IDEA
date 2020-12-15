@@ -11,7 +11,7 @@ import de.fxnm.web.components.category.Category;
 import de.fxnm.web.grabber.CheckCategoryGrabber;
 import de.fxnm.web.grabber.access_token.AccessTokenGrabber;
 
-public class CategoryRunnable extends BaseRunnable<CategoryRunnable> {
+public class CategoryRunnable extends BaseRunnable {
 
     public CategoryRunnable(final Project project) {
         super(project, CategoryRunnable.class);

@@ -1,0 +1,35 @@
+package de.fxnm.config.settings.project.transientstate;
+
+import com.intellij.openapi.components.PersistentStateComponent;
+import com.intellij.openapi.components.ServiceManager;
+import com.intellij.openapi.components.State;
+import com.intellij.openapi.project.Project;
+import com.intellij.util.xmlb.XmlSerializerUtil;
+
+import org.jetbrains.annotations.NotNull;
+
+import de.fxnm.CodeTesterPlugin;
+import lombok.Getter;
+
+@State(
+        name = CodeTesterPlugin.PLUGIN_ID + "-ProjectTransientSettings"
+)
+public class ProjectTransientSettingsService implements PersistentStateComponent<ProjectTransientSettingsData> {
+
+    @Getter
+    private final ProjectTransientSettingsData projectPersistentSettingsData = new ProjectTransientSettingsData();
+
+    public static ProjectTransientSettingsService getService(final Project project) {
+        return ServiceManager.getService(project, ProjectTransientSettingsService.class);
+    }
+
+    @Override
+    public @NotNull ProjectTransientSettingsData getState() {
+        return this.projectPersistentSettingsData;
+    }
+
+    @Override
+    public void loadState(@NotNull final ProjectTransientSettingsData state) {
+        XmlSerializerUtil.copyBean(state, this.projectPersistentSettingsData);
+    }
+}

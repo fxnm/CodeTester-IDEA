@@ -10,10 +10,10 @@ import de.fxnm.listener.Listener
 import java.util.LinkedList
 import java.util.function.Consumer
 
-abstract class BaseRunnable<T>(private val project: Project, loggerClass: Class<T>) : Runnable {
+abstract class BaseRunnable(private val project: Project, loggerClass: Class<*>) : Runnable {
     private val listeners: MutableList<Listener> = LinkedList()
     private var finished = false
-    var LOG: Logger = Logger.getInstance(loggerClass)
+    private var LOG: Logger = Logger.getInstance(loggerClass)
 
     fun project(): Project {
         return project
@@ -97,10 +97,10 @@ abstract class BaseRunnable<T>(private val project: Project, loggerClass: Class<
         if (ApplicationManager.getApplication().isUnitTestMode) {
             return
         }
-        ProgressManager.getInstance().run(object : Backgroundable(project(), processName) {
+        ProgressManager.getInstance().run(object : Backgroundable(project(), processName, false) {
             override fun run(progressIndicator: ProgressIndicator) {
                 LOG.info("Started BackgroundLoadingBar ($processName)")
-                while (finished) {
+                while (!finished) {
                     progressIndicator.isIndeterminate = true
                 }
                 LOG.info("Finished BackgroundLoadingBar ($processName)")
