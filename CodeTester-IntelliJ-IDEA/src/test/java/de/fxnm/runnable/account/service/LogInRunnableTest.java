@@ -6,7 +6,11 @@ import org.junit.jupiter.api.Assertions;
 
 import de.fxnm.config.settings.password_safe.PasswordManager;
 import de.fxnm.listener.Listener;
+import de.fxnm.util.CodeTesterBundle;
 import de.fxnm.util.EnvironmentVariable;
+
+import static testing.Util.checkEquality;
+import static testing.Util.setEmptyCredentials;
 
 public class LogInRunnableTest extends LightJavaCodeInsightFixtureTestCase {
 
@@ -19,7 +23,13 @@ public class LogInRunnableTest extends LightJavaCodeInsightFixtureTestCase {
                 new Listener(this.getProject()) {
                     @Override
                     public void scanStartingImp(final String toolWindowMessage, final String backGroundProcessName, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
-
+                        checkEquality(
+                                CodeTesterBundle.message("plugin.runnable.login.start.toolWindowMessage"), toolWindowMessage,
+                                CodeTesterBundle.message("plugin.runnable.login.start.backgroundProcessName"), backGroundProcessName,
+                                null, argumentOne,
+                                null, argumentTwo,
+                                null, argumentThree
+                        );
                     }
 
                     @Override
@@ -29,12 +39,12 @@ public class LogInRunnableTest extends LightJavaCodeInsightFixtureTestCase {
 
                     @Override
                     public void scanFailedImp(final String toolWindowMessage, final Throwable throwable, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
-                        LogInRunnableTest.this.check("Invalid credentials", toolWindowMessage,
+                        checkEquality(
+                                "Invalid credentials", toolWindowMessage,
                                 null, argumentOne,
                                 null, argumentTwo,
                                 null, argumentThree
                         );
-
                     }
                 });
 
@@ -49,7 +59,13 @@ public class LogInRunnableTest extends LightJavaCodeInsightFixtureTestCase {
                 new Listener(this.getProject()) {
                     @Override
                     public void scanStartingImp(final String toolWindowMessage, final String backGroundProcessName, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
-
+                        checkEquality(
+                                CodeTesterBundle.message("plugin.runnable.login.start.toolWindowMessage"), toolWindowMessage,
+                                CodeTesterBundle.message("plugin.runnable.login.start.backgroundProcessName"), backGroundProcessName,
+                                null, argumentOne,
+                                null, argumentTwo,
+                                null, argumentThree
+                        );
                     }
 
                     @Override
@@ -59,7 +75,12 @@ public class LogInRunnableTest extends LightJavaCodeInsightFixtureTestCase {
 
                     @Override
                     public void scanFailedImp(final String toolWindowMessage, final Throwable throwable, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
-
+                        checkEquality(
+                                "Invalid credentials", toolWindowMessage,
+                                null, argumentOne,
+                                null, argumentTwo,
+                                null, argumentThree
+                        );
                     }
                 }
         );
@@ -74,7 +95,13 @@ public class LogInRunnableTest extends LightJavaCodeInsightFixtureTestCase {
                 new Listener(this.getProject()) {
                     @Override
                     public void scanStartingImp(final String toolWindowMessage, final String backGroundProcessName, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
-
+                        checkEquality(
+                                CodeTesterBundle.message("plugin.runnable.login.start.toolWindowMessage"), toolWindowMessage,
+                                CodeTesterBundle.message("plugin.runnable.login.start.backgroundProcessName"), backGroundProcessName,
+                                null, argumentOne,
+                                null, argumentTwo,
+                                null, argumentThree
+                        );
                     }
 
                     @Override
@@ -84,7 +111,12 @@ public class LogInRunnableTest extends LightJavaCodeInsightFixtureTestCase {
 
                     @Override
                     public void scanFailedImp(final String toolWindowMessage, final Throwable throwable, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
-
+                        checkEquality(
+                                "Invalid credentials", toolWindowMessage,
+                                null, argumentOne,
+                                null, argumentTwo,
+                                null, argumentThree
+                        );
                     }
                 }
         );
@@ -99,12 +131,24 @@ public class LogInRunnableTest extends LightJavaCodeInsightFixtureTestCase {
                 new Listener(this.getProject()) {
                     @Override
                     public void scanStartingImp(final String toolWindowMessage, final String backGroundProcessName, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
-
+                        checkEquality(
+                                CodeTesterBundle.message("plugin.runnable.login.start.toolWindowMessage"), toolWindowMessage,
+                                CodeTesterBundle.message("plugin.runnable.login.start.backgroundProcessName"), backGroundProcessName,
+                                null, argumentOne,
+                                null, argumentTwo,
+                                null, argumentThree
+                        );
                     }
 
                     @Override
                     public void scanCompletedImp(final String toolWindowMessage, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
-
+                        checkEquality(
+                                CodeTesterBundle.message("plugin.runnable.login.finished.previous.toolWindowMessage"),
+                                toolWindowMessage,
+                                null, argumentOne,
+                                null, argumentTwo,
+                                null, argumentThree
+                        );
                     }
 
                     @Override
@@ -124,7 +168,13 @@ public class LogInRunnableTest extends LightJavaCodeInsightFixtureTestCase {
                 new Listener(this.getProject()) {
                     @Override
                     public void scanStartingImp(final String toolWindowMessage, final String backGroundProcessName, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
-
+                        checkEquality(
+                                CodeTesterBundle.message("plugin.runnable.login.start.toolWindowMessage"), toolWindowMessage,
+                                CodeTesterBundle.message("plugin.runnable.login.start.backgroundProcessName"), backGroundProcessName,
+                                null, argumentOne,
+                                null, argumentTwo,
+                                null, argumentThree
+                        );
                     }
 
                     @Override
@@ -134,7 +184,12 @@ public class LogInRunnableTest extends LightJavaCodeInsightFixtureTestCase {
 
                     @Override
                     public void scanFailedImp(final String toolWindowMessage, final Throwable throwable, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
-
+                        checkEquality(
+                                "Invalid credentials", toolWindowMessage,
+                                null, argumentOne,
+                                null, argumentTwo,
+                                null, argumentThree
+                        );
                     }
                 }
         );
@@ -149,7 +204,13 @@ public class LogInRunnableTest extends LightJavaCodeInsightFixtureTestCase {
                 new Listener(this.getProject()) {
                     @Override
                     public void scanStartingImp(final String toolWindowMessage, final String backGroundProcessName, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
-
+                        checkEquality(
+                                CodeTesterBundle.message("plugin.runnable.login.start.toolWindowMessage"), toolWindowMessage,
+                                CodeTesterBundle.message("plugin.runnable.login.start.backgroundProcessName"), backGroundProcessName,
+                                null, argumentOne,
+                                null, argumentTwo,
+                                null, argumentThree
+                        );
                     }
 
                     @Override
@@ -159,7 +220,12 @@ public class LogInRunnableTest extends LightJavaCodeInsightFixtureTestCase {
 
                     @Override
                     public void scanFailedImp(final String toolWindowMessage, final Throwable throwable, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
-
+                        checkEquality(
+                                "Invalid credentials", toolWindowMessage,
+                                null, argumentOne,
+                                null, argumentTwo,
+                                null, argumentThree
+                        );
                     }
                 }
         );
@@ -174,12 +240,23 @@ public class LogInRunnableTest extends LightJavaCodeInsightFixtureTestCase {
                 new Listener(this.getProject()) {
                     @Override
                     public void scanStartingImp(final String toolWindowMessage, final String backGroundProcessName, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
-
+                        checkEquality(
+                                CodeTesterBundle.message("plugin.runnable.login.start.toolWindowMessage"), toolWindowMessage,
+                                CodeTesterBundle.message("plugin.runnable.login.start.backgroundProcessName"), backGroundProcessName,
+                                null, argumentOne,
+                                null, argumentTwo,
+                                null, argumentThree
+                        );
                     }
 
                     @Override
                     public void scanCompletedImp(final String toolWindowMessage, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
-
+                        checkEquality(
+                                CodeTesterBundle.message("plugin.runnable.login.finished.withUserInput.toolWindowMessage"), toolWindowMessage,
+                                null, argumentOne,
+                                null, argumentTwo,
+                                null, argumentThree
+                        );
                     }
 
                     @Override
@@ -194,18 +271,6 @@ public class LogInRunnableTest extends LightJavaCodeInsightFixtureTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        PasswordManager.store(PasswordManager.LOGIN_KEY, NOTHING, NOTHING);
-        PasswordManager.store(PasswordManager.TEST_LOGIN_KEY, NOTHING, NOTHING);
+        setEmptyCredentials();
     }
-
-    private void check(final Object... objects) {
-        if (objects.length % 2 != 0) {
-            Assertions.fail("Invalid amount of Assertion Arguments");
-        }
-
-        for (int i = 0; i < objects.length; i += 2) {
-            Assertions.assertEquals(objects[i], objects[i + 1]);
-        }
-    }
-
 }
