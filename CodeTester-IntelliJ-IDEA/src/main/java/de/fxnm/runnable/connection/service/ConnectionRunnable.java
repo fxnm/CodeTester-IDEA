@@ -32,7 +32,7 @@ public class ConnectionRunnable extends BaseRunnable {
 
             super.finishedRunnable(CodeTesterBundle.message("plugin.runnable.connection.finished.loggerMessage"),
                     CodeTesterBundle.message("plugin.runnable.connection.finished.toolWindowMessage"));
-        } catch (final IOException e) {
+        } catch (final Throwable e) {
             super.failedRunnable(CodeTesterBundle.message("plugin.runnable.connection.failed.throwable.loggerMessage"),
                     CodeTesterBundle.message("plugin.runnable.connection.failed.throwable.toolWindowMessage"),
                     e,
@@ -43,6 +43,7 @@ public class ConnectionRunnable extends BaseRunnable {
     public boolean checkConnectionStatus() throws IOException {
         final URL url = new URL(CommonUrl.BASE.getUrl(this.project()));
         final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.disconnect();
         return connection.getResponseCode() == HttpURLConnection.HTTP_OK;
     }
 }

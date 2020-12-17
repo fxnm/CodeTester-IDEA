@@ -2,7 +2,6 @@ package de.fxnm.runnable.account.service;
 
 import com.github.hypfvieh.util.StringUtil;
 import com.intellij.credentialStore.Credentials;
-import com.intellij.testFramework.fixtures.LightJavaCodeInsightFixtureTestCase;
 
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
@@ -11,11 +10,11 @@ import de.fxnm.config.settings.password_safe.PasswordManager;
 import de.fxnm.exceptions.PasswordSafeException;
 import de.fxnm.listener.Listener;
 import de.fxnm.util.CodeTesterBundle;
+import testing.TestingBase;
 
 import static testing.Util.checkEquality;
-import static testing.Util.setEmptyCredentials;
 
-public class LogOutRunnableTest extends LightJavaCodeInsightFixtureTestCase {
+public class LogOutRunnableTest extends TestingBase {
 
     private LogOutRunnable logOutRunnable;
 
@@ -91,11 +90,5 @@ public class LogOutRunnableTest extends LightJavaCodeInsightFixtureTestCase {
         Assertions.assertThrows(PasswordSafeException.class, () -> {
             @NotNull final Credentials c = PasswordManager.retrieve(PasswordManager.LOGIN_KEY);
         });
-    }
-
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        setEmptyCredentials();
     }
 }

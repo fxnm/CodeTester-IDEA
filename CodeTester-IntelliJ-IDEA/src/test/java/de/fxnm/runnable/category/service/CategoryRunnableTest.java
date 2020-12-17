@@ -1,7 +1,5 @@
 package de.fxnm.runnable.category.service;
 
-import com.intellij.testFramework.fixtures.LightJavaCodeInsightFixtureTestCase;
-
 import org.junit.jupiter.api.Assertions;
 
 import de.fxnm.config.settings.password_safe.PasswordManager;
@@ -9,11 +7,11 @@ import de.fxnm.listener.Listener;
 import de.fxnm.util.CodeTesterBundle;
 import de.fxnm.util.EnvironmentVariable;
 import de.fxnm.web.components.category.Category;
+import testing.TestingBase;
 
 import static testing.Util.checkEquality;
-import static testing.Util.setEmptyCredentials;
 
-public class CategoryRunnableTest extends LightJavaCodeInsightFixtureTestCase {
+public class CategoryRunnableTest extends TestingBase {
 
     private CategoryRunnable categoryRunnable;
 
@@ -33,7 +31,7 @@ public class CategoryRunnableTest extends LightJavaCodeInsightFixtureTestCase {
 
             @Override
             public void scanCompletedImp(final String toolWindowMessage, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
-                Assertions.fail();
+                fail();
             }
 
             @Override
@@ -89,11 +87,5 @@ public class CategoryRunnableTest extends LightJavaCodeInsightFixtureTestCase {
         });
 
         this.categoryRunnable.run();
-    }
-
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        setEmptyCredentials();
     }
 }

@@ -1,7 +1,6 @@
 package fxnm.config.password_safe;
 
 import com.intellij.credentialStore.Credentials;
-import com.intellij.testFramework.fixtures.LightJavaCodeInsightFixtureTestCase;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.jupiter.api.Assertions;
@@ -9,11 +8,12 @@ import org.junit.jupiter.api.Assertions;
 import de.fxnm.config.settings.password_safe.Key;
 import de.fxnm.config.settings.password_safe.PasswordManager;
 import de.fxnm.exceptions.PasswordSafeException;
+import testing.TestingBase;
 
 import static de.fxnm.config.settings.password_safe.PasswordManager.LOGIN_KEY;
 import static de.fxnm.config.settings.password_safe.PasswordManager.TEST_LOGIN_KEY;
 
-public class PasswordManagerTest extends LightJavaCodeInsightFixtureTestCase {
+public class PasswordManagerTest extends TestingBase {
 
     private static final String NOTHING = " ";
     private static String RANDOM_PASSWORD = NOTHING;
@@ -53,8 +53,6 @@ public class PasswordManagerTest extends LightJavaCodeInsightFixtureTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        PasswordManager.store(LOGIN_KEY, NOTHING, NOTHING);
-        PasswordManager.store(TEST_LOGIN_KEY, NOTHING, NOTHING);
 
         RANDOM_USERNAME = RandomStringUtils.randomAlphanumeric(10);
         RANDOM_PASSWORD = RandomStringUtils.randomAlphanumeric(10);

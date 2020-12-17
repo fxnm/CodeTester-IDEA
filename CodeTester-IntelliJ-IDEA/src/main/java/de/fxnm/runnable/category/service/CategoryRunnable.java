@@ -32,7 +32,7 @@ public class CategoryRunnable extends BaseRunnable {
                     CodeTesterBundle.message("plugin.runnable.category.finished.toolWindowMessage"),
                     categories);
 
-        } catch (final IOException | InternetConnectionException | PasswordSafeException e) {
+        } catch (final Throwable e) {
             super.failedRunnable(CodeTesterBundle.message("plugin.runnable.category.failed.loggerMessage"),
                     CodeTesterBundle.message("plugin.runnable.category.failed.toolWindowMessage"),
                     e);

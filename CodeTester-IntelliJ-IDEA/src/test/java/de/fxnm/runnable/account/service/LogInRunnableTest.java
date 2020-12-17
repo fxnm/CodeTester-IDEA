@@ -1,18 +1,14 @@
 package de.fxnm.runnable.account.service;
 
-import com.intellij.testFramework.fixtures.LightJavaCodeInsightFixtureTestCase;
-
-import org.junit.jupiter.api.Assertions;
-
 import de.fxnm.config.settings.password_safe.PasswordManager;
 import de.fxnm.listener.Listener;
 import de.fxnm.util.CodeTesterBundle;
 import de.fxnm.util.EnvironmentVariable;
+import testing.TestingBase;
 
 import static testing.Util.checkEquality;
-import static testing.Util.setEmptyCredentials;
 
-public class LogInRunnableTest extends LightJavaCodeInsightFixtureTestCase {
+public class LogInRunnableTest extends TestingBase {
 
     private static final String NOTHING = " ";
     private LogInRunnable logInRunnable;
@@ -34,7 +30,7 @@ public class LogInRunnableTest extends LightJavaCodeInsightFixtureTestCase {
 
                     @Override
                     public void scanCompletedImp(final String toolWindowMessage, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
-                        Assertions.fail();
+                        fail();
                     }
 
                     @Override
@@ -70,7 +66,7 @@ public class LogInRunnableTest extends LightJavaCodeInsightFixtureTestCase {
 
                     @Override
                     public void scanCompletedImp(final String toolWindowMessage, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
-                        Assertions.fail();
+                        fail();
                     }
 
                     @Override
@@ -106,7 +102,7 @@ public class LogInRunnableTest extends LightJavaCodeInsightFixtureTestCase {
 
                     @Override
                     public void scanCompletedImp(final String toolWindowMessage, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
-                        Assertions.fail();
+                        fail();
                     }
 
                     @Override
@@ -153,7 +149,7 @@ public class LogInRunnableTest extends LightJavaCodeInsightFixtureTestCase {
 
                     @Override
                     public void scanFailedImp(final String toolWindowMessage, final Throwable throwable, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
-                        Assertions.fail();
+                        fail();
                     }
                 }
         );
@@ -179,7 +175,7 @@ public class LogInRunnableTest extends LightJavaCodeInsightFixtureTestCase {
 
                     @Override
                     public void scanCompletedImp(final String toolWindowMessage, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
-                        Assertions.fail();
+                        fail();
                     }
 
                     @Override
@@ -215,7 +211,7 @@ public class LogInRunnableTest extends LightJavaCodeInsightFixtureTestCase {
 
                     @Override
                     public void scanCompletedImp(final String toolWindowMessage, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
-                        Assertions.fail();
+                        fail();
                     }
 
                     @Override
@@ -261,16 +257,10 @@ public class LogInRunnableTest extends LightJavaCodeInsightFixtureTestCase {
 
                     @Override
                     public void scanFailedImp(final String toolWindowMessage, final Throwable throwable, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
-                        Assertions.fail();
+                        fail();
                     }
                 }
         );
         this.logInRunnable.run();
-    }
-
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        setEmptyCredentials();
     }
 }
