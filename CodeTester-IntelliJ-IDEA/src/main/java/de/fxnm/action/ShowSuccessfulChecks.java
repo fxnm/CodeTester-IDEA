@@ -21,7 +21,8 @@ public class ShowSuccessfulChecks extends BaseToggleAction {
 
         this.project(event).ifPresent(project -> {
             try {
-                returnValue.set(ProjectPersistentSettingsService.getService(project).getState().getDisplaySuccessfulChecks());
+                returnValue.set(ProjectPersistentSettingsService.getService(project).getState()
+                        .getDisplaySuccessfulChecks());
             } catch (final Throwable e) {
                 LOG.error(CodeTesterBundle.message("plugin.action.showSuccessfulChecks.actionFailed"),
                         e);

@@ -10,7 +10,6 @@ import de.fxnm.config.settings.project.transientstate.ProjectTransientSettingsDa
 import de.fxnm.config.settings.project.transientstate.ProjectTransientSettingsService;
 import de.fxnm.service.AccountService;
 import de.fxnm.toolwindow.ToolWindowAccess;
-import de.fxnm.ui.settings.SettingsMenuPanel;
 import de.fxnm.util.CodeTesterBundle;
 import icons.PluginIcons;
 
@@ -45,7 +44,8 @@ public class Login extends BaseAction {
                 super.update(event);
 
                 final Presentation presentation = event.getPresentation();
-                @NotNull final ProjectTransientSettingsData settingsData = ProjectTransientSettingsService.getService(project).getState();
+                @NotNull final ProjectTransientSettingsData settingsData
+                        = ProjectTransientSettingsService.getService(project).getState();
 
                 presentation.setEnabled(settingsData.getInternetConnectionToCodeTester()
                         && settingsData.getLoginLogoutPossible());

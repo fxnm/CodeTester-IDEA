@@ -37,6 +37,7 @@ import io.sentry.protocol.SentryId;
 
 public class SentryErrorReporter extends ErrorReportSubmitter {
 
+    private static final String DEFAULT_VALUE = "UNKNOWN";
     private static final Logger LOG = Logger.getInstance(SentryErrorReporter.class);
 
     @Override
@@ -51,7 +52,7 @@ public class SentryErrorReporter extends ErrorReportSubmitter {
     }
 
     @Override
-    public boolean submit(@NotNull final IdeaLoggingEvent[] events,
+    public boolean submit(@NotNull final IdeaLoggingEvent @NotNull [] events,
                           @Nullable final String additionalInfo,
                           @NotNull final Component parentComponent,
                           @NotNull final Consumer<SubmittedReportInfo> consumer) {
@@ -81,11 +82,11 @@ public class SentryErrorReporter extends ErrorReportSubmitter {
                 event.setMessage(message);
 
                 final Properties properties = System.getProperties();
-                event.setTag("JDK", properties.getProperty("java.runtime.version", "unknown"));
-                event.setTag("VM", properties.getProperty("java.vm.name", "unknown"));
-                event.setTag("OS", properties.getProperty("os.name", "unknown"));
-                event.setTag("Architecture", properties.getProperty("os.arch", "unknown"));
-                event.setTag("MachineId", properties.getProperty("io.netty.machineId", "unknown"));
+                event.setTag("JDK", properties.getProperty("java.runtime.version", DEFAULT_VALUE));
+                event.setTag("VM", properties.getProperty("java.vm.name", DEFAULT_VALUE));
+                event.setTag("OS", properties.getProperty("os.name", DEFAULT_VALUE));
+                event.setTag("Architecture", properties.getProperty("os.arch", DEFAULT_VALUE));
+                event.setTag("MachineId", properties.getProperty("io.netty.machineId", DEFAULT_VALUE));
 
 
                 event.setTag("Last Action", IdeaLogger.ourLastActionId);

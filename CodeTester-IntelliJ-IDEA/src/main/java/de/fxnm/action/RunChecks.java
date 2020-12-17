@@ -20,7 +20,8 @@ public class RunChecks extends BaseAction {
 
     @Override
     public void actionPerformed(@NotNull final AnActionEvent event) {
-        final Category category = ToolWindowAccess.getFromToolWindowPanel(ToolWindowAccess.toolWindow(event.getProject()),
+        final Category category = ToolWindowAccess.getFromToolWindowPanel(
+                ToolWindowAccess.toolWindow(event.getProject()),
                 CodeTesterToolWindowPanel::getCurrentSelectedCategory, new Category(-1, null));
 
         if (category.getId() == -1) {
