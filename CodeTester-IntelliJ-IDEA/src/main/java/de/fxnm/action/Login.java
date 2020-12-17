@@ -10,6 +10,7 @@ import de.fxnm.config.settings.project.transientstate.ProjectTransientSettingsDa
 import de.fxnm.config.settings.project.transientstate.ProjectTransientSettingsService;
 import de.fxnm.service.AccountService;
 import de.fxnm.toolwindow.ToolWindowAccess;
+import de.fxnm.ui.settings.SettingsMenuPanel;
 import de.fxnm.util.CodeTesterBundle;
 import icons.PluginIcons;
 

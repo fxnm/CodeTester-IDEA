@@ -7,6 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import de.fxnm.runnable.BaseRunnable;
+import de.fxnm.util.CodeTesterBundle;
 import de.fxnm.web.grabber.CommonUrl;
 
 public class ConnectionRunnable extends BaseRunnable {
@@ -17,19 +18,25 @@ public class ConnectionRunnable extends BaseRunnable {
 
     @Override
     public void run() {
-        super.startRunnable("Starting CodeTester Server Connection Check Runnable",
-                "Checking Server connection",
-                "Checking Server Connection...");
+        super.startRunnable(CodeTesterBundle.message("plugin.runnable.connection.start.loggerMessage"),
+                CodeTesterBundle.message("plugin.runnable.connection.start.toolWindowMessage"),
+                CodeTesterBundle.message("plugin.runnable.connection.start.backgroundProcessName"));
         try {
             if (!this.checkConnectionStatus()) {
-                super.failedRunnable("Server Connection Check Failed", "Server Connection Failed, try it again later");
+                super.failedRunnable(CodeTesterBundle.message("plugin.runnable.connection.failed.noConnection.loggerMessage"),
+                        CodeTesterBundle.message("plugin.runnable.connection.failed.noConnection.toolWindowMessage"),
+                        null,
+                        CodeTesterBundle.message("plugin.runnable.connection.failed.noConnection.notificationMessage"));
                 return;
             }
 
-            super.finishedRunnable("Server Connection Check successful and Runnable finished", "Server Connection established");
+            super.finishedRunnable(CodeTesterBundle.message("plugin.runnable.connection.finished.loggerMessage"),
+                    CodeTesterBundle.message("plugin.runnable.connection.finished.toolWindowMessage"));
         } catch (final IOException e) {
-            super.failedRunnable("Server Connection Check Runnable Failed",
-                    "Server connection failed, try it again later", e);
+            super.failedRunnable(CodeTesterBundle.message("plugin.runnable.connection.failed.throwable.loggerMessage"),
+                    CodeTesterBundle.message("plugin.runnable.connection.failed.throwable.toolWindowMessage"),
+                    e,
+                    CodeTesterBundle.message("plugin.runnable.connection.failed.throwable.notificationMessage"));
         }
     }
 

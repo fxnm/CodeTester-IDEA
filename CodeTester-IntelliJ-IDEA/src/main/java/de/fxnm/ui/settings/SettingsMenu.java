@@ -1,6 +1,7 @@
 package de.fxnm.ui.settings;
 
 import com.intellij.credentialStore.Credentials;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.options.SearchableConfigurable;
 import com.intellij.openapi.project.Project;
 
@@ -13,8 +14,11 @@ import javax.swing.JComponent;
 
 import de.fxnm.config.settings.password_safe.PasswordManager;
 import de.fxnm.exceptions.PasswordSafeException;
+import de.fxnm.util.CodeTesterBundle;
 
 public class SettingsMenu implements SearchableConfigurable {
+
+    private static final Logger LOG = Logger.getInstance(SettingsMenu.class);
 
     private final Project project;
     private final SettingsMenuPanel settingsMenuPanel;
@@ -26,7 +30,7 @@ public class SettingsMenu implements SearchableConfigurable {
 
     @Override
     public String getDisplayName() {
-        return "CodeTester Settings";
+        return CodeTesterBundle.message("plugin.ui.settingsMenu.name");
     }
 
 
@@ -35,7 +39,8 @@ public class SettingsMenu implements SearchableConfigurable {
         try {
             final Credentials credentials = PasswordManager.retrieve(PasswordManager.LOGIN_KEY);
             this.settingsMenuPanel.setCurrentLoggedInAccount(Objects.requireNonNull(credentials.getUserName()));
-        } catch (final PasswordSafeException ignored) {
+        } catch (final PasswordSafeException exception) {
+            LOG.info("Settings Menu get current userer failed");
         }
         return this.settingsMenuPanel.creatUI();
     }
@@ -52,6 +57,6 @@ public class SettingsMenu implements SearchableConfigurable {
 
     @Override
     public @NotNull String getId() {
-        return "CodeTesterSettings";
+        return CodeTesterBundle.message("plugin.ui.settingsMenu.id");
     }
 }

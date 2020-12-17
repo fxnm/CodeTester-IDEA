@@ -4,6 +4,7 @@ import com.intellij.openapi.project.Project;
 
 import de.fxnm.config.settings.project.transientstate.ProjectTransientSettingsService;
 import de.fxnm.listener.FeedbackListener;
+import de.fxnm.service.CategoryService;
 
 public class LogInFeedbackListener extends FeedbackListener {
 
@@ -25,6 +26,7 @@ public class LogInFeedbackListener extends FeedbackListener {
         });
 
         ProjectTransientSettingsService.getService(this.project()).getState().setLoggedIn(true);
+        CategoryService.getService(this.project()).asyncReloadCategories();
     }
 
     @Override

@@ -2,6 +2,7 @@ package de.fxnm.config;
 
 import com.intellij.openapi.project.Project;
 
+import de.fxnm.ui.CategoryComboBox;
 import de.fxnm.web.components.category.Category;
 import de.fxnm.web.components.submission.SubmissionResult;
 
@@ -15,5 +16,5 @@ public interface ConfigurationListener {
 
     void removeCheckResult();
 
-    void setCategories(Category[] categories);
+    CategoryComboBox getCategories();
 }

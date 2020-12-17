@@ -6,6 +6,7 @@ import com.intellij.openapi.project.Project;
 import de.fxnm.config.settings.password_safe.PasswordManager;
 import de.fxnm.runnable.BaseRunnable;
 import de.fxnm.toolwindow.CodeTesterToolWindowManager;
+import de.fxnm.util.CodeTesterBundle;
 
 import static de.fxnm.config.settings.password_safe.PasswordManager.LOGIN_KEY;
 
@@ -18,11 +19,15 @@ public class LogOutRunnable extends BaseRunnable {
     @Override
     public void run() {
         try {
-            super.startRunnable("Starting LogOutRunnable", "Trying to logout", "Logging out...");
+            super.startRunnable(CodeTesterBundle.message("plugin.runnable.logout.start.loggerMessage"),
+                    CodeTesterBundle.message("plugin.runnable.logout.start.toolWindowMessage"),
+                    CodeTesterBundle.message("plugin.runnable.logout.start.backgroundProcessName"));
             this.logout();
-            super.finishedRunnable("Logout was successful and Runnable finished", "Logout Successful");
+            super.finishedRunnable(CodeTesterBundle.message("plugin.runnable.logout.finished.loggerMessage"),
+                    CodeTesterBundle.message("plugin.runnable.logout.finished.toolWindowMessage"));
         } catch (final Throwable e) {
-            this.failedRunnable("LogOut Runnable Failed", "Logout Failed, try it again later", e);
+            this.failedRunnable(CodeTesterBundle.message("plugin.runnable.logout.failed.loggerMessage"),
+                    CodeTesterBundle.message("plugin.runnable.logout.failed.toolWindowMessage"), e);
         }
     }
 

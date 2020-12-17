@@ -19,6 +19,7 @@ import de.fxnm.ui.errormessage.ErrorMessagePanel;
 import de.fxnm.ui.util.ActionToolBar;
 import de.fxnm.ui.util.HorizontalComponentBox;
 import de.fxnm.ui.util.TitleRow;
+import de.fxnm.util.CodeTesterBundle;
 import de.fxnm.web.components.submission.success.Check;
 import de.fxnm.web.components.submission.success.CheckFileData;
 import icons.PluginIcons;
@@ -30,7 +31,6 @@ public class ResultToolWindowPanel {
     private static final Logger LOG = Logger.getInstance(ResultToolWindowPanel.class);
 
     private static final String RESULT_ACTION_GROUP = "CodeTesterResultActions";
-    private static String ID_RESULT_TOOL_WINDOW = "Not set yet!";
     private final ToolWindowBase baseToolWindow;
     private final JLabel checkResultIcon = new JLabel();
     private final JLabel checkResultStatus = new JLabel();
@@ -44,13 +44,13 @@ public class ResultToolWindowPanel {
     public ResultToolWindowPanel(final ResultTreeNode resultTreeNode) {
         this.resultTreeNode = resultTreeNode;
         this.check = resultTreeNode.getCheck();
-        ID_RESULT_TOOL_WINDOW = "CodeTesterResultWindow-" + this.check.getCheckName();
 
         this.addCheckErrorMessages();
 
-        this.baseToolWindow = new ToolWindowBase(
+        this.baseToolWindow = new ToolWindowBase(ResultToolWindowPanel.class,
                 this.createTopLineComponent(),
-                new ActionToolBar(ID_RESULT_TOOL_WINDOW, RESULT_ACTION_GROUP, false),
+                new ActionToolBar("CodeTesterResultWindow-" + this.check.getCheckName(),
+                        RESULT_ACTION_GROUP, false),
                 this.createCenterComponent(),
                 this.errorMessagePanel.get()
         );
@@ -60,34 +60,8 @@ public class ResultToolWindowPanel {
         return this.baseToolWindow.getPanel();
     }
 
-    public void addCheckErrorMessages() {
-        for (final String error : this.check.getErrorMessage()) {
-            if (!error.equals("")) {
-                this.errorMessagePanel.addErrorMessage(
-                        new ErrorMessage(PluginIcons.STATUS_ERROR, error, false));
-            }
-        }
-
-        if (!this.check.getErrorOutput().equals("")) {
-            this.errorMessagePanel.addErrorMessage(new ErrorMessage(
-                    PluginIcons.STATUS_ERROR, this.check.getErrorOutput(), false));
-        }
-    }
-
     public String getCheckName() {
         return this.check.getCheckName();
-    }
-
-    public JComponent createCenterComponent() {
-        final JTabbedPane tabbedPane = new JBTabbedPane(BOTTOM);
-
-        tabbedPane.addTab("Check", this.getInAndOutputResults());
-
-        for (final CheckFileData c : this.check.getFiles()) {
-            tabbedPane.add(c.getName(), TitleRow.Companion.getTitleRow(c.getName(),
-                    new CheckExtraDataPanel(c).asJComponent()));
-        }
-        return tabbedPane;
     }
 
     public void addThisContent(final Content content) {
@@ -98,7 +72,8 @@ public class ResultToolWindowPanel {
         this.checkInOutResultPanel.removeLines();
         this.changeIcon(PluginIcons.UNKNOWN);
         this.errorMessagePanel.removeAllErrorMessages();
-        this.checkResultStatus.setText("UNKNOWN");
+        this.checkResultStatus.setText(
+                CodeTesterBundle.message("plugin.toolWindow.resultPanel.status.unknown.status"));
     }
 
     public void newCheckCompleted(final Check check) {
@@ -111,21 +86,52 @@ public class ResultToolWindowPanel {
 
     public void newCheckCompletedNotInSet() {
         this.errorMessagePanel.addErrorMessage(new ErrorMessage(PluginIcons.STATUS_ERROR,
-                "This Check is not in the newest set of check results", false));
-        this.checkResultStatus.setText("UNKNOWN - NOT IN TEST SET");
+                CodeTesterBundle.message("plugin.toolWindow.resultPanel.status.notInSet.message"),
+                false));
+        this.checkResultStatus.setText(
+                CodeTesterBundle.message("plugin.toolWindow.resultPanel.status.notInSet.status"));
         this.changeIcon(PluginIcons.WARNING);
     }
 
     public void newCheckFailed() {
         this.errorMessagePanel.addErrorMessage(new ErrorMessage(PluginIcons.STATUS_ERROR,
-                "Check Run Failed, the results of this check might not be right", false));
+                CodeTesterBundle.message("plugin.toolWindow.resultPanel.status.failed.message"),
+                false));
     }
 
     public Content getAsContent() {
         if (this.content == null) {
-            LOG.error("Access con Content but Content is null", this.getCheckName());
+            LOG.error(String.format(CodeTesterBundle.message("plugin.toolWindow.resultPanel.content.isNull"),
+                    this.getCheckName()));
         }
         return this.content;
+    }
+
+    private JComponent createCenterComponent() {
+        final JTabbedPane tabbedPane = new JBTabbedPane(BOTTOM);
+
+        tabbedPane.addTab(CodeTesterBundle.message("plugin.toolWindow.resultPanel.checkTab.name"),
+                this.getInAndOutputResults());
+
+        for (final CheckFileData c : this.check.getFiles()) {
+            tabbedPane.add(c.getName(), TitleRow.Companion.getTitleRow(c.getName(),
+                    new CheckExtraDataPanel(c).asJComponent()));
+        }
+        return tabbedPane;
+    }
+
+    private void addCheckErrorMessages() {
+        for (final String error : this.check.getErrorMessage()) {
+            if (!error.equals("")) {
+                this.errorMessagePanel.addErrorMessage(
+                        new ErrorMessage(PluginIcons.STATUS_ERROR, error, false));
+            }
+        }
+
+        if (!this.check.getErrorOutput().equals("")) {
+            this.errorMessagePanel.addErrorMessage(new ErrorMessage(
+                    PluginIcons.STATUS_ERROR, this.check.getErrorOutput(), false));
+        }
     }
 
     private JComponent createTopLineComponent() {
@@ -144,7 +150,8 @@ public class ResultToolWindowPanel {
     private JPanel getInAndOutputResults() {
         this.checkInOutResultPanel = new CheckInOutResultPanel();
         this.checkInOutResultPanel.addLines(this.check.getOutput());
-        return TitleRow.Companion.getTitleRow("In and Output",
+        return TitleRow.Companion.getTitleRow(
+                CodeTesterBundle.message("plugin.toolWindow.resultPanel.inAndOutTab.Title"),
                 this.checkInOutResultPanel.getComponent());
     }
 
@@ -152,7 +159,8 @@ public class ResultToolWindowPanel {
         this.checkResultIcon.setIcon(icon);
 
         if (this.content == null) {
-            LOG.error("No Content available for " + this.getCheckName());
+            LOG.error(CodeTesterBundle.message("plugin.toolWindow.resultPanel.content.isNull"),
+                    this.getCheckName());
             return;
         } else {
             this.content.setIcon(icon);

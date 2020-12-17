@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 import de.fxnm.exceptions.InternetConnectionException;
 import de.fxnm.exceptions.PasswordSafeException;
 import de.fxnm.runnable.BaseRunnable;
+import de.fxnm.util.CodeTesterBundle;
 import de.fxnm.web.components.submission.SubmissionResult;
 import de.fxnm.web.grabber.SubmitionGrabber;
 import de.fxnm.web.grabber.access_token.AccessTokenGrabber;
@@ -37,15 +38,21 @@ public class CheckFilesRunnable extends BaseRunnable {
     @Override
     public void run() {
         try {
-            this.startRunnable("Starting Check Files Runnable", "Started checking files", "Checking files...");
+            this.startRunnable(CodeTesterBundle.message("plugin.runnable.checkFiles.start.loggerMessage"),
+                    CodeTesterBundle.message("plugin.runnable.checkFiles.start.toolWindowMessage"),
+                    CodeTesterBundle.message("plugin.runnable.checkFiles.start.backgroundProcessName"));
 
             final List<PsiFile> files = this.findAllPsiFilesFor(this.getChildrenFiles(this.getProjectRootFiles(this.project())));
 
             final SubmissionResult scanResult = this.processFilesForModuleInfoAndScan(files, this.checkID);
 
-            this.finishedRunnable("Check Files was successful and Runnable finished", "Check files successful", scanResult);
+            this.finishedRunnable(CodeTesterBundle.message("plugin.runnable.checkFiles.finished.loggerMessage"),
+                    CodeTesterBundle.message("plugin.runnable.checkFiles.finished.toolWindowMessage"),
+                    scanResult);
         } catch (final Throwable e) {
-            this.failedRunnable("Check File Runnable Failed", "Check files failed try it again later", e);
+            this.failedRunnable(CodeTesterBundle.message("plugin.runnable.checkFiles.failed.loggerMessage"),
+                    CodeTesterBundle.message("plugin.runnable.checkFiles.failed.toolWindowMessage"),
+                    e);
         }
     }
 

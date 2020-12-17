@@ -38,7 +38,7 @@ public class ConnectionFeedbackListener extends FeedbackListener {
         });
 
         PopupNotifier.notify(this.project(), toolWindowMessage, "",
-                "Please check your internet connection to fully use this plugin!",
+                (String) argumentOne,
                 NotificationType.ERROR,
                 PluginIcons.STATUS_ERROR);
 

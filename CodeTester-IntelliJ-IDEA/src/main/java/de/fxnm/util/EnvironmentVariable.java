@@ -17,7 +17,8 @@ public final class EnvironmentVariable {
     public static String get(final String name) {
         final String returnValue = System.getenv(name);
         if (returnValue == null) {
-            LOG.error("Did not find a System Environment Variable for " + name);
+            LOG.error(String.format(CodeTesterBundle.message("plugin.util.environmentVariable.get.fail"),
+                    name));
         }
         return returnValue;
     }

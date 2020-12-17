@@ -30,7 +30,7 @@ public class ReloadFeedbackListener extends FeedbackListener {
     public void scanCompletedImp(final String toolWindowMessage, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
         this.toolWindow().ifPresent(codeTesterToolWindowPanel -> {
             codeTesterToolWindowPanel.displayInfoMessage(true, toolWindowMessage);
-            codeTesterToolWindowPanel.setCategories((Category[]) argumentOne);
+            codeTesterToolWindowPanel.getCategories().setNewCategories((Category[]) argumentOne);
         });
         @NotNull final ProjectTransientSettingsData settingsData = ProjectTransientSettingsService.getService(this.project()).getState();
         settingsData.setLoginLogoutPossible(true);
@@ -42,6 +42,7 @@ public class ReloadFeedbackListener extends FeedbackListener {
     public void scanFailedImp(final String toolWindowMessage, final Throwable throwable, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
         this.toolWindow().ifPresent(codeTesterToolWindowPanel -> {
             codeTesterToolWindowPanel.displayErrorMessage(true, toolWindowMessage);
+            codeTesterToolWindowPanel.getCategories().setReloadFailed();
         });
 
         @NotNull final ProjectTransientSettingsData settingsData = ProjectTransientSettingsService.getService(this.project()).getState();

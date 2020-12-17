@@ -22,6 +22,7 @@ public class LogOutFeedbackListener extends FeedbackListener {
     @Override
     public void scanCompletedImp(final String toolWindowMessage, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
         this.toolWindow().ifPresent(codeTesterToolWindowPanel -> {
+            codeTesterToolWindowPanel.getCategories().removeCategories();
             codeTesterToolWindowPanel.displayInfoMessage(true, toolWindowMessage);
         });
 

@@ -7,6 +7,7 @@ import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.progress.Task.Backgroundable
 import com.intellij.openapi.project.Project
 import de.fxnm.listener.Listener
+import de.fxnm.util.CodeTesterBundle
 import java.util.LinkedList
 import java.util.function.Consumer
 
@@ -52,7 +53,7 @@ abstract class BaseRunnable(private val project: Project, loggerClass: Class<*>)
         argumentThree: Any? = null
     ) {
         if (finished) {
-            LOG.info("Finished or failed Callable got already executed")
+            LOG.info(CodeTesterBundle.message("plugin.runnable.baseRunnable.alreadyFinished"))
             return
         }
 
@@ -76,7 +77,7 @@ abstract class BaseRunnable(private val project: Project, loggerClass: Class<*>)
         argumentThree: Any? = null
     ) {
         if (finished) {
-            LOG.info("Finished or failed Callable got already executed")
+            LOG.info(CodeTesterBundle.message("plugin.runnable.baseRunnable.alreadyFinished"))
             return
         }
 
@@ -99,11 +100,23 @@ abstract class BaseRunnable(private val project: Project, loggerClass: Class<*>)
         }
         ProgressManager.getInstance().run(object : Backgroundable(project(), processName, false) {
             override fun run(progressIndicator: ProgressIndicator) {
-                LOG.info("Started BackgroundLoadingBar ($processName)")
+                LOG.info(
+                    String.format(
+                        CodeTesterBundle.message(
+                            "plugin.runnable.baseRunnable.backgroundLoadingBar.start"
+                        ), processName
+                    )
+                )
                 while (!finished) {
                     progressIndicator.isIndeterminate = true
                 }
-                LOG.info("Finished BackgroundLoadingBar ($processName)")
+                LOG.info(
+                    String.format(
+                        CodeTesterBundle.message(
+                            "plugin.runnable.baseRunnable.backgroundLoadingBar.finished"
+                        ), processName
+                    )
+                )
             }
         })
     }

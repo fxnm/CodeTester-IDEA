@@ -1,6 +1,7 @@
 package de.fxnm.toolwindow;
 
 import com.intellij.openapi.components.ServiceManager;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowFactory;
@@ -16,6 +17,7 @@ import de.fxnm.util.CodeTesterBundle;
 
 public class CodeTesterToolWindowFactory implements ToolWindowFactory {
 
+    private static final Logger LOG = Logger.getInstance(CodeTesterToolWindowFactory.class);
     private static final int MAX_LENGTH = 10;
 
     public static CodeTesterToolWindowFactory getService(final Project project) {
@@ -56,6 +58,9 @@ public class CodeTesterToolWindowFactory implements ToolWindowFactory {
 
         toolWindow.getContentManager().addContent(content);
         toolWindow.getContentManager().setSelectedContent(content);
+
+        LOG.info(String.format(CodeTesterBundle.message("plugin.toolWindow.factory.createNewResultToolWindow"),
+                resultTreeNode.getCheck().getCheckName()));
 
         return resultToolWindowPanel;
     }

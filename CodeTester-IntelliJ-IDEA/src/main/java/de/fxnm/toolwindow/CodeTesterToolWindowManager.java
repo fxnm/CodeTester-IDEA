@@ -10,9 +10,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import de.fxnm.exceptions.ToolWindowException;
 import de.fxnm.result.tree.ResultTreeNode;
-import de.fxnm.toolwindow.main.toolwindow.CodeTesterToolWindowPanel;
 import de.fxnm.toolwindow.result.toolwindow.ResultToolWindowPanel;
+import de.fxnm.util.CodeTesterBundle;
 import de.fxnm.web.components.submission.SubmissionResult;
 import de.fxnm.web.components.submission.success.Check;
 import de.fxnm.web.components.submission.success.Successful;
@@ -35,38 +36,27 @@ public class CodeTesterToolWindowManager {
     public void showResultToolWindow(final ResultTreeNode resultTreeNode) {
         if (this.containsCheckResult(resultTreeNode)) {
             this.setFocusOn(resultTreeNode);
+            LOG.info(CodeTesterBundle.message("plugin.toolWindow.manager.showResultToolWindow.alreadyExist"));
             return;
         }
 
 
-        this.resultWindowList.add(
-                CodeTesterToolWindowFactory.getService(this.project).createResultToolWindow(
-                        ToolWindowAccess.toolWindow(this.project),
-                        resultTreeNode));
+        this.resultWindowList.add(CodeTesterToolWindowFactory.getService(this.project).createResultToolWindow(
+                ToolWindowAccess.toolWindow(this.project),
+                resultTreeNode));
+        LOG.info(CodeTesterBundle.message("plugin.toolWindow.manager.showResultToolWindow.newToolWindow"));
     }
 
     public void showCheckSummaryToolWindow() {
-        final Content[] toolWindows = ToolWindowAccess.toolWindow(this.project).getContentManager().getContents();
-        if (toolWindows.length == 0) {
-            LOG.error("ContentManger Content Array is Empty");
-            return;
+        try {
+            final Content content = ToolWindowAccess.getCodeTesterToolWindow(
+                    ToolWindowAccess.toolWindow(this.project));
+
+            ToolWindowAccess.toolWindow(this.project).getContentManager().setSelectedContent(content);
+            LOG.info(CodeTesterBundle.message("plugin.toolWindow.manager.showCheckSummaryToolWindow.success"));
+        } catch (final ToolWindowException e) {
+            LOG.error(e);
         }
-
-
-        Content homeScreen = null;
-        for (final Content toolWindow : toolWindows) {
-            if (toolWindow.getComponent() instanceof CodeTesterToolWindowPanel) {
-                homeScreen = toolWindow;
-                break;
-            }
-        }
-
-        if (homeScreen == null) {
-            LOG.error("ContentManager does not contain CheckSummaryToolWindow");
-            return;
-        }
-
-        ToolWindowAccess.toolWindow(this.project).getContentManager().setSelectedContent(homeScreen);
     }
 
     public boolean existResultToolWindows() {
@@ -77,17 +67,21 @@ public class CodeTesterToolWindowManager {
 
         for (final ResultToolWindowPanel resultToolWindowPanel : this.resultWindowList) {
             if (this.isOpenToolWindow(resultToolWindowPanel)) {
-                ToolWindowAccess.toolWindow(this.project).getContentManager().removeContent(resultToolWindowPanel.getAsContent(), true);
+                ToolWindowAccess.toolWindow(this.project).getContentManager()
+                        .removeContent(resultToolWindowPanel.getAsContent(), true);
             }
         }
 
         this.resultWindowList.clear();
+
+        LOG.info(CodeTesterBundle.message("plugin.toolWindow.manager.closeResultToolWindows.success"));
     }
 
     public void newCheckRunning() {
         for (final ResultToolWindowPanel resultToolWindowPanel : this.resultWindowList) {
             resultToolWindowPanel.newCheckIsRunning();
         }
+        LOG.info(CodeTesterBundle.message("plugin.toolWindow.manager.newCheckRunning"));
     }
 
     public void newCheckCompleted(final SubmissionResult submissionResult) {
@@ -95,11 +89,14 @@ public class CodeTesterToolWindowManager {
             for (final ResultToolWindowPanel resultToolWindowPanel : this.resultWindowList) {
                 resultToolWindowPanel.newCheckFailed();
             }
+
+            LOG.info("plugin.toolWindow.manager.newCheckCompleted.error");
             return;
         }
 
 
-        final List<Content> openToolWindows = Arrays.asList(ToolWindowAccess.toolWindow(this.project).getContentManager().getContents());
+        final List<Content> openToolWindows = Arrays.asList(ToolWindowAccess.toolWindow(this.project)
+                .getContentManager().getContents());
         final List<Check> successful = new LinkedList<>(Arrays.asList(((Successful) submissionResult).getChecks()));
 
         for (final ResultToolWindowPanel resultToolWindowPanel : this.resultWindowList) {
@@ -110,7 +107,9 @@ public class CodeTesterToolWindowManager {
             }
 
             final String checkName = resultToolWindowPanel.getCheckName();
-            final List<Check> checkList = successful.stream().filter(c -> c.getCheckName().equals(checkName)).collect(Collectors.toList());
+            final List<Check> checkList = successful.stream()
+                    .filter(c -> c.getCheckName().equals(checkName))
+                    .collect(Collectors.toList());
 
             if (checkList.isEmpty()) {
                 resultToolWindowPanel.newCheckCompletedNotInSet();
@@ -119,10 +118,10 @@ public class CodeTesterToolWindowManager {
 
             if (checkList.size() != 1) {
                 for (final Check c : checkList) {
-                    c.addNewErrorMessage("In the check results were several tests with the same name.\n"
-                            + " Therefore, this test may differ from the actual value.");
+                    c.addNewErrorMessage(CodeTesterBundle.message("plugin.toolWindow.manager.newCheckCompleted.sameChecks.errorMessage"));
                 }
-                LOG.error("The ResultCheckSet does contain multiple checks with the same id for a CheckResultPanel", Arrays.deepToString(new List[]{checkList}));
+                LOG.error(CodeTesterBundle.message("plugin.toolWindow.manager.newCheckCompleted.sameChecks"),
+                        Arrays.deepToString(new List[]{checkList}));
             }
 
             resultToolWindowPanel.newCheckCompleted(checkList.get(0));
@@ -169,6 +168,7 @@ public class CodeTesterToolWindowManager {
             return;
         }
 
-        ToolWindowAccess.toolWindow(this.project).getContentManager().setSelectedContent(resultToolWindowPanel.getAsContent());
+        ToolWindowAccess.toolWindow(this.project).getContentManager()
+                .setSelectedContent(resultToolWindowPanel.getAsContent());
     }
 }

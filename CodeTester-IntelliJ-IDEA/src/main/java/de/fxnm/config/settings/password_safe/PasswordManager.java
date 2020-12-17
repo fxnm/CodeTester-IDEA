@@ -10,6 +10,7 @@ import com.intellij.openapi.diagnostic.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import de.fxnm.exceptions.PasswordSafeException;
+import de.fxnm.util.CodeTesterBundle;
 
 import static de.fxnm.CodeTesterPlugin.PLUGIN_ID;
 
@@ -29,7 +30,7 @@ public final class PasswordManager {
         final Credentials credentials = new Credentials(username, password);
 
         PasswordSafe.getInstance().set(credentialAttributes, credentials);
-        LOG.info("Stored password:" + key);
+        LOG.info(CodeTesterBundle.message("plugin.settings.passwordManager.store.successful") + key);
     }
 
     public static @NotNull Credentials retrieve(final Key key) throws PasswordSafeException {
@@ -38,12 +39,11 @@ public final class PasswordManager {
         final Credentials credentials = PasswordSafe.getInstance().get(credentialAttributes);
 
         if (credentials == null) {
-            LOG.info("Received Credentials are null from " + key);
-            throw new PasswordSafeException(
-                    "Password Manager Password retrieved failed, cause received credentials are null with key:" + key);
+            LOG.info(CodeTesterBundle.message("plugin.settings.passwordManager.retrieve.nullReturn") + key);
+            throw new PasswordSafeException(CodeTesterBundle.message("plugin.settings.passwordManager.retrieve.nullReturnException")+ key);
         }
 
-        LOG.info("Successfully received credentials with the key:" + key);
+        LOG.info(CodeTesterBundle.message("plugin.settings.passwordManager.retrieve.successful") + key);
 
         return credentials;
     }
@@ -52,7 +52,7 @@ public final class PasswordManager {
         final CredentialAttributes credentialAttributes = createCredentialAttributes(key);
         PasswordSafe.getInstance().set(credentialAttributes, null);
 
-        LOG.info("Successfully removed credentials with the key:" + key);
+        LOG.info(CodeTesterBundle.message("plugin.settings.passwordManager.remove.successful") + key);
     }
 
     private static CredentialAttributes createCredentialAttributes(final Key key) {

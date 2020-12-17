@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.concurrent.Future;
 
 import de.fxnm.runnable.BaseRunnable;
+import de.fxnm.util.CodeTesterBundle;
 
 public abstract class BaseService {
 
@@ -47,7 +48,8 @@ public abstract class BaseService {
 
             this.progress.forEach(task -> {
                 task.first.cancel(false);
-                task.second.failedRunnable("Forced Stopped Runnable", "Force stopped running task");
+                task.second.failedRunnable(CodeTesterBundle.message("plugin.service.baseService.stopChecks.loggerMessage"),
+                        CodeTesterBundle.message("plugin.service.baseService.stopChecks.toolWindowMessage"));
 
             });
             this.progress.clear();

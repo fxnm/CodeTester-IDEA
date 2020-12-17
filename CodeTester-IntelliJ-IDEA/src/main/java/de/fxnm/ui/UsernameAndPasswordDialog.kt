@@ -1,4 +1,4 @@
-package de.fxnm.ui.account
+package de.fxnm.ui
 
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.util.Pair
@@ -12,7 +12,7 @@ import javax.swing.JTextField
  * Class that creates a LoginFrom that contains username and password.
  * This is done by extending the DialogWrapper.
  */
-class LoginDialog(title: String) : DialogWrapper(true) {
+class UsernameAndPasswordDialog(title: String) : DialogWrapper(true) {
 
     private val userNameField = JTextField()
     private val passwordField = JPasswordField()
@@ -21,10 +21,10 @@ class LoginDialog(title: String) : DialogWrapper(true) {
 
     override fun createCenterPanel(): JComponent {
         return panel {
-            row(CodeTesterBundle.message("plugin.runner.LoginRunner.UserName")) {
+            row(CodeTesterBundle.message("plugin.ui.usernameAndPassword.username")) {
                 component(userNameField)
             }
-            row(CodeTesterBundle.message("plugin.runner.LoginRunner.Password")) {
+            row(CodeTesterBundle.message("plugin.ui.usernameAndPassword.password")) {
                 component(passwordField)
             }
         }

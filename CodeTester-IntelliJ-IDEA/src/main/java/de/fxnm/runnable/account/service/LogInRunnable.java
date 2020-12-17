@@ -15,7 +15,7 @@ import de.fxnm.exceptions.InternetConnectionException;
 import de.fxnm.exceptions.PasswordSafeException;
 import de.fxnm.exceptions.UsernamePasswordException;
 import de.fxnm.runnable.BaseRunnable;
-import de.fxnm.ui.account.LoginDialog;
+import de.fxnm.ui.UsernameAndPasswordDialog;
 import de.fxnm.util.CodeTesterBundle;
 import de.fxnm.web.components.token.LoginToken;
 import de.fxnm.web.grabber.access_token.LoginTokenGrabber;
@@ -37,10 +37,13 @@ public class LogInRunnable extends BaseRunnable {
 
     @Override
     public void run() {
-        super.startRunnable("Starting LogInRunnable", "Trying to login", "Logging in...");
+        super.startRunnable(CodeTesterBundle.message("plugin.runnable.login.start.loggerMessage"),
+                CodeTesterBundle.message("plugin.runnable.login.start.toolWindowMessage"),
+                CodeTesterBundle.message("plugin.runnable.login.start.backgroundProcessName"));
 
         if (this.loginAbleWithSaveCredentials) {
-            super.finishedRunnable("Login successful with previously stored credentials", "Login Successful");
+            super.finishedRunnable(CodeTesterBundle.message("plugin.runnable.login.finished.previous.loggerMessage"),
+                    CodeTesterBundle.message("plugin.runnable.login.finished.previous.toolWindowMessage"));
             return;
         }
 
@@ -51,18 +54,20 @@ public class LogInRunnable extends BaseRunnable {
                 PasswordManager.store(LOGIN_KEY, cred.first, cred.second);
 
                 if (!this.tryLoginWithPasswordSafeCredentials()) {
-                    this.failedRunnable("LogIn Runnable Failed due to invalid user input credentials",
-                            "Invalid credentials");
+                    this.failedRunnable(CodeTesterBundle.message("plugin.runnable.login.failed.invalidUserInput.loggerMessage"),
+                            CodeTesterBundle.message("plugin.runnable.login.failed.invalidUserInput.toolWindowMessage"));
                     return;
                 }
 
-                super.finishedRunnable("LogIn Runnable was successful and Runnable finished", "Login successful");
+                super.finishedRunnable(CodeTesterBundle.message("plugin.runnable.login.finished.withUserInput.loggerMessage"),
+                        CodeTesterBundle.message("plugin.runnable.login.finished.withUserInput.toolWindowMessage"));
 
             } catch (final UsernamePasswordException e) {
-                super.failedRunnable("LogIn Runnable Failed due to no user provided credentials", "Login abort, try "
-                        + "it again later");
+                super.failedRunnable(CodeTesterBundle.message("plugin.runnable.login.failed.noUserInput.loggerMessage"),
+                        CodeTesterBundle.message("plugin.runnable.login.failed.noUserInput.toolWindowMessage"));
             } catch (final Throwable e) {
-                super.failedRunnable("LogIn Runnable Failed", "Login Failed, try it again later", e);
+                super.failedRunnable(CodeTesterBundle.message("plugin.runnable.login.failed.throwable.loggerMessage"),
+                        CodeTesterBundle.message("plugin.runnable.login.failed.throwable.toolWindowMessage"), e);
             }
         });
     }
@@ -89,11 +94,11 @@ public class LogInRunnable extends BaseRunnable {
             return new Pair<>(credentials.getUserName(), credentials.getPasswordAsString());
         }
 
-        final LoginDialog dialogWrapper = new LoginDialog(CodeTesterBundle.message("plugin.runner.LoginRunner.Title"));
+        final UsernameAndPasswordDialog dialogWrapper = new UsernameAndPasswordDialog(CodeTesterBundle.message("plugin.runnable.login.loginForm.title"));
         if (dialogWrapper.showAndGet()) {
             return dialogWrapper.getUserInput();
         } else {
-            throw new UsernamePasswordException("No Username and Password provided");
+            throw new UsernamePasswordException(CodeTesterBundle.message("plugin.runnable.login.loginForm.noDataProvided"));
         }
     }
 }
