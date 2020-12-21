@@ -1,8 +1,7 @@
 ![CodeTester-IDEA Logo](https://github.com/fxnm/CodeTester-IDEA/blob/development/docs/images/logo/CodeTester-IDEA.png)
 
 # CodeTester-IDEA
-![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/fxnm/CodeTester-IDEA/Master%20Build/master?label=Master%20Build)
-![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/fxnm/CodeTester-IDEA/Development%20Build/development?label=Development%20Build)
+![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/fxnm/CodeTester-IDEA/Main%20Build/main?label=Main%20Build)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/fxnm/CodeTester-IDEA)
 ![GitHub](https://img.shields.io/github/license/fxnm/CodeTester-IDEA)
 
@@ -32,10 +31,7 @@ For detailed documentation visit the wiki.
 Any comments, feature requests or bug reports are very welcomed.
 Please use the [issue tracker](https://github.com/fxnm/CodeTester-IDEA/issues) to report them.
 
-#### Development 
-
-Please be aware in 'development' are the latest changes and in 'master' is the latest release.  
-So only create 'Pull Requests' against development 
+#### Development
 
 The pre-requirements for the plug-in are JDK 1.8.x and Git. Please make sure your ```JAVA_HOME``` environment variable is set correctly before invoking Gradle.
 
