@@ -166,6 +166,9 @@ jobs:
           path: ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
 
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
       # Set environment variables
       - name: Export Properties
         id: properties
@@ -183,9 +186,6 @@ jobs:
         with:
           path: ${{ steps.properties.outputs.pluginVerifierHomeDir }}/ides
           key: ${{ runner.os }}-plugin-verifier-${{ steps.properties.outputs.ideVersions }}
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
 
       # Run IntelliJ Plugin Verifier action using GitHub Action
       - name: Verify Plugin
