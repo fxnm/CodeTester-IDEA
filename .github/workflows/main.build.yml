@@ -123,6 +123,7 @@ jobs:
           echo "::set-output name=name::$NAME"
           echo "::set-output name=changelog::$CHANGELOG"
           echo "::set-output name=artifact::$ARTIFACT"
+
       # Build artifact using buildPlugin Gradle task
       - name: Build Plugin
         run: ./gradlew buildPlugin
@@ -132,7 +133,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: plugin-artifact
-          path: ./build/distributions/${{ needs.build.outputs.artifact }}
+          path: ./CodeTester-IntelliJ-IDEA/build/distributions/${{ needs.build.outputs.artifact }}
 
   # Verify built plugin using IntelliJ Plugin Verifier tool
   # Requires build job to be passed
@@ -223,7 +224,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: v${{ needs.build.outputs.version }}
-          release_name: v${{ needs.build.outputs.version }}
+          release_name: Version ${{ needs.build.outputs.version }}
           body: ${{ needs.build.outputs.changelog }}
           draft: true
 
