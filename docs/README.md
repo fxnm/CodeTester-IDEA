@@ -1,4 +1,4 @@
-![CodeTester-IDEA Logo](https://github.com/fxnm/CodeTester-IDEA/blob/development/docs/images/logo/CodeTester-IDEA.png)
+![CodeTester-IDEA Logo](https://github.com/fxnm/CodeTester-IDEA/blob/main/docs/images/logo/CodeTester-IDEA.png)
 
 # CodeTester-IDEA
 ![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/fxnm/CodeTester-IDEA/Main%20Build/main?label=Main%20Build)
