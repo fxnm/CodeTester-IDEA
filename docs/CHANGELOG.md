@@ -4,6 +4,8 @@
 
 ### Added
 
+- Added missing test logger settings
+
 ### Changed
 
 - Changed IDE Testing Version to 2020.3
