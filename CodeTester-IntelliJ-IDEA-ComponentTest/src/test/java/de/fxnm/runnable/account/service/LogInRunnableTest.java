@@ -1,12 +1,13 @@
 package de.fxnm.runnable.account.service;
 
+import de.fxnm.TestingBase;
 import de.fxnm.config.settings.password_safe.PasswordManager;
 import de.fxnm.listener.Listener;
+import de.fxnm.runnable.account.service.LogInRunnable;
 import de.fxnm.util.CodeTesterBundle;
 import de.fxnm.util.EnvironmentVariable;
-import testing.TestingBase;
 
-import static testing.Util.checkEquality;
+import static de.fxnm.Util.checkEquality;
 
 public class LogInRunnableTest extends TestingBase {
 

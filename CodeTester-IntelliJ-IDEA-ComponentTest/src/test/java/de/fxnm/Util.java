@@ -1,4 +1,4 @@
-package testing;
+package de.fxnm;
 
 import org.jetbrains.annotations.TestOnly;
 import org.junit.jupiter.api.Assertions;

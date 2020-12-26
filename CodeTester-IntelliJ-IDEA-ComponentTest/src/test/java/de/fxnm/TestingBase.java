@@ -1,4 +1,4 @@
-package testing;
+package de.fxnm;
 
 import com.google.gson.Gson;
 import com.intellij.testFramework.fixtures.LightJavaCodeInsightFixtureTestCase;

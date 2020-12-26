@@ -2,14 +2,14 @@ package de.fxnm.runnable.category.service;
 
 import org.junit.jupiter.api.Assertions;
 
+import de.fxnm.TestingBase;
 import de.fxnm.config.settings.password_safe.PasswordManager;
 import de.fxnm.listener.Listener;
 import de.fxnm.util.CodeTesterBundle;
 import de.fxnm.util.EnvironmentVariable;
 import de.fxnm.web.components.category.Category;
-import testing.TestingBase;
 
-import static testing.Util.checkEquality;
+import static de.fxnm.Util.checkEquality;
 
 public class CategoryRunnableTest extends TestingBase {
 

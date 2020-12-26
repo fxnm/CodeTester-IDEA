@@ -1,14 +1,14 @@
-package fxnm.config.password_safe;
+package de.fxnm.config.password_safe;
 
 import com.intellij.credentialStore.Credentials;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.jupiter.api.Assertions;
 
+import de.fxnm.TestingBase;
 import de.fxnm.config.settings.password_safe.Key;
 import de.fxnm.config.settings.password_safe.PasswordManager;
 import de.fxnm.exceptions.PasswordSafeException;
-import testing.TestingBase;
 
 import static de.fxnm.config.settings.password_safe.PasswordManager.LOGIN_KEY;
 import static de.fxnm.config.settings.password_safe.PasswordManager.TEST_LOGIN_KEY;
@@ -27,7 +27,6 @@ public class PasswordManagerTest extends TestingBase {
     }
 
     public void testAddAnReceivePasswordsTestKey() throws PasswordSafeException {
-
         PasswordManager.store(TEST_LOGIN_KEY, RANDOM_USERNAME, RANDOM_PASSWORD);
 
         this.assertCredentials(TEST_LOGIN_KEY, RANDOM_USERNAME, RANDOM_PASSWORD);

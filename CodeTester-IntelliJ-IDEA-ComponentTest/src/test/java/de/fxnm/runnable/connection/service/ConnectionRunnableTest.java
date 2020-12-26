@@ -1,17 +1,14 @@
 package de.fxnm.runnable.connection.service;
 
-import com.intellij.testFramework.fixtures.LightJavaCodeInsightFixtureTestCase;
-
-import org.jetbrains.annotations.NotNull;
-
-import de.fxnm.config.settings.project.persistentstate.ProjectPersistentSettingsData;
+import de.fxnm.TestingBase;
 import de.fxnm.config.settings.project.persistentstate.ProjectPersistentSettingsService;
 import de.fxnm.listener.Listener;
+import de.fxnm.runnable.connection.service.ConnectionRunnable;
 import de.fxnm.util.CodeTesterBundle;
 
-import static testing.Util.checkEquality;
+import static de.fxnm.Util.checkEquality;
 
-public class ConnectionRunnableTest extends LightJavaCodeInsightFixtureTestCase {
+public class ConnectionRunnableTest extends TestingBase {
 
     private ConnectionRunnable connectionRunnable;
 
@@ -66,7 +63,7 @@ public class ConnectionRunnableTest extends LightJavaCodeInsightFixtureTestCase 
 
             @Override
             public void scanCompletedImp(final String toolWindowMessage, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
-               fail();
+                fail();
             }
 
             @Override

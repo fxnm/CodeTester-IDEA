@@ -1,4 +1,4 @@
-package de.fxnm.runnable.account.service;
+package component.runnable.account.service;
 
 import com.github.hypfvieh.util.StringUtil;
 import com.intellij.credentialStore.Credentials;
@@ -6,13 +6,14 @@ import com.intellij.credentialStore.Credentials;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 
+import de.fxnm.TestingBase;
 import de.fxnm.config.settings.password_safe.PasswordManager;
 import de.fxnm.exceptions.PasswordSafeException;
 import de.fxnm.listener.Listener;
+import de.fxnm.runnable.account.service.LogOutRunnable;
 import de.fxnm.util.CodeTesterBundle;
-import testing.TestingBase;
 
-import static testing.Util.checkEquality;
+import static de.fxnm.Util.checkEquality;
 
 public class LogOutRunnableTest extends TestingBase {
 
