@@ -7,6 +7,7 @@
 ### Changed
 
 - Changed IDE Testing Version to 2020.3
+- Changed project structure, ui and component test moved to each new project 
 
 ### Fixed
 
