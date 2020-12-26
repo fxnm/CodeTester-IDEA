@@ -53,9 +53,9 @@ public class SentryErrorReporter extends ErrorReportSubmitter {
 
     @Override
     public boolean submit(@NotNull final IdeaLoggingEvent @NotNull [] events,
-                          @Nullable final String additionalInfo,
-                          @NotNull final Component parentComponent,
-                          @NotNull final Consumer<SubmittedReportInfo> consumer) {
+                        @Nullable final String additionalInfo,
+                        @NotNull final Component parentComponent,
+                        @NotNull final Consumer<? super SubmittedReportInfo> consumer) {
 
         final DataContext context = DataManager.getInstance().getDataContext(parentComponent);
         final Project project = CommonDataKeys.PROJECT.getData(context);
