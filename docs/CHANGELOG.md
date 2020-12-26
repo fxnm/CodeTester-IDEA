@@ -11,6 +11,7 @@
 
 ### Fixed
 
+- Fixed Plugin Icon size to big
 - Fixed data leak form open login connection
 
 ### Removed

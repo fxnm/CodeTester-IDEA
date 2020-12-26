@@ -6,7 +6,7 @@ import com.intellij.openapi.util.IconLoader;
 import javax.swing.Icon;
 
 public interface PluginIcons {
-    Icon PLUGIN_ICON = AllIcons.Modules.TestResourcesRoot;
+    Icon PLUGIN_ICON = IconLoader.getIcon("/META-INF/pluginIcon.svg", PluginIcons.class);
 
     Icon LOGIN_GREEN = IconLoader.getIcon("/de/fxnm/icons/login/status/LoginGreen.svg", PluginIcons.class);
     Icon LOGIN_RED = IconLoader.getIcon("/de/fxnm/icons/login/status/LoginRed.svg", PluginIcons.class);
