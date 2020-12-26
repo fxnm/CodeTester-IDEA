@@ -8,11 +8,14 @@
 
 ### Fixed
 
+- Fixed data leak form open login connection
+
 ### Removed
 
 ## [2.0.0]
 
 ### Added
+
 - Added Button in Check Result Tool windows to stop current running check
 - Added Button in Check Result Tool Windows to directly rerun the checks
 - Added AutoUpdate form open Check Result Tool Windows after a new Scan
@@ -40,11 +43,12 @@
 - Added Copy Button in the Check Result for each In- and Output Line
 
 ### Changed
+
 - Changed Login Dialog implementation
 - Changed ToolWindow Base and simplified the component structure
 - Migrated settings.gradle to Kotlin
-- Changed Feature Request Issue Template label  
-- Changed Multi Threading to Runnable and the corresponding Futures 
+- Changed Feature Request Issue Template label
+- Changed Multi Threading to Runnable and the corresponding Futures
 
 - Changed Login Dialog implementation
 - Changed ToolWindow Base and simplified the component structure
@@ -53,11 +57,12 @@
 - Changed Multi Threading to Runnable and the corresponding Futures
 
 ### Fixed
+
 - Fixed not submitting the newest version of a file
 - Fixed Removal of all open Check Result ToolWindows if user is logging out
 - Fixed Login Dialog and error if login was canceled
 - Fixed typos
-- Fixed not disabling logout action if CodeTester is running 
+- Fixed not disabling logout action if CodeTester is running
 - Fixed check result filtering after rerun
 
 - Fixed not submitting the newest version of a file
