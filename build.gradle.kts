@@ -60,15 +60,15 @@ subprojects {
     }
 
     // Set the compatibility versions to 1.8
-    tasks.withType<JavaCompile> {
-        options.encoding = "UTF-8"
-        sourceCompatibility = javaVersion
-        targetCompatibility = javaVersion
-    }
+    tasks {
+        withType<JavaCompile> {
+            options.encoding = "UTF-8"
+            sourceCompatibility = javaVersion
+            targetCompatibility = javaVersion
+        }
 
-    tasks.withType<KotlinCompile>().configureEach {
-        kotlinOptions {
-            jvmTarget = javaVersion
+        withType<KotlinCompile> {
+            kotlinOptions.jvmTarget = javaVersion
         }
     }
 
