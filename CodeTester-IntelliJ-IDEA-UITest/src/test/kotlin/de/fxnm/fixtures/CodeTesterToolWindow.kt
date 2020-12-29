@@ -42,7 +42,8 @@ open class CodeTesterExplorer(
 
     fun logout() {
         button(
-            byXpath("//div[@accessiblename='Logout' and @class='ActionButton' and @myaction='Login (Login in to the codetester)']")
+            byXpath("//div[@accessiblename='Logout' and @class='ActionButton' and @myaction='Login (Login in to the " + "codetester)']"),
+            Duration.ofSeconds(1)
         ).click()
     }
 

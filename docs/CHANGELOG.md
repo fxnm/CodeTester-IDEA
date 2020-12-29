@@ -15,6 +15,7 @@
 
 ### Fixed
 
+- Fixed Ui Test Bugs
 - Fixed Plugin Icon size to big
 - Fixed data leak form open login connection
 

@@ -1,7 +1,6 @@
 package de.fxnm.steps
 
 import com.intellij.remoterobot.stepsProcessing.step
-import com.intellij.remoterobot.utils.waitFor
 import de.fxnm.extensions.uiTest
 import de.fxnm.fixtures.codeTesterToolWindow
 import de.fxnm.fixtures.idea
@@ -26,13 +25,9 @@ class CodeTesterToolWindowSteps {
                                     pressOk()
                                 }
                             }
-
-                            waitFor {
-                                checkIfErrorMessageExists("Reload Successful")
-                            }
-
-                            closeToolWindow()
                         }
+
+                        rightClick()
                     }
                 }
             }

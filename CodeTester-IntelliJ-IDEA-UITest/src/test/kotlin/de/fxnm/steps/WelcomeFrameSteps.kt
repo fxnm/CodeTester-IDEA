@@ -2,7 +2,9 @@ package de.fxnm.steps
 
 import com.intellij.remoterobot.stepsProcessing.step
 import de.fxnm.extensions.uiTest
-import de.fxnm.fixtures.*
+import de.fxnm.fixtures.idea
+import de.fxnm.fixtures.newProjectWizard
+import de.fxnm.fixtures.welcomeFrame
 import java.nio.file.Path
 
 class WelcomeFrameSteps {
@@ -24,7 +26,8 @@ class WelcomeFrameSteps {
                         newProjectWizard {
                             step("Select Java $javaVersion Application") {
                                 selectProjectCategory("Java")
-                                selectProjectSDK(javaVersion)
+// Todo Not working properly if SDK Version is not available
+//                                selectProjectSDK(javaVersion)
                                 pressNext()
                             }
 

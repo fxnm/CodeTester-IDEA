@@ -2,9 +2,12 @@ package de.fxnm.fixtures
 
 import com.intellij.remoterobot.RemoteRobot
 import com.intellij.remoterobot.data.RemoteComponent
+import com.intellij.remoterobot.data.componentAs
 import com.intellij.remoterobot.fixtures.FixtureName
 import com.intellij.remoterobot.stepsProcessing.step
+import org.assertj.swing.fixture.JTextComponentFixture
 import java.time.Duration
+import javax.swing.JTextField
 
 
 fun RemoteRobot.loginDialogWizard(
@@ -29,10 +32,22 @@ open class LoginDialog(
 ) : DialogFixture(remoteRobot, remoteComponent) {
 
     fun enterUsername(username: String) {
-        textField("Username:").text = username
+        textField("Username:").apply {
+            // TODO: 29.12.2020 Change in a runJS
+            @Suppress("DEPRECATION")
+            execute {
+                JTextComponentFixture(robot, componentAs<JTextField>()).setText(username)
+            }
+        }
     }
 
     fun enterPassword(password: String) {
-        textField("Password:").text = password
+        textField("Password:").apply {
+            // TODO: 29.12.2020 Change in a runJS
+            @Suppress("DEPRECATION")
+            execute {
+                JTextComponentFixture(robot, componentAs<JTextField>()).setText(password)
+            }
+        }
     }
 }
