@@ -9,6 +9,7 @@
 
 ### Changed
 
+- Changed / Updated predefined run configurations
 - Changed Plugin Java Version to 11
 - Changed IDE Testing Version to 2020.3
 - Changed project structure, ui and component test moved to each new project 
