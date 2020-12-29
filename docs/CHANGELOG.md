@@ -4,6 +4,7 @@
 
 ### Added
 
+- Added Ui Testing to CI
 - Added missing test logger settings
 
 ### Changed

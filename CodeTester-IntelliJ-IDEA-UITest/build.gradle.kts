@@ -17,8 +17,9 @@ tasks {
         outputs.upToDateWhen { false }
 
         systemProperty("robot-server.port", remoteRobotPort)
+        systemProperty("junit.jupiter.extensions.autodetection.enabled", true)
 
-
-        useJUnitPlatform()
+        systemProperty("GRADLE_PROJECT", "CodeTester-IntelliJ-IDEA")
+        useJUnitPlatform {}
     }
 }
