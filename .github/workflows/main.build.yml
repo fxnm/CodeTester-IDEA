@@ -69,7 +69,7 @@ jobs:
   # Run Ui tests Gradle Task
   uiTest:
     name: Ui Test
-    needs: test
+    needs: gradleValidation
     runs-on: ubuntu-latest
     steps:
 
@@ -100,12 +100,8 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      # Run clean Gradle task
-      - name: Verify Plugin
-        run: ./gradlew clean
-
       # Run Ui Tests
-      - name: Run Linters and Test
+      - name: Run Ui Tests
         run: ./gradlew uiTest
         env:
           CodeTester_USERNAME: ${{ secrets.CodeTester_USERNAME }}
@@ -115,7 +111,7 @@ jobs:
   # Requires test job to be passed
   build:
     name: Build
-    needs: test
+    needs: [ test, uiTest ]
     runs-on: ubuntu-latest
     outputs:
       name: ${{ steps.properties.outputs.name }}
