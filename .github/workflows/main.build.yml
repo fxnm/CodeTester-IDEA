@@ -73,6 +73,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+      - name: Setup UiTest
+        run: sudo apt-get install xvfb libxrender1 libxtst6 libxi6
+
       # Setup Java 11 environment for the next steps
       - name: Setup Java
         uses: actions/setup-java@v1
@@ -101,8 +104,9 @@ jobs:
         run: chmod +x gradlew
 
       # Run Ui Tests
+      # todo NOT WORKING!
       - name: Run Ui Tests
-        run: ./gradlew uiTest
+        run: xvfb-run ./gradlew uiTest --info
         env:
           CodeTester_USERNAME: ${{ secrets.CodeTester_USERNAME }}
           CodeTester_PASSWORD: ${{ secrets.CODETESTER_PASSWORD }}
