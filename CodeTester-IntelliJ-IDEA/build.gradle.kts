@@ -66,6 +66,10 @@ tasks {
         systemProperty("robot-server.port", remoteRobotPort)
     }
 
+    downloadRobotServerPlugin {
+        version = "0.10.2"
+    }
+
     runPluginVerifier {
         ideVersions(pluginVerifierIdeVersions)
     }
