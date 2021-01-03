@@ -28,15 +28,16 @@ For detailed documentation visit the wiki.
 
 #### Bug Reports & Feature Requests
 
-Any comments, feature requests or bug reports are very welcomed.
-Please use the [issue tracker](https://github.com/fxnm/CodeTester-IDEA/issues) to report them.
+Any comments, feature requests or bug reports are very welcome. Please use
+the [issue tracker](https://github.com/fxnm/CodeTester-IDEA/issues) to report them.
 
 #### Development
 
-The pre-requirements for the plug-in are JDK 1.8.x and Git. Please make sure your ```JAVA_HOME``` environment variable is set correctly before invoking Gradle.
+Please see [CONTRIBUTING](https://github.com/fxnm/CodeTester-IDEA/blob/development/docs/CONTRIBUTING.md) for
+instructions.
 
-To debug, build and run the plug-in easily, import the plug-in into IntelliJ IDEA as a Gradle project.
 
 ## License
 
-This code is released under a MIT License, as specified in the accompanying [LICENSE FILE](https://github.com/fxnm/CodeTester-IDEA/blob/development/LICENSE)
+This code is released under a MIT License, as specified in the
+accompanying [LICENSE FILE](https://github.com/fxnm/CodeTester-IDEA/blob/development/LICENSE).
