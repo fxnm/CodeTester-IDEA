@@ -44,24 +44,29 @@ To send us a pull request, please:
    or use the predefined ``Run Unit Tests`` Task in you're IDE.
 
 4. Ensure local ui tests pass by running:
-
    ```
-   ./gralde uiTests
+   ./graldew uiTests
    ```
 
    or use the predefined ```Run Ui Tests`` Task in you're IDE.
 
-5. Add you're change log to the change log file in ``./docs/CHANGELOG.md`` . Change log entries should describe the
+5. Ensure local plugin Verifier task pass by running:
+   ```
+   ./gradlew CodeTester-IntelliJ-IDEA:runPluginVerifier
+   ```
+   or use the predefined ```Run Verifications``` Tasks in you're IDE.
+
+6. Add you're change log to the change log file in ``./docs/CHANGELOG.md`` . Change log entries should describe the
    change succinctly and may include Git-Flavored Markdown ([GFM](https://github.github.com/gfm/)). Reference the Github
    Issue # if relevant.
 
-6. Commit to your fork using clear commit messages. Again, reference the Issue # if relevant.
+7. Commit to your fork using clear commit messages. Again, reference the Issue # if relevant.
 
-7. Send us a pull request by completing the pull-request template.
+8. Send us a pull request by completing the pull-request template.
 
-8. Pay attention to any automated build failures reported in the pull request.
+9. Pay attention to any automated build failures reported in the pull request.
 
-9. Stay involved in the conversation.
+10. Stay involved in the conversation.
 
 ## Debugging / Running Locally
 
