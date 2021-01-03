@@ -5,6 +5,7 @@ import com.intellij.remoterobot.data.RemoteComponent
 import com.intellij.remoterobot.fixtures.FixtureName
 import com.intellij.remoterobot.search.locators.byXpath
 import com.intellij.remoterobot.stepsProcessing.step
+import com.intellij.remoterobot.utils.waitFor
 import java.time.Duration
 
 fun RemoteRobot.codeTesterToolWindow(
@@ -52,8 +53,9 @@ open class CodeTesterExplorer(
             byXpath("//div[@accessiblename='Executes the selected Test' and @class='ActionButton' and @myaction='Executes the selected Test (Executes the selected Test on your Code.)']")
         )
 
-        if (!button.isEnabled()) {
-            throw IllegalStateException("Run Button is not enabled")
+        waitFor(Duration.ofSeconds(5), errorMessage = "Run Button is not enabled") {
+            button.rightClick()
+            button.isEnabled()
         }
 
         button.click()
