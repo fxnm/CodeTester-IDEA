@@ -6,6 +6,7 @@ import com.intellij.openapi.diagnostic.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import de.fxnm.toolwindow.CodeTesterToolWindowManager;
+import de.fxnm.util.CodeTesterBundle;
 
 public class JumpToSummaryScreen extends BaseAction {
 
@@ -17,7 +18,7 @@ public class JumpToSummaryScreen extends BaseAction {
             try {
                 CodeTesterToolWindowManager.getService(project).showCheckSummaryToolWindow();
             } catch (final Throwable e) {
-                LOG.error("Jump to Summary Screen Action Failed", e);
+                LOG.error(CodeTesterBundle.message("plugin.action.jumpToSummaryScreen.actionFailed"), e);
             }
         });
     }
@@ -28,7 +29,7 @@ public class JumpToSummaryScreen extends BaseAction {
             try {
                 super.update(event);
             } catch (final Throwable e) {
-                LOG.error("Jump to Summary Screen Action Update Failed", e);
+                LOG.error(CodeTesterBundle.message("plugin.action.jumpToSummaryScreen.updateFailed"), e);
             }
         });
     }

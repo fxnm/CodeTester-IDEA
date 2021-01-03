@@ -9,6 +9,6 @@ public class Key {
 
     @Override
     public String toString() {
-        return this.keyValue;
+        return String.format("Key [%s]", this.keyValue);
     }
 }

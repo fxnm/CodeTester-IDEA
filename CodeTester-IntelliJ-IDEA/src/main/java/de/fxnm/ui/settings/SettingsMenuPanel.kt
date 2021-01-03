@@ -2,23 +2,28 @@ package de.fxnm.ui.settings
 
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.ComboBox
+import com.intellij.openapi.ui.popup.JBPopupFactory
 import com.intellij.ui.layout.panel
 import de.fxnm.config.settings.global.GlobalSettingsService
-import de.fxnm.config.settings.project.ProjectSettingsService
+import de.fxnm.config.settings.project.persistentstate.ProjectPersistentSettingsService
+import de.fxnm.util.CodeTesterBundle
+import java.awt.Dimension
 import java.util.LinkedList
+import javax.swing.JComponent
 import javax.swing.JPanel
 
 
-class SettingsMenuPanel(project: Project) {
+class SettingsMenuPanel(val project: Project) {
 
-    var currentLoggedInAccount: String = "Not Logged In"
+    var currentLoggedInAccount: String = CodeTesterBundle.message("plugin.ui.settingsMenuPanel.accountSettings.currentUser.none")
     private var codeTesterBaseURLs: MutableList<String> = LinkedList()
     private val currentSelectedCodeTesterBaseUrl: String
     var field: ComboBox<String> = ComboBox()
 
     init {
         codeTesterBaseURLs.addAll(GlobalSettingsService.getService().state?.codeTesterBaseURL!!)
-        currentSelectedCodeTesterBaseUrl = ProjectSettingsService.getService(project).state.selectedCodeTesterBaseURL
+        currentSelectedCodeTesterBaseUrl =
+            ProjectPersistentSettingsService.getService(project).state.selectedCodeTesterBaseURL
         if (!codeTesterBaseURLs.contains(currentSelectedCodeTesterBaseUrl)) {
             codeTesterBaseURLs.add(currentSelectedCodeTesterBaseUrl)
         }
@@ -30,32 +35,33 @@ class SettingsMenuPanel(project: Project) {
 
     fun creatUI(): JPanel {
         return panel {
-            titledRow("Account Settings") {
+            titledRow(CodeTesterBundle.message("plugin.ui.settingsMenuPanel.accountSettings.title")) {
                 row {
-                    label("Logged in Account:")
+                    label(CodeTesterBundle.message("plugin.ui.settingsMenuPanel.accountSettings.currentUser.title"))
                     label(currentLoggedInAccount)
                 }
                 row {
-                    label("Do not have an account?")
-                    browserLink("Sign Up", "https://codetester.ialistannen.de")
+                    label(CodeTesterBundle.message("plugin.ui.settingsMenuPanel.accountSettings.noAccount"))
+                    browserLink(CodeTesterBundle.message("plugin.ui.settingsMenuPanel.accountSettings.signUp"),
+                        ProjectPersistentSettingsService.getService(project).state.selectedCodeTesterBaseURL)
                 }
             }
 
-            titledRow("Code Tester Server Settings") {
-                row("Current selected Server:") {
+            titledRow(CodeTesterBundle.message("plugin.ui.settingsMenuPanel.serverSettings.title")) {
+                row(CodeTesterBundle.message("plugin.ui.settingsMenuPanel.serverSettings.currentServer.title")) {
                     field
                     field.selectedItem = currentSelectedCodeTesterBaseUrl
                     field(growX)
                 }
             }
 
-            titledRow("Need Help?") {
+            titledRow(CodeTesterBundle.message("plugin.ui.settingsMenuPanel.helpSettings.title")) {
                 row {
-                    browserLink("Bug Report and Feature Request",
+                    browserLink(CodeTesterBundle.message("plugin.ui.settingsMenuPanel.helpSettings.bugReport"),
                             "https://github.com/fxnm/CodeTester-IDEA/issues/new/choose")
                 }
                 row {
-                    browserLink("Source Code",
+                    browserLink(CodeTesterBundle.message("plugin.ui.settingsMenuPanel.helpSettings.sourceCode"),
                             "https://github.com/fxnm/CodeTester-IDEA")
                 }
             }

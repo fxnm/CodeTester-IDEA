@@ -6,6 +6,7 @@ import com.intellij.openapi.diagnostic.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import de.fxnm.toolwindow.CodeTesterToolWindowManager;
+import de.fxnm.util.CodeTesterBundle;
 
 public class RemoveResultCheckWindows extends BaseAction {
 
@@ -17,7 +18,7 @@ public class RemoveResultCheckWindows extends BaseAction {
             try {
                 CodeTesterToolWindowManager.getService(project).closeAllResultToolWindows();
             } catch (final Throwable e) {
-                LOG.error("Remove Result Check Windows failed", e);
+                LOG.error(CodeTesterBundle.message("plugin.action.removeResultCheckWindow.actionFailed"), e);
             }
         });
 
@@ -25,13 +26,16 @@ public class RemoveResultCheckWindows extends BaseAction {
 
     @Override
     public void update(final @NotNull AnActionEvent event) {
-       this.project(event).ifPresent(project -> {
+        this.project(event).ifPresent(project -> {
             try {
                 super.update(event);
+
                 event.getPresentation().setEnabled(CodeTesterToolWindowManager.getService(project)
                         .existResultToolWindows());
+
             } catch (final Throwable e) {
-                LOG.error("Remove Result Check Windows update failed", e);
+                LOG.error(CodeTesterBundle.message("plugin.action.removeResultCheckWindow.updateFailed"),
+                        e);
             }
         });
     }

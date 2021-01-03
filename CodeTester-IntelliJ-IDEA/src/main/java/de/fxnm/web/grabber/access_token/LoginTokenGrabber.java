@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.util.Objects;
 
 import de.fxnm.exceptions.InternetConnectionException;
 import de.fxnm.web.components.token.LoginToken;
@@ -17,6 +16,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public final class LoginTokenGrabber {
 
@@ -41,10 +41,21 @@ public final class LoginTokenGrabber {
 
         final Response response = httpClient.newCall(request).execute();
 
-        if (response.code() != HttpURLConnection.HTTP_OK) {
+        final int responseCode = response.code();
+        if (responseCode != HttpURLConnection.HTTP_OK) {
+            response.close();
             throw new InternetConnectionException("Invalid response code:" + response.code());
         }
 
-        return new Gson().fromJson(Objects.requireNonNull(response.body()).string(), LoginToken.class);
+        final ResponseBody responseBody = response.body();
+        if (responseBody == null) {
+            response.close();
+            throw new InternetConnectionException("null response body");
+        }
+
+        final String responseBodyAsString = responseBody.string();
+        response.close();
+
+        return new Gson().fromJson(responseBodyAsString, LoginToken.class);
     }
 }

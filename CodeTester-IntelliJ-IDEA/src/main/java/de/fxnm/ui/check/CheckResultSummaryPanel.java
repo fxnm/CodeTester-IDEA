@@ -13,9 +13,10 @@ import javax.swing.JTree;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
+import de.fxnm.config.settings.project.persistentstate.ProjectPersistentSettingsData;
+import de.fxnm.config.settings.project.persistentstate.ProjectPersistentSettingsService;
 import de.fxnm.result.tree.ResultTreeModel;
 import de.fxnm.result.tree.ResultTreeRenderer;
-import de.fxnm.service.ProjectStateService;
 import de.fxnm.web.components.submission.SubmissionResult;
 import lombok.Getter;
 
@@ -65,9 +66,9 @@ public class CheckResultSummaryPanel {
     public void setModel(final SubmissionResult submissionResult, final Project project) {
         this.treeModel.setModel(submissionResult);
 
-        final ProjectStateService projectStateService = ProjectStateService.getService(project);
-        this.filterDisplayedResults(projectStateService.isDisplayingError(),
-                projectStateService.isDisplayingSuccess());
+        final ProjectPersistentSettingsData settingsData = ProjectPersistentSettingsService.getService(project).getState();
+        this.filterDisplayedResults(settingsData.getDisplayFailedChecks(),
+                settingsData.getDisplaySuccessfulChecks());
         this.resultTree.setVisible(true);
         this.expandTree();
     }

@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import de.fxnm.util.CodeTesterBundle;
 import de.fxnm.util.ComponentStatics;
 import de.fxnm.util.PooledThread;
 
@@ -70,7 +71,8 @@ public class ErrorMessagePanel {
             try {
                 Thread.sleep(MS_TILL_AUTO_REMOVE);
             } catch (final InterruptedException exception) {
-                LOG.error("Error Message auto remove failed", exception, this.errorMessage.toString());
+                LOG.error(CodeTesterBundle.message("plugin.ui.errorMessagePanel.removeListener.fail"),
+                        exception, this.errorMessage.toString());
             }
             ErrorMessagePanel.this.removeErrorMessage(this.errorMessage);
         }

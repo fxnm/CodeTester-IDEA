@@ -24,13 +24,13 @@ public class AccountService extends BaseService {
 
 
     public void asyncLogIn() {
-        final BaseRunnable logInCallable = new LogInRunnable(this.project());
+        final LogInRunnable logInCallable = new LogInRunnable(this.project());
         logInCallable.addListener(new LogInFeedbackListener(this.project()));
         this.async(logInCallable);
     }
 
     public void asyncLogOut() {
-        final BaseRunnable logOutCallable = new LogOutRunnable(this.project());
+        final LogOutRunnable logOutCallable = new LogOutRunnable(this.project());
         logOutCallable.addListener(new LogOutFeedbackListener(this.project()));
         this.async(logOutCallable);
     }
@@ -51,16 +51,17 @@ public class AccountService extends BaseService {
         }
 
         @Override
-        public void scanStartingImp(final Object... details) {
+        public void scanStartingImp(final String toolWindowMessage, final String backGroundProcessName, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
+
         }
 
         @Override
-        public void scanCompletedImp(final Object... details) {
+        public void scanCompletedImp(final String toolWindowMessage, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
             AccountService.this.checkComplete(this.future);
         }
 
         @Override
-        public void scanFailedImp(final Object... details) {
+        public void scanFailedImp(final String toolWindowMessage, final Throwable throwable, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
             AccountService.this.checkComplete(this.future);
         }
     }

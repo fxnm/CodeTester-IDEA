@@ -7,8 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Future;
 
-import de.fxnm.exceptions.RunnableException;
 import de.fxnm.runnable.BaseRunnable;
+import de.fxnm.util.CodeTesterBundle;
 
 public abstract class BaseService {
 
@@ -40,15 +40,16 @@ public abstract class BaseService {
         }
     }
 
-    public void stopChecks() throws RunnableException {
+    public void stopChecks() {
         synchronized (this.progress) {
             if (this.progress.isEmpty()) {
-                throw new RunnableException("No Runnables are active");
+                return;
             }
 
             this.progress.forEach(task -> {
                 task.first.cancel(false);
-                task.second.failedRunnable("Forced Stop");
+                task.second.failedRunnable(CodeTesterBundle.message("plugin.service.baseService.stopChecks.loggerMessage"),
+                        CodeTesterBundle.message("plugin.service.baseService.stopChecks.toolWindowMessage"));
 
             });
             this.progress.clear();

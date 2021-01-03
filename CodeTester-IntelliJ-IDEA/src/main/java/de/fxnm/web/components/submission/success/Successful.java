@@ -1,8 +1,6 @@
 package de.fxnm.web.components.submission.success;
 
 
-import java.util.Arrays;
-
 import de.fxnm.web.components.submission.SubmissionResult;
 import lombok.Getter;
 
@@ -19,9 +17,6 @@ public class Successful implements SubmissionResult {
 
     @Override
     public String toString() {
-        return "Result{" +
-                "checks=" + Arrays.toString(this.checks) +
-                ", className='" + this.className + '\'' +
-                '}';
+        return String.format("Successful Check Results [Class: %s] [Contains %d Checks]", this.className, this.checks.length);
     }
 }

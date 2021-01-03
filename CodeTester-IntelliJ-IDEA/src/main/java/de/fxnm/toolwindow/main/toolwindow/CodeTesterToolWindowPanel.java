@@ -1,6 +1,5 @@
 package de.fxnm.toolwindow.main.toolwindow;
 
-import com.google.gson.Gson;
 import com.intellij.notification.NotificationType;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
@@ -19,9 +18,11 @@ import javax.swing.JPanel;
 import javax.swing.tree.TreePath;
 
 import de.fxnm.config.ConfigurationListener;
+import de.fxnm.exceptions.ToolWindowException;
 import de.fxnm.result.tree.ResultTreeNode;
 import de.fxnm.result.tree.ToggleableTreeNode;
 import de.fxnm.toolwindow.CodeTesterToolWindowManager;
+import de.fxnm.toolwindow.ToolWindowAccess;
 import de.fxnm.toolwindow.ToolWindowBase;
 import de.fxnm.ui.CategoryComboBox;
 import de.fxnm.ui.check.CheckResultSummaryPanel;
@@ -40,16 +41,14 @@ import icons.PluginIcons;
 public class CodeTesterToolWindowPanel extends JPanel implements ConfigurationListener {
 
     public static final String ID_MAIN_TOOL_WINDOW = "CodeTester";
-    private static final String MAIN_ACTION_GROUP = "CodeTesterPluginActions";
     private static final Logger LOG = Logger.getInstance(CodeTesterToolWindowPanel.class);
-
-    private final ToolWindow toolWindow;
-    private final Project project;
+    private static final String MAIN_ACTION_GROUP = "CodeTesterPluginActions";
     private final CategoryComboBox categoryComboBox;
     private final ErrorMessagePanel errorMessagePanel = new ErrorMessagePanel();
-    private ToolWindowBase toolWindowBase;
-
+    private final Project project;
+    private final ToolWindow toolWindow;
     private CheckResultSummaryPanel checkResultSummaryPanel;
+    private ToolWindowBase toolWindowBase;
 
 
     public CodeTesterToolWindowPanel(final ToolWindow toolWindow, final Project project) {
@@ -66,45 +65,18 @@ public class CodeTesterToolWindowPanel extends JPanel implements ConfigurationLi
 
 
     public static CodeTesterToolWindowPanel panelFor(final Project project) {
-        final ToolWindowManager toolWindowManager = ToolWindowManager.getInstance(project);
+        final ToolWindow toolWindow = ToolWindowManager.getInstance(project).getToolWindow(ID_MAIN_TOOL_WINDOW);
 
-        final ToolWindow toolWindow = toolWindowManager.getToolWindow(ID_MAIN_TOOL_WINDOW);
-        if (toolWindow == null) {
-            LOG.error("Couldn't get tool window for ID " + ID_MAIN_TOOL_WINDOW,
-                    new Gson().toJson(project));
-            return null;
+        try {
+            final Content a = ToolWindowAccess.getCodeTesterToolWindow(toolWindow);
+            return (CodeTesterToolWindowPanel) a.getComponent();
+
+        } catch (final ToolWindowException e) {
+            LOG.error(e);
         }
 
-        for (final Content currentContent : toolWindow.getContentManager().getContents()) {
-            if (currentContent.getComponent() instanceof CodeTesterToolWindowPanel) {
-                return (CodeTesterToolWindowPanel) currentContent.getComponent();
-            }
-        }
-
-        LOG.error("Could not find tool window panel on tool window with ID " + ID_MAIN_TOOL_WINDOW,
-                new Gson().toJson(project));
         return null;
     }
-
-    private void createToolPanel() {
-
-        this.checkResultSummaryPanel = new CheckResultSummaryPanel();
-        this.checkResultSummaryPanel.addMouseListener(new ToolWindowMouseListener());
-        this.checkResultSummaryPanel.addKeyListener(new ToolWindowKeyboardListener());
-
-        final HorizontalComponentBox horizontalComponentBox = new HorizontalComponentBox();
-        horizontalComponentBox.addComponent(new JLabel((CodeTesterBundle.message("plugin.check.category"))));
-        horizontalComponentBox.addComponent(this.categoryComboBox.getComboBox());
-
-
-        this.toolWindowBase = new ToolWindowBase(
-                horizontalComponentBox.get(),
-                new ActionToolBar(ID_MAIN_TOOL_WINDOW, MAIN_ACTION_GROUP, false),
-                this.checkResultSummaryPanel.getPanel(),
-                this.errorMessagePanel.get()
-        );
-    }
-
 
     @Override
     public void displayErrorMessage(final Boolean autoRemove, final String message) {
@@ -121,8 +93,12 @@ public class CodeTesterToolWindowPanel extends JPanel implements ConfigurationLi
         if (submissionResult instanceof Successful) {
             this.checkResultSummaryPanel.setModel(submissionResult, project);
         } else {
-            this.displayErrorMessage(true, "Check Failed, for details view log");
-            PopupNotifier.notify(project, "Check Failed", "", submissionResult.toString(),
+            this.displayErrorMessage(true,
+                    CodeTesterBundle.message("plugin.toolWindow.codeTester.displayResult.error.message"));
+
+            PopupNotifier.notify(project,
+                    CodeTesterBundle.message("plugin.toolWindow.codeTester.displayResult.error.tile"),
+                    "", submissionResult.toString(),
                     NotificationType.ERROR, PluginIcons.STATUS_ERROR);
         }
     }
@@ -133,14 +109,37 @@ public class CodeTesterToolWindowPanel extends JPanel implements ConfigurationLi
     }
 
     @Override
-    public void setCategories(final Category[] categories) {
-        this.categoryComboBox.setCategories(categories);
+    public CategoryComboBox getCategories() {
+        return this.categoryComboBox;
     }
 
     public Category getCurrentSelectedCategory() {
         return this.categoryComboBox.getSelectedCategory();
     }
 
+    public void filterDisplayedResults(final boolean errors, final boolean success) {
+        this.checkResultSummaryPanel.filterDisplayedResults(errors, success);
+    }
+
+    private void createToolPanel() {
+
+        this.checkResultSummaryPanel = new CheckResultSummaryPanel();
+        this.checkResultSummaryPanel.addMouseListener(new ToolWindowMouseListener());
+        this.checkResultSummaryPanel.addKeyListener(new ToolWindowKeyboardListener());
+
+        final HorizontalComponentBox horizontalComponentBox = new HorizontalComponentBox();
+        horizontalComponentBox.addComponent(new JLabel((
+                CodeTesterBundle.message("plugin.toolWindow.codeTester.createToolWindow.category"))));
+        horizontalComponentBox.addComponent(this.categoryComboBox.getComboBox());
+
+
+        this.toolWindowBase = new ToolWindowBase(CodeTesterToolWindowPanel.class,
+                horizontalComponentBox.get(),
+                new ActionToolBar(ID_MAIN_TOOL_WINDOW, MAIN_ACTION_GROUP, false),
+                this.checkResultSummaryPanel.getPanel(),
+                this.errorMessagePanel.get()
+        );
+    }
 
     private void newPopUp(final TreePath treePath) {
         if (!(treePath.getLastPathComponent() instanceof ToggleableTreeNode)) {
@@ -159,21 +158,18 @@ public class CodeTesterToolWindowPanel extends JPanel implements ConfigurationLi
         }
 
         CodeTesterToolWindowManager.getService(this.project).showResultToolWindow(checkNode);
+        LOG.info(String.format(CodeTesterBundle.message("plugin.toolWindow.codeTester.newPopUp.successful"),
+                checkNode.getCheck().getCheckName()));
     }
 
-    public void filterDisplayedResults(final boolean errors, final boolean success) {
-        this.checkResultSummaryPanel.filterDisplayedResults(errors, success);
-    }
-
-    protected class ToolWindowMouseListener extends MouseAdapter {
+    private class ToolWindowKeyboardListener extends KeyAdapter {
         @Override
-        public void mouseClicked(final MouseEvent e) {
-            if (e.getClickCount() < 2) {
+        public void keyPressed(final KeyEvent e) {
+            if (e.getKeyCode() != KeyEvent.VK_ENTER) {
                 return;
             }
 
-            final TreePath treePath = CodeTesterToolWindowPanel.this.checkResultSummaryPanel.getResultTree().getPathForLocation(
-                    e.getX(), e.getY());
+            final TreePath treePath = CodeTesterToolWindowPanel.this.checkResultSummaryPanel.getResultTree().getSelectionPath();
 
             if (treePath == null) {
                 return;
@@ -183,14 +179,15 @@ public class CodeTesterToolWindowPanel extends JPanel implements ConfigurationLi
         }
     }
 
-    protected class ToolWindowKeyboardListener extends KeyAdapter {
+    private class ToolWindowMouseListener extends MouseAdapter {
         @Override
-        public void keyPressed(final KeyEvent e) {
-            if (e.getKeyCode() != KeyEvent.VK_ENTER) {
+        public void mouseClicked(final MouseEvent e) {
+            if (e.getClickCount() < 2) {
                 return;
             }
 
-            final TreePath treePath = CodeTesterToolWindowPanel.this.checkResultSummaryPanel.getResultTree().getSelectionPath();
+            final TreePath treePath = CodeTesterToolWindowPanel.this.checkResultSummaryPanel.getResultTree().getPathForLocation(
+                    e.getX(), e.getY());
 
             if (treePath == null) {
                 return;

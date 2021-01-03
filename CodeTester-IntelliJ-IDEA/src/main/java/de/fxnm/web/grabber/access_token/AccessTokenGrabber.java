@@ -21,7 +21,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import static de.fxnm.config.settings.password_safe.PasswordManager.LOGIN_DATE;
+import static de.fxnm.config.settings.password_safe.PasswordManager.LOGIN_KEY;
 
 public final class AccessTokenGrabber {
 
@@ -31,7 +31,7 @@ public final class AccessTokenGrabber {
 
     public static AccessToken getToken(final Project project) throws IOException, PasswordSafeException,
             InternetConnectionException {
-        final Credentials credentials = PasswordManager.retrieve(LOGIN_DATE);
+        final Credentials credentials = PasswordManager.retrieve(LOGIN_KEY);
 
         return getAccessToken(project,
                 LoginTokenGrabber.getToken(

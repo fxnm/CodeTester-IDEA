@@ -2,8 +2,11 @@ package de.fxnm.listener.category.service;
 
 import com.intellij.openapi.project.Project;
 
+import org.jetbrains.annotations.NotNull;
+
+import de.fxnm.config.settings.project.transientstate.ProjectTransientSettingsData;
+import de.fxnm.config.settings.project.transientstate.ProjectTransientSettingsService;
 import de.fxnm.listener.FeedbackListener;
-import de.fxnm.service.ProjectStateService;
 import de.fxnm.web.components.category.Category;
 
 public class ReloadFeedbackListener extends FeedbackListener {
@@ -13,32 +16,37 @@ public class ReloadFeedbackListener extends FeedbackListener {
     }
 
     @Override
-    public void scanStartingImp(final Object... details) {
-        if (this.toolWindow() != null) {
-            this.toolWindow().displayInfoMessage(true, details[0].toString());
-        }
+    public void scanStartingImp(final String toolWindowMessage, final String backGroundProcessName, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
+        this.toolWindow().ifPresent(codeTesterToolWindowPanel -> {
+            codeTesterToolWindowPanel.displayInfoMessage(true, toolWindowMessage);
+        });
 
-        ProjectStateService.getService(this.project()).setManualLoginLogoutConfig(false);
-        ProjectStateService.getService(this.project()).setManualRunConfig(false);
+        @NotNull final ProjectTransientSettingsData settingsData = ProjectTransientSettingsService.getService(this.project()).getState();
+        settingsData.setLoginLogoutPossible(false);
+        settingsData.setRunPossible(false);
     }
 
     @Override
-    public void scanCompletedImp(final Object... details) {
-        if (this.toolWindow() != null) {
-            this.toolWindow().setCategories((Category[]) details[1]);
-            this.toolWindow().displayInfoMessage(true, details[0].toString());
-        }
-
-        ProjectStateService.getService(this.project()).setManualLoginLogoutConfig(true);
-        ProjectStateService.getService(this.project()).setManualRunConfig(true);
+    public void scanCompletedImp(final String toolWindowMessage, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
+        this.toolWindow().ifPresent(codeTesterToolWindowPanel -> {
+            codeTesterToolWindowPanel.displayInfoMessage(true, toolWindowMessage);
+            codeTesterToolWindowPanel.getCategories().setNewCategories((Category[]) argumentOne);
+        });
+        @NotNull final ProjectTransientSettingsData settingsData = ProjectTransientSettingsService.getService(this.project()).getState();
+        settingsData.setLoginLogoutPossible(true);
+        settingsData.setRunPossible(true);
     }
 
+
     @Override
-    public void scanFailedImp(final Object... details) {
-        if (this.toolWindow() != null) {
-            this.toolWindow().displayInfoMessage(true, details[0].toString());
-        }
-        ProjectStateService.getService(this.project()).setManualLoginLogoutConfig(true);
-        ProjectStateService.getService(this.project()).setManualRunConfig(true);
+    public void scanFailedImp(final String toolWindowMessage, final Throwable throwable, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
+        this.toolWindow().ifPresent(codeTesterToolWindowPanel -> {
+            codeTesterToolWindowPanel.displayErrorMessage(true, toolWindowMessage);
+            codeTesterToolWindowPanel.getCategories().setReloadFailed();
+        });
+
+        @NotNull final ProjectTransientSettingsData settingsData = ProjectTransientSettingsService.getService(this.project()).getState();
+        settingsData.setLoginLogoutPossible(true);
+        settingsData.setRunPossible(true);
     }
 }

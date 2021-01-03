@@ -14,7 +14,7 @@ public final class PooledThread {
     }
 
     public static Future<?> execute(final Runnable runnable) {
-        LOG.info(runnable.getClass() + " Executed");
+        LOG.info(String.format(CodeTesterBundle.message("plugin.util.poolThread.execute"), runnable.getClass()));
         return ApplicationManager.getApplication().executeOnPooledThread(runnable);
     }
 }

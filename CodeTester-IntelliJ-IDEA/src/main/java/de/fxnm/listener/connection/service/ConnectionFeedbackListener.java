@@ -3,8 +3,8 @@ package de.fxnm.listener.connection.service;
 import com.intellij.notification.NotificationType;
 import com.intellij.openapi.project.Project;
 
+import de.fxnm.config.settings.project.transientstate.ProjectTransientSettingsService;
 import de.fxnm.listener.FeedbackListener;
-import de.fxnm.service.ProjectStateService;
 import de.fxnm.util.PopupNotifier;
 import icons.PluginIcons;
 
@@ -15,35 +15,33 @@ public class ConnectionFeedbackListener extends FeedbackListener {
     }
 
     @Override
-    public void scanStartingImp(final Object... details) {
-        if (this.toolWindow() != null) {
-            this.toolWindow().removeCheckResult();
-            this.toolWindow().displayInfoMessage(true, details[0].toString());
-        }
+    public void scanStartingImp(final String toolWindowMessage, final String backGroundProcessName, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
+        this.toolWindow().ifPresent(codeTesterToolWindowPanel -> {
+            codeTesterToolWindowPanel.removeCheckResult();
+            codeTesterToolWindowPanel.displayInfoMessage(true, toolWindowMessage);
+        });
     }
 
     @Override
-    public void scanCompletedImp(final Object... details) {
-        if (this.toolWindow() != null) {
-            this.toolWindow().displayInfoMessage(true, details[0].toString());
-        }
+    public void scanCompletedImp(final String toolWindowMessage, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
+        this.toolWindow().ifPresent(codeTesterToolWindowPanel -> {
+            codeTesterToolWindowPanel.displayInfoMessage(true, toolWindowMessage);
+        });
 
-        ProjectStateService.getService(this.project())
-                .setServerConnectionEstablished(true, this.project());
+        ProjectTransientSettingsService.getService(this.project()).getState().setInternetConnectionToCodeTester(true);
     }
 
     @Override
-    public void scanFailedImp(final Object... details) {
-        if (this.toolWindow() != null) {
-            this.toolWindow().displayErrorMessage(false, details[0].toString());
-        }
+    public void scanFailedImp(final String toolWindowMessage, final Throwable throwable, final Object argumentOne, final Object argumentTwo, final Object argumentThree) {
+        this.toolWindow().ifPresent(codeTesterToolWindowPanel -> {
+            codeTesterToolWindowPanel.displayErrorMessage(false, toolWindowMessage);
+        });
 
-        PopupNotifier.notify(this.project(), "Connection Failed", "",
-                "Please check your internet connection to fully use this plugin!",
+        PopupNotifier.notify(this.project(), toolWindowMessage, "",
+                (String) argumentOne,
                 NotificationType.ERROR,
                 PluginIcons.STATUS_ERROR);
 
-        ProjectStateService.getService(this.project())
-                .setServerConnectionEstablished(false, this.project());
+        ProjectTransientSettingsService.getService(this.project()).getState().setInternetConnectionToCodeTester(false);
     }
 }

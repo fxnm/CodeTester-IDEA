@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d [%7r] %-5p - [%11.11t] - %6.6c%x - %m%n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+        </Root>
+
+        <category name="com.intellij.remoterobot.fixtures.JTextFieldFixture">
+            <priority value="off"/>
+        </category>
+    </Loggers>
+</Configuration>

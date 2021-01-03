@@ -6,10 +6,11 @@ import com.intellij.openapi.project.Project;
 import de.fxnm.config.settings.password_safe.PasswordManager;
 import de.fxnm.runnable.BaseRunnable;
 import de.fxnm.toolwindow.CodeTesterToolWindowManager;
+import de.fxnm.util.CodeTesterBundle;
 
-import static de.fxnm.config.settings.password_safe.PasswordManager.LOGIN_DATE;
+import static de.fxnm.config.settings.password_safe.PasswordManager.LOGIN_KEY;
 
-public class LogOutRunnable extends BaseRunnable<LogOutRunnable> {
+public class LogOutRunnable extends BaseRunnable {
 
     public LogOutRunnable(final Project project) {
         super(project, LogOutRunnable.class);
@@ -18,18 +19,22 @@ public class LogOutRunnable extends BaseRunnable<LogOutRunnable> {
     @Override
     public void run() {
         try {
-            super.startRunnable("Logging out...", "Log out started");
+            super.startRunnable(CodeTesterBundle.message("plugin.runnable.logout.start.loggerMessage"),
+                    CodeTesterBundle.message("plugin.runnable.logout.start.toolWindowMessage"),
+                    CodeTesterBundle.message("plugin.runnable.logout.start.backgroundProcessName"));
             this.logout();
-            super.finishedRunnable("Logout successful");
+            super.finishedRunnable(CodeTesterBundle.message("plugin.runnable.logout.finished.loggerMessage"),
+                    CodeTesterBundle.message("plugin.runnable.logout.finished.toolWindowMessage"));
         } catch (final Throwable e) {
-            this.failedRunnable("Failed to logout");
+            this.failedRunnable(CodeTesterBundle.message("plugin.runnable.logout.failed.loggerMessage"),
+                    CodeTesterBundle.message("plugin.runnable.logout.failed.toolWindowMessage"), e);
         }
     }
 
     private void logout() {
-        ApplicationManager.getApplication().invokeLater(() -> {
+        ApplicationManager.getApplication().invokeAndWait(() -> {
             //Remove stored Password
-            PasswordManager.remove(LOGIN_DATE);
+            PasswordManager.remove(LOGIN_KEY);
 
             //Close all open Check Result Tool Windows
             CodeTesterToolWindowManager.getService(this.project()).closeAllResultToolWindows();

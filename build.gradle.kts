@@ -1,20 +1,23 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.net.URI
 
 val pluginGroup: String by project
 val pluginName_: String by project
 val pluginVersion: String by project
-val pluginSinceBuild: String by project
-val pluginUntilBuild: String by project
-val pluginVerifierIdeVersions: String by project
-
 val platformType: String by project
 val platformVersion: String by project
 val platformDownloadSources: String by project
-
 val javaVersion: String by project
 
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.4.21-2" apply false
+    // Java support
+    id("java")
+    // Kotlin support
+    id("org.jetbrains.kotlin.jvm") version "1.4.21" apply false
+    // gradle-intellij-plugin - read more: https://github.com/JetBrains/gradle-intellij-plugin
+    id("org.jetbrains.intellij") version "0.6.5"
+    // gradle-changelog-plugin - read more: https://github.com/JetBrains/gradle-changelog-plugin
+    id("org.jetbrains.changelog") version "0.6.2" apply false
 }
 
 
@@ -25,21 +28,60 @@ allprojects {
     repositories {
         mavenCentral()
         jcenter()
-    }
-
-}
-
-subprojects {
-    // Set the compatibility versions to 1.8
-    tasks.withType<JavaCompile> {
-        options.encoding = "UTF-8"
-        sourceCompatibility = javaVersion
-        targetCompatibility = javaVersion
-    }
-
-    tasks.withType<KotlinCompile>().configureEach {
-        kotlinOptions {
-            jvmTarget = javaVersion
+        maven {
+            url = URI("https://jetbrains.bintray.com/intellij-third-party-dependencies")
         }
     }
 }
+
+subprojects {
+
+    apply {
+        plugin("java")
+        plugin("org.jetbrains.kotlin.jvm")
+        plugin("org.jetbrains.intellij")
+    }
+
+    if (project.name != "CodeTester-IntelliJ-IDEA") {
+        apply {
+            dependencies {
+                implementation(project(":CodeTester-IntelliJ-IDEA"))
+            }
+        }
+    }
+
+    apply {
+        dependencies {
+            implementation(group = "org.projectlombok", name = "lombok", version = "1.18.16")
+            annotationProcessor(group = "org.projectlombok", name = "lombok", version = "1.18.16")
+
+            testImplementation(group = "org.junit.jupiter", name = "junit-jupiter", version = "5.7.0")
+        }
+    }
+
+    // Set the compatibility versions to 1.8
+    tasks {
+        withType<JavaCompile> {
+            options.encoding = "UTF-8"
+            sourceCompatibility = javaVersion
+            targetCompatibility = javaVersion
+        }
+
+        withType<KotlinCompile> {
+            kotlinOptions.jvmTarget = javaVersion
+        }
+    }
+
+    intellij {
+        pluginName = pluginName_
+        type = platformType
+        version = platformVersion
+
+        downloadSources = platformDownloadSources.toBoolean()
+        updateSinceUntilBuild = true
+
+        setPlugins("com.intellij.java")
+    }
+}
+
+

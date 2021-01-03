@@ -15,11 +15,10 @@ public final class CopyUtil {
     }
 
     public static void copyToClipBoard(final String string) {
-        LOG.info(String.format("Coping '%s' to the clipboard", string));
-
         final Toolkit toolkit = Toolkit.getDefaultToolkit();
         final Clipboard clipboard = toolkit.getSystemClipboard();
         final StringSelection strSel = new StringSelection(string);
         clipboard.setContents(strSel, null);
+        LOG.info(String.format(CodeTesterBundle.message("plugin.util.copyUtil.copyToClipBoard.success"), string));
     }
 }

@@ -19,26 +19,5 @@ class TitleRow {
                 }
             }
         }
-
-        /**
-         * Methode which creates a hideable title row, with the component under it.
-         * This methode is currently a bit buggy but soon be fixed :)
-         */
-        fun getHideableTitleRow(title: String, componentToAdd: JComponent): JPanel {
-
-            // FIXME: 25.11.2020 Some strange bug with the hideableRow and its closing and opening behavior
-
-            return panel {
-                hideableRow(title) {
-                    row {
-                        component(componentToAdd)
-                    }
-                }.subRowsVisible = true
-
-                row {
-                    component(componentToAdd)
-                }
-            }
-        }
     }
 }

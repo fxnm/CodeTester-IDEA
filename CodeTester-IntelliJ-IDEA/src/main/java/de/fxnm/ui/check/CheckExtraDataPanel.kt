@@ -4,6 +4,7 @@ import com.intellij.ui.components.JBScrollPane
 import com.intellij.ui.layout.panel
 import com.intellij.util.ui.JBEmptyBorder
 import com.intellij.util.ui.UIUtil
+import de.fxnm.util.CodeTesterBundle
 import de.fxnm.web.components.submission.success.CheckFileData
 import javax.swing.JComponent
 
@@ -18,7 +19,8 @@ class CheckExtraDataPanel(private val checkFileData: CheckFileData) {
             panel {
                 if (checkFileData.isEmpty()) {
                     row {
-                        label("This file is empty", UIUtil.ComponentStyle.REGULAR, UIUtil.FontColor.BRIGHTER)
+                        label(CodeTesterBundle.message("plugin.ui.checkExtraDataPanel.isEmpty"),
+                            UIUtil.ComponentStyle.REGULAR, UIUtil.FontColor.BRIGHTER)
                     }
                 }
 
