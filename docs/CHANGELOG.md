@@ -1,13 +1,17 @@
 # CodeTester-IDEA Changelog
 
 ## [Unreleased]
+
 ### Added
+
+- Added Ui Testing Ci workflow
 
 ### Changed
 
 ### Fixed
 
 ### Removed
+
 ## [2.0.1]
 
 ### Added

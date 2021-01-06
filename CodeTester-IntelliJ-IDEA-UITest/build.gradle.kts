@@ -12,7 +12,7 @@ tasks {
         enabled = false
     }
 
-    register<Test>("uiTest") {
+    register<Test>("runUiTest") {
         // we don't want to cache the results of this.
         outputs.upToDateWhen { false }
 
