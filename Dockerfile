@@ -1,3 +1,6 @@
+# Dockerfile for CI Ui Testing.
+# On localhost use the 'runUiTest' task
+
 FROM ubuntu:latest
 
 WORKDIR /opt/CodeTester
