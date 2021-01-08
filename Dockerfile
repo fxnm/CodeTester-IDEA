@@ -39,7 +39,7 @@ RUN apt-get install -y xvfb
 # Install gradle
 RUN apt-get install -y wget zip default-jdk
 RUN mkdir /opt/gradle
-RUN wget "https://services.gradle.org/distributions/gradle-6.7.1-bin.zip"
-RUN unzip -d /opt/gradle gradle-6.7.1-bin.zip
-RUN rm gradle-6.7.1-bin.zip
-ENV PATH=$PATH:/opt/gradle/gradle-6.7.1/bin
+RUN wget "https://services.gradle.org/distributions/gradle-6.8-bin.zip"
+RUN unzip -d /opt/gradle gradle-6.8-bin.zip
+RUN rm gradle-6.8-bin.zip
+ENV PATH=$PATH:/opt/gradle/gradle-6.8/bin
