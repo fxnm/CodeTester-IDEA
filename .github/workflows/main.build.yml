@@ -66,11 +66,35 @@ jobs:
       - name: Verify Plugin
         run: ./gradlew CodeTester-IntelliJ-IDEA:verifyPlugin
 
+  # Run Ui tests Gradle Task
+  uiTest:
+    name: Ui Test
+    needs: gradleValidation
+    runs-on: ubuntu-latest
+    steps:
+
+      # Check out current repository
+      - name: Fetch Sources
+        uses: actions/checkout@v2
+
+      # Builds the docker container for ui testing
+      - name: Build Docker Container
+        run: docker build . -t intellij:container
+
+      # Launches the container for ui testing
+      - name: Start Docker Container
+        run: docker run -i -d --name intelliJContainer intellij:container
+
+      # Executes the ui tests in the container
+      - name: Exeute Ui Test
+        run: docker exec -e CodeTester_USERNAME=${{ secrets.CodeTester_USERNAME }} -e CodeTester_PASSWORD=${{ secrets.CODETESTER_PASSWORD }} intelliJContainer xvfb-run gradle runUiTest --info
+
+
   # Build plugin with buildPlugin Gradle task and provide the artifact for the next workflow jobs
   # Requires test job to be passed
   build:
     name: Build
-    needs: [ test ]
+    needs: [ test, uiTest ]
     runs-on: ubuntu-latest
     outputs:
       name: ${{ steps.properties.outputs.name }}
