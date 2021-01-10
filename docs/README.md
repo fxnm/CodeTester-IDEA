@@ -1,17 +1,21 @@
 ![CodeTester-IDEA Logo](https://github.com/fxnm/CodeTester-IDEA/blob/main/docs/images/logo/CodeTester-IDEA.png)
 
 # CodeTester-IDEA
+
 ![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/fxnm/CodeTester-IDEA/Main%20Build/main?label=Main%20Build)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/fxnm/CodeTester-IDEA)
 ![GitHub](https://img.shields.io/github/license/fxnm/CodeTester-IDEA)
 
 <!-- Plugin description -->
-CodeTester-IDEA is a plug-in for JetBrains' IntelliJ IDEA which provides a possibility for students to allow them to automatically test programming submissions against a set of student created tests.
-With the aim of creating a perfectly tested program and to ensure there are no missing edge cases.
+CodeTester-IDEA is a plug-in for JetBrains' IntelliJ IDEA which provides a possibility for students to allow them to
+automatically test programming submissions against a set of student created tests. With the aim of creating a perfectly
+tested program and to ensure there are no missing edge cases.
 
 **This project survives only because students create and share tests!**
 
-Please note, this is not an official part of the [SimpleCodeTester](https://github.com/I-Al-Istannen/SimpleCodeTester) - this plug-in is only a user interface for the underlying technology from [SimpleCodeTester](https://github.com/I-Al-Istannen/SimpleCodeTester).
+Please note, this is not an official part of the [SimpleCodeTester](https://github.com/I-Al-Istannen/SimpleCodeTester) -
+this plug-in is only a user interface for the underlying technology
+from [SimpleCodeTester](https://github.com/I-Al-Istannen/SimpleCodeTester).
 
 **Currently the CodeTester-IDEA only works for students on the KIT in Programming 1.**
 
@@ -19,10 +23,9 @@ Please note, this is not an official part of the [SimpleCodeTester](https://gith
 
 ## Use
 
-Once installed, a new window will appear at the bottom of your IDEA. Click on it and there you go. 
+Once installed, a new window will appear at the bottom of your IDEA. Click on it and there you go.
 
 For detailed documentation visit the wiki.
-
 
 ## Contributing
 
@@ -35,7 +38,6 @@ the [issue tracker](https://github.com/fxnm/CodeTester-IDEA/issues) to report th
 
 Please see [CONTRIBUTING](https://github.com/fxnm/CodeTester-IDEA/blob/development/docs/CONTRIBUTING.md) for
 instructions.
-
 
 ## License
 
