@@ -2,7 +2,7 @@ val remoteRobotPort: String by project
 
 dependencies {
     testImplementation(gradleApi())
-    testImplementation(group = "com.intellij.remoterobot", name = "remote-robot", version = "0.10.2")
+    testImplementation(group = "com.intellij.remoterobot", name = "remote-robot", version = "0.10.3")
     testImplementation(group = "com.intellij.remoterobot", name = "remote-fixtures", version = "1.1.18")
 }
 
