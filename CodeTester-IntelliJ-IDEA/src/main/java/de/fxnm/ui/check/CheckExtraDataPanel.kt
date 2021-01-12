@@ -20,7 +20,7 @@ class CheckExtraDataPanel(private val checkFileData: CheckFileData) {
                 if (checkFileData.isEmpty()) {
                     row {
                         label(CodeTesterBundle.message("plugin.ui.checkExtraDataPanel.isEmpty"),
-                            UIUtil.ComponentStyle.REGULAR, UIUtil.FontColor.BRIGHTER)
+                              UIUtil.ComponentStyle.REGULAR, UIUtil.FontColor.BRIGHTER)
                     }
                 }
 
