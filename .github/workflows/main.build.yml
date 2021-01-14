@@ -80,7 +80,7 @@ jobs:
           java-version: 11
 
       - name: Setup XVFB
-        run: apt-get install xvfb
+        run: sudo apt-get install xvfb -y
 
       # Check out current repository
       - name: Fetch Sources
