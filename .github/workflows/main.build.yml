@@ -105,7 +105,7 @@ jobs:
 
       # Run Ui Test
       - name: Run Ui Test
-        run: xvfb-run ./gradlew runUiTest
+        run: xvfb-run ./gradlew runUiTest --info
         env:
           CodeTester_USERNAME: ${{ secrets.CodeTester_USERNAME }}
           CodeTester_PASSWORD: ${{ secrets.CODETESTER_PASSWORD }}
