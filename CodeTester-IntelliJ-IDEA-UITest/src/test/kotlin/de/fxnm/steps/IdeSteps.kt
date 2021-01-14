@@ -21,11 +21,13 @@ class IdeSteps {
             }
         }
 
-        fun takeScreenShot(name: String) {
+        fun takeScreenShot(name: String, path:String) {
+            File(path).mkdirs()
+
             uiTest {
                 idea {
                     val bufferedImage = fetchScreenShot()
-                    val outputfile = File("ErrorScreenShort/FailedTest_${name}.jpg")
+                    val outputfile = File("$path/${name}.jpg")
                     ImageIO.write(bufferedImage, "jpg", outputfile)
                 }
 

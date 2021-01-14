@@ -11,7 +11,6 @@ import org.junit.jupiter.api.extension.AfterAllCallback
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback
 import org.junit.jupiter.api.extension.BeforeAllCallback
 import org.junit.jupiter.api.extension.ExtensionContext
-import java.io.File
 import java.io.IOException
 import java.io.OutputStream
 import java.net.InetSocketAddress
@@ -24,6 +23,8 @@ import java.util.concurrent.atomic.AtomicBoolean
 private val initialSetup = AtomicBoolean(false)
 private val robotPort = System.getProperty("robot-server.port")?.toInt()
     ?: throw IllegalStateException("System Property 'robot-server.port' is not set")
+private val errorScreenShotPath = System.getProperty("errorScreenShotPath")
+    ?: throw IllegalStateException("System Property 'errorScreenShotPath' is not set")
 
 fun uiTest(test: RemoteRobot.() -> Unit) {
     if (!initialSetup.getAndSet(true)) {
@@ -39,8 +40,6 @@ class Ide : BeforeAllCallback, AfterAllCallback, AfterTestExecutionCallback {
     private val gradleProcess = GradleProcess()
 
     override fun beforeAll(context: ExtensionContext) {
-        File("ErrorScreenShort").mkdirs()
-
         gradleProcess.startGradleTasks(":$gradleProject:runIdeForUiTests")
         log.info("Gradle process started, trying to connect to IDE")
         waitForIde()
@@ -72,7 +71,7 @@ class Ide : BeforeAllCallback, AfterAllCallback, AfterTestExecutionCallback {
         val testMethod = context.requiredTestMethod
         val testFailed = context.executionException.isPresent
         if (testFailed) {
-            IdeSteps.takeScreenShot(testMethod.name)
+            IdeSteps.takeScreenShot("failed_test_${testMethod.name}", errorScreenShotPath)
         }
     }
 
