@@ -36,10 +36,10 @@ the [issue tracker](https://github.com/fxnm/CodeTester-IDEA/issues) to report th
 
 #### Development
 
-Please see [CONTRIBUTING](https://github.com/fxnm/CodeTester-IDEA/blob/development/docs/CONTRIBUTING.md) for
+Please see [CONTRIBUTING](https://github.com/fxnm/CodeTester-IDEA/blob/main/docs/CONTRIBUTING.md) for
 instructions.
 
 ## License
 
 This code is released under a MIT License, as specified in the
-accompanying [LICENSE FILE](https://github.com/fxnm/CodeTester-IDEA/blob/development/LICENSE).
+accompanying [LICENSE FILE](https://github.com/fxnm/CodeTester-IDEA/blob/main/LICENSE).

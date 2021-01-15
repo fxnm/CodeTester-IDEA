@@ -10,6 +10,8 @@
 
 ### Fixed
 
+- Fixed Readme Links
+
 ### Removed
 
 ## [2.0.1]
