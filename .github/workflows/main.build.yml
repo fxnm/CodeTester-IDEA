@@ -71,6 +71,7 @@ jobs:
     name: Ui Test
     needs: gradleValidation
     runs-on: ubuntu-latest
+    container: fxnm/intellij.docker:latest
     steps:
 
       # Setup Java 11 environment for the next steps
