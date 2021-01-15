@@ -67,7 +67,7 @@ tasks {
     }
 
     downloadRobotServerPlugin {
-        version = "0.10.2"
+        version = "0.10.3"
     }
 
     runPluginVerifier {
