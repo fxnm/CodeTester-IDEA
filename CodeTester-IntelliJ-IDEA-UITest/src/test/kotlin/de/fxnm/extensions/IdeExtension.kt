@@ -5,8 +5,10 @@ import com.intellij.remoterobot.stepsProcessing.StepLogger
 import com.intellij.remoterobot.stepsProcessing.StepWorker
 import com.intellij.remoterobot.stepsProcessing.log
 import com.intellij.remoterobot.utils.waitFor
+import de.fxnm.steps.IdeSteps
 import org.gradle.tooling.*
 import org.junit.jupiter.api.extension.AfterAllCallback
+import org.junit.jupiter.api.extension.AfterTestExecutionCallback
 import org.junit.jupiter.api.extension.BeforeAllCallback
 import org.junit.jupiter.api.extension.ExtensionContext
 import java.io.IOException
@@ -21,6 +23,8 @@ import java.util.concurrent.atomic.AtomicBoolean
 private val initialSetup = AtomicBoolean(false)
 private val robotPort = System.getProperty("robot-server.port")?.toInt()
     ?: throw IllegalStateException("System Property 'robot-server.port' is not set")
+private val errorScreenShotPath = System.getProperty("errorScreenShotPath")
+    ?: throw IllegalStateException("System Property 'errorScreenShotPath' is not set")
 
 fun uiTest(test: RemoteRobot.() -> Unit) {
     if (!initialSetup.getAndSet(true)) {
@@ -30,7 +34,7 @@ fun uiTest(test: RemoteRobot.() -> Unit) {
     RemoteRobot("http://127.0.0.1:$robotPort").apply(test)
 }
 
-class Ide : BeforeAllCallback, AfterAllCallback {
+class Ide : BeforeAllCallback, AfterAllCallback, AfterTestExecutionCallback {
     private val gradleProject =
         System.getProperty("GRADLE_PROJECT") ?: throw java.lang.IllegalStateException("GRADLE_PROJECT not set")
     private val gradleProcess = GradleProcess()
@@ -43,11 +47,9 @@ class Ide : BeforeAllCallback, AfterAllCallback {
     }
 
     private fun waitForIde() {
-        waitFor(
-            duration = Duration.ofMinutes(10),
-            interval = Duration.ofMillis(500),
-            errorMessage = "Could not connect to remote robot in time"
-        ) {
+        waitFor(duration = Duration.ofMinutes(10),
+                interval = Duration.ofMillis(500),
+                errorMessage = "Could not connect to remote robot in time") {
             if (!gradleProcess.isRunning()) {
                 throw IllegalStateException("Gradle task has ended, check log")
             }
@@ -63,6 +65,14 @@ class Ide : BeforeAllCallback, AfterAllCallback {
         }
     } catch (e: IOException) {
         false
+    }
+
+    override fun afterTestExecution(context: ExtensionContext) {
+        val testMethod = context.requiredTestMethod
+        val testFailed = context.executionException.isPresent
+        if (testFailed) {
+            IdeSteps.takeScreenShot("failed_test_${testMethod.name}", errorScreenShotPath)
+        }
     }
 
     override fun afterAll(context: ExtensionContext) {
@@ -82,9 +92,7 @@ private class GradleProcess {
             throw IllegalStateException("Failed to locate build.gradle.kts in $cwd}")
         }
 
-        gradleConnection = GradleConnector.newConnector()
-            .forProjectDirectory(cwd.toFile())
-            .connect()
+        gradleConnection = GradleConnector.newConnector().forProjectDirectory(cwd.toFile()).connect()
     }
 
     fun isRunning(): Boolean = isRunning.get()
@@ -92,23 +100,17 @@ private class GradleProcess {
     fun startGradleTasks(vararg gradleTask: String) {
         val tokenSource = GradleConnector.newCancellationTokenSource()
 
-        gradleConnection.newBuild()
-            .forTasks(*gradleTask)
-            .withCancellationToken(tokenSource.token())
-            .setColorOutput(false)
-            .setStandardOutput(OutputWrapper(true))
-            .setStandardError(OutputWrapper(false))
-            .run(
-                object : ResultHandler<Any> {
-                    override fun onFailure(failure: GradleConnectionException) {
-                        isRunning.set(false)
-                    }
-
-                    override fun onComplete(result: Any) {
-                        isRunning.set(false)
-                    }
+        gradleConnection.newBuild().forTasks(*gradleTask).withCancellationToken(tokenSource.token())
+            .setColorOutput(false).setStandardOutput(OutputWrapper(true)).setStandardError(OutputWrapper(false))
+            .run(object : ResultHandler<Any> {
+                override fun onFailure(failure: GradleConnectionException) {
+                    isRunning.set(false)
                 }
-            )
+
+                override fun onComplete(result: Any) {
+                    isRunning.set(false)
+                }
+            })
 
         isRunning.set(true)
 
@@ -121,11 +123,9 @@ private class GradleProcess {
 
             cancellationTokenSource = null
         }
-        waitFor(
-            duration = Duration.ofMinutes(1),
-            interval = Duration.ofMillis(500),
-            errorMessage = "Could not stop Gradle task"
-        ) {
+        waitFor(duration = Duration.ofMinutes(1),
+                interval = Duration.ofMillis(500),
+                errorMessage = "Could not stop Gradle task") {
             !isRunning.get()
         }
         log.info("Gradle process stopped")

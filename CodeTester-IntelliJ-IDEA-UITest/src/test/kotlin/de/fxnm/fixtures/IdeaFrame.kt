@@ -5,10 +5,10 @@ import com.intellij.remoterobot.data.RemoteComponent
 import com.intellij.remoterobot.fixtures.*
 import com.intellij.remoterobot.search.locators.byXpath
 import com.intellij.remoterobot.stepsProcessing.step
-import com.intellij.remoterobot.utils.keyboard
 import com.intellij.remoterobot.utils.waitFor
-import java.awt.event.KeyEvent
+import java.awt.image.BufferedImage
 import java.time.Duration
+import javax.imageio.ImageIO
 
 fun RemoteRobot.idea(function: IdeaFrame.() -> Unit) {
     val frame = find<IdeaFrame>(timeout = Duration.ofSeconds(10))
@@ -28,13 +28,10 @@ class IdeaFrame(remoteRobot: RemoteRobot, remoteComponent: RemoteComponent) :
 
     private fun waitForProjectToBeAssigned() {
         waitFor(duration = Duration.ofSeconds(30)) {
-            callJs(
-                """
+            callJs("""
                 var frameHelper = com.intellij.openapi.wm.impl.ProjectFrameHelper.getFrameHelper(component);
                 frameHelper.project != null
-                """.trimIndent(),
-                runInEdt = true
-            )
+                """.trimIndent(), runInEdt = true)
         }
     }
 
@@ -55,25 +52,23 @@ class IdeaFrame(remoteRobot: RemoteRobot, remoteComponent: RemoteComponent) :
     fun waitForBackgroundTasks(timeout: Duration = Duration.ofMinutes(5)) {
         step("Wait for background tasks to finish") {
             waitFor(duration = timeout, interval = Duration.ofSeconds(5)) {
-                        findAll<ComponentFixture>(byXpath("//div[@class='JProgressBar']")).isEmpty()
+                findAll<ComponentFixture>(byXpath("//div[@class='JProgressBar']")).isEmpty()
             }
         }
     }
 
-    private fun isDumbMode(): Boolean = callJs(
-        """
+    private fun isDumbMode(): Boolean = callJs("""
             var frameHelper = com.intellij.openapi.wm.impl.ProjectFrameHelper.getFrameHelper(component);
             com.intellij.openapi.project.DumbService.isDumb(frameHelper.project);
-        """.trimIndent(),
-        runInEdt = true
-    )
+        """.trimIndent(), runInEdt = true)
 
 
     fun showCodeTesterExplorer() {
         try {
             find<CodeTesterExplorer>(byXpath("//div[@class='CodeTesterToolWindowPanel']"))
         } catch (e: Exception) {
-            find(ComponentFixture::class.java, byXpath("//div[@accessiblename='CodeTester' and @class='StripeButton' and @text='CodeTester']")).click()
+            find(ComponentFixture::class.java,
+                 byXpath("//div[@accessiblename='CodeTester' and @class='StripeButton' and @text='CodeTester']")).click()
         }
     }
 
@@ -83,6 +78,29 @@ class IdeaFrame(remoteRobot: RemoteRobot, remoteComponent: RemoteComponent) :
                 find<DialogFixture>(DialogFixture.byTitleContains("Tip")).close()
             } catch (e: Exception) {
             }
+        }
+    }
+
+
+    fun Fixture.fetchScreenShot(): BufferedImage {
+        return callJs<ByteArray>("""
+            importPackage(java.io)
+            importPackage(javax.imageio)
+            const screenShot = new java.awt.Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+            const location = component.getLocationOnScreen();
+            const bounds = component.getBounds()
+            const componentScreenShot = screenShot.getSubimage(location.x, location.y, bounds.getWidth(), bounds.getHeight());
+            let pictureBytes;
+            const baos = new ByteArrayOutputStream();
+            try {
+                ImageIO.write(componentScreenShot, "png", baos);
+                pictureBytes = baos.toByteArray();
+            } finally {
+              baos.close();
+            }
+            pictureBytes;
+        """).inputStream().use {
+            ImageIO.read(it)
         }
     }
 }

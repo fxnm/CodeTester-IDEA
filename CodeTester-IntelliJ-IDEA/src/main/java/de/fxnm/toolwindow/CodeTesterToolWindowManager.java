@@ -113,7 +113,7 @@ public class CodeTesterToolWindowManager {
 
             if (checkList.isEmpty()) {
                 resultToolWindowPanel.newCheckCompletedNotInSet();
-                return;
+                continue;
             }
 
             if (checkList.size() != 1) {

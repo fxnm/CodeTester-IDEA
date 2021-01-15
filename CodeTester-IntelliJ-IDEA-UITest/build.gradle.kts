@@ -1,4 +1,5 @@
 val remoteRobotPort: String by project
+val errorScreenShotPath: String by project
 
 dependencies {
     testImplementation(gradleApi())
@@ -18,6 +19,10 @@ tasks {
 
         systemProperty("robot-server.port", remoteRobotPort)
         systemProperty("junit.jupiter.extensions.autodetection.enabled", true)
+        systemProperty ("errorScreenShotPath", errorScreenShotPath)
+
+        systemProperty("idea.pass.privacy.policy", true)
+        systemProperty("idea.pass.data.sharing", false)
 
         systemProperty("GRADLE_PROJECT", "CodeTester-IntelliJ-IDEA")
         useJUnitPlatform {}

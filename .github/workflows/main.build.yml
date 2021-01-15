@@ -71,24 +71,42 @@ jobs:
     name: Ui Test
     needs: gradleValidation
     runs-on: ubuntu-latest
+    container: fxnm/intellij.docker:latest
     steps:
+
+      # Setup Java 11 environment for the next steps
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
 
       # Check out current repository
       - name: Fetch Sources
         uses: actions/checkout@v2
 
-      # Builds the docker container for ui testing
-      - name: Build Docker Container
-        run: docker build . -t intellij:container
+      # Cache Gradle dependencies
+      - name: Setup Gradle Dependencies Cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle', '**/*.gradle.kts', 'gradle.properties') }}
 
-      # Launches the container for ui testing
-      - name: Start Docker Container
-        run: docker run -i -d --name intelliJContainer intellij:container
+      # Cache Gradle Wrapper
+      - name: Setup Gradle Wrapper Cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
 
-      # Executes the ui tests in the container
-      - name: Exeute Ui Test
-        run: docker exec -e CodeTester_USERNAME=${{ secrets.CodeTester_USERNAME }} -e CodeTester_PASSWORD=${{ secrets.CODETESTER_PASSWORD }} intelliJContainer xvfb-run gradle runUiTest --info
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
 
+      # Run Ui Test
+      - name: Run Ui Test
+        run: xvfb-run ./gradlew runUiTest --info
+        env:
+          CodeTester_USERNAME: ${{ secrets.CodeTester_USERNAME }}
+          CodeTester_PASSWORD: ${{ secrets.CODETESTER_PASSWORD }}
 
   # Build plugin with buildPlugin Gradle task and provide the artifact for the next workflow jobs
   # Requires test job to be passed

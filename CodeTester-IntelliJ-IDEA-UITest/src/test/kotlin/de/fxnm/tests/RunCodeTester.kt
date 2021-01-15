@@ -12,10 +12,8 @@ class RunCodeTester : UiTestcaseBase() {
 
     @Test
     fun runCodeTester() {
-        CodeTesterToolWindowSteps.loginWithCredentials(
-            EnvironmentVariable.get(EnvironmentVariable.USERNAME),
-            EnvironmentVariable.get(EnvironmentVariable.PASSWORD)
-        )
+        CodeTesterToolWindowSteps.loginWithCredentials(EnvironmentVariable.get(EnvironmentVariable.USERNAME),
+                                                       EnvironmentVariable.get(EnvironmentVariable.PASSWORD))
 
         uiTest {
             idea {

@@ -21,7 +21,7 @@ class SettingsMenuPanel(val project: Project) {
     var field: ComboBox<String> = ComboBox()
 
     init {
-        codeTesterBaseURLs.addAll(GlobalSettingsService.getService().state?.codeTesterBaseURL!!)
+        codeTesterBaseURLs.addAll(GlobalSettingsService.service.state.codeTesterBaseURL)
         currentSelectedCodeTesterBaseUrl =
             ProjectPersistentSettingsService.getService(project).state.selectedCodeTesterBaseURL
         if (!codeTesterBaseURLs.contains(currentSelectedCodeTesterBaseUrl)) {
