@@ -5,6 +5,7 @@
 ### Added
 
 - Added Ui Testing Ci workflow
+- Added Upload of ui test images
 
 ### Changed
 
