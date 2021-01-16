@@ -21,7 +21,7 @@ class IdeSteps {
             }
         }
 
-        fun takeScreenShot(name: String, path:String) {
+        fun takeScreenShot(name: String, path: String) {
             File(path).mkdirs()
 
             uiTest {

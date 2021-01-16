@@ -56,7 +56,7 @@ class WelcomeFrameSteps {
 
         fun openProjectFromPath(projectPath: Path) {
             uiTest {
-                step ("Open Project from Path") {
+                step("Open Project from Path") {
                     welcomeFrame {
                         openFolder(projectPath)
                     }

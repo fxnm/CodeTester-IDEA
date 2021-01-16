@@ -10,10 +10,7 @@ import java.time.Duration
 import javax.swing.JTextField
 
 
-fun RemoteRobot.loginDialogWizard(
-    timeout: Duration = Duration.ofSeconds(5),
-    function: LoginDialog.() -> Unit
-) {
+fun RemoteRobot.loginDialogWizard(timeout: Duration = Duration.ofSeconds(5), function: LoginDialog.() -> Unit) {
     step("Search of Login Dialog") {
         val dialog = find<LoginDialog>(DialogFixture.byTitle("Login to CodeTester"), timeout)
 
@@ -26,16 +23,13 @@ fun RemoteRobot.loginDialogWizard(
 }
 
 @FixtureName("Login Dialog")
-open class LoginDialog(
-    remoteRobot: RemoteRobot,
-    remoteComponent: RemoteComponent
-) : DialogFixture(remoteRobot, remoteComponent) {
+open class LoginDialog(remoteRobot: RemoteRobot, remoteComponent: RemoteComponent) :
+    DialogFixture(remoteRobot, remoteComponent) {
 
     fun enterUsername(username: String) {
         textField("Username:").apply {
             // TODO: 29.12.2020 Change in a runJS
-            @Suppress("DEPRECATION")
-            execute {
+            @Suppress("DEPRECATION") execute {
                 JTextComponentFixture(robot, componentAs<JTextField>()).setText(username)
             }
         }
@@ -44,8 +38,7 @@ open class LoginDialog(
     fun enterPassword(password: String) {
         textField("Password:").apply {
             // TODO: 29.12.2020 Change in a runJS
-            @Suppress("DEPRECATION")
-            execute {
+            @Suppress("DEPRECATION") execute {
                 JTextComponentFixture(robot, componentAs<JTextField>()).setText(password)
             }
         }

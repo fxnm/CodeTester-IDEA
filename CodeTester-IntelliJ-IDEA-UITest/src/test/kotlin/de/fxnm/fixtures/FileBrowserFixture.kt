@@ -7,17 +7,14 @@ import com.intellij.remoterobot.fixtures.FixtureName
 import com.intellij.remoterobot.fixtures.JTextFieldFixture
 import com.intellij.remoterobot.search.locators.byXpath
 import com.intellij.remoterobot.stepsProcessing.step
-import com.intellij.remoterobot.utils.keyboard
 import com.intellij.remoterobot.utils.waitForIgnoringError
 import java.io.File
 import java.nio.file.Path
 import java.time.Duration
 
-fun ContainerFixture.fileBrowser(
-    partialTitle: String,
-    timeout: Duration = Duration.ofSeconds(20),
-    function: FileBrowserFixture.() -> Unit = {}
-) {
+fun ContainerFixture.fileBrowser(partialTitle: String,
+                                 timeout: Duration = Duration.ofSeconds(20),
+                                 function: FileBrowserFixture.() -> Unit = {}) {
     step("Search for file explorer with title matching $partialTitle") {
         val dialog = find<FileBrowserFixture>(DialogFixture.byTitleContains(partialTitle), timeout)
 
@@ -32,10 +29,8 @@ fun ContainerFixture.fileBrowser(
 }
 
 @FixtureName("FileBrowser")
-class FileBrowserFixture(
-    remoteRobot: RemoteRobot,
-    remoteComponent: RemoteComponent
-) : DialogFixture(remoteRobot, remoteComponent) {
+class FileBrowserFixture(remoteRobot: RemoteRobot, remoteComponent: RemoteComponent) :
+    DialogFixture(remoteRobot, remoteComponent) {
     private val tree by lazy {
         find<JTreeFixture>(byXpath("//div[@class='Tree']"), Duration.ofSeconds(10)).also {
             it.separator = "|" // switch out the separator since tree has path "/" as the root

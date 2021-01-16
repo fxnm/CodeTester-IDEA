@@ -5,10 +5,8 @@ import com.intellij.remoterobot.data.RemoteComponent
 import com.intellij.remoterobot.fixtures.ComponentFixture
 import com.intellij.remoterobot.stepsProcessing.step
 
-class JTreeFixture(
-    remoteRobot: RemoteRobot,
-    remoteComponent: RemoteComponent
-) : ComponentFixture(remoteRobot, remoteComponent) {
+class JTreeFixture(remoteRobot: RemoteRobot, remoteComponent: RemoteComponent) :
+    ComponentFixture(remoteRobot, remoteComponent) {
     var separator: String = "/"
 
     fun clickPath(vararg paths: String) = runJsPathMethod("clickPath", *paths)
@@ -19,14 +17,12 @@ class JTreeFixture(
     fun requireSelection(vararg paths: String) {
         val path = paths.joinToString(separator)
         step("requireSelection $path") {
-            runJs(
-                """
+            runJs("""
                 const jTreeFixture = JTreeFixture(robot, component);
                 jTreeFixture.replaceSeparator('$separator')
                 // Have to disambiguate int[] vs string[]
                 jTreeFixture['requireSelection(java.lang.String[])'](['$path']) 
-                """.trimIndent()
-            )
+                """.trimIndent())
         }
     }
 
@@ -36,25 +32,21 @@ class JTreeFixture(
     private fun runJsPathMethod(name: String, vararg paths: String) {
         val path = paths.joinToString("/")
         step("$name $path") {
-            runJs(
-                """
+            runJs("""
                 const jTreeFixture = JTreeFixture(robot, component);
                 jTreeFixture.replaceSeparator('$separator')
                 jTreeFixture.$name('$path') 
-                """.trimIndent()
-            )
+                """.trimIndent())
         }
     }
 
     private fun runJsRowMethod(name: String, row: Int) {
         step("$name $row") {
-            runJs(
-                """
+            runJs("""
                 const jTreeFixture = JTreeFixture(robot, component);
                 jTreeFixture.replaceSeparator('$separator')
                 jTreeFixture.$name($row) 
-                """.trimIndent()
-            )
+                """.trimIndent())
         }
     }
 }
