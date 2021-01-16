@@ -20,7 +20,7 @@ class RunCodeTester : UiTestcaseBase() {
                 showCodeTesterExplorer()
                 codeTesterToolWindow {
                     step("Run Test") {
-//                        selectCategory("2020 SS Final 2")
+                        selectCategory("2020 SS Final 2")
                         run()
 
                         // TODO: 26.12.2020

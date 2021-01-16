@@ -2,6 +2,7 @@ package de.fxnm.fixtures
 
 import com.intellij.remoterobot.RemoteRobot
 import com.intellij.remoterobot.data.RemoteComponent
+import com.intellij.remoterobot.fixtures.ComboBoxFixture
 import com.intellij.remoterobot.fixtures.FixtureName
 import com.intellij.remoterobot.search.locators.byXpath
 import com.intellij.remoterobot.stepsProcessing.step
@@ -24,9 +25,13 @@ open class CodeTesterExplorer(
 ) : DialogFixture(remoteRobot, remoteComponent) {
 
     fun selectCategory(category: String) {
-        // TODO: 26.12.2020 NOT Working !
-        var a = jList(byXpath("//div[@class='ComboBox']"))
-        print(a)
+        val combobox = comboBox(byXpath("//div[@class='ComboBox']"), Duration.ofSeconds(2))
+
+        if (!combobox.listValues().contains(category)) {
+            throw Exception("Selected Category does not exist!")
+        }
+
+        combobox.selectItem(category)
     }
 
     fun closeToolWindow() {

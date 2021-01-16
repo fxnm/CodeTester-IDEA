@@ -12,6 +12,7 @@
 ### Fixed
 
 - Fixed Readme Links
+- Fixed select check category for ui test
 
 ### Removed
 
