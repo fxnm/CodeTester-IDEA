@@ -29,6 +29,8 @@ class CodeTesterToolWindowSteps {
 
                             // Wait till user is logged in
                             waitForBackgroundTasks()
+
+                            // Force update ui
                             rightClick()
 
                             // Checks if the category reload is finished
