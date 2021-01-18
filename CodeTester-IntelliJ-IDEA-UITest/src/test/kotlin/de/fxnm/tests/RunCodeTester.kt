@@ -37,6 +37,7 @@ class RunCodeTester : UiTestcaseBase() {
                 codeTesterTab {
                     selectMainPanel()
                     selectPanel("Check 'Feiertage-Test (Fehlerhaftes Format der Datei)' : FAILED")
+                    selectMainPanel()
                 }
             }
         }

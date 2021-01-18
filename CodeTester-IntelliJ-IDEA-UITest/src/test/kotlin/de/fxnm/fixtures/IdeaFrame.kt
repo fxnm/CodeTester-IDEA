@@ -64,6 +64,7 @@ class IdeaFrame(remoteRobot: RemoteRobot, remoteComponent: RemoteComponent) :
 
 
     fun showCodeTesterExplorer() {
+        // FIXME: 18.01.2021 BUG IF CURRENT OPEN TOOL WINDOW IS NOT THE MAIN TOOL WINDOW
         if (findAll<CodeTesterExplorer>(CodeTesterExplorer::class.java).isEmpty()) {
             find(ComponentFixture::class.java,
                  byXpath("//div[@accessiblename='CodeTester' and @class='StripeButton' and @text='CodeTester']")).click()
