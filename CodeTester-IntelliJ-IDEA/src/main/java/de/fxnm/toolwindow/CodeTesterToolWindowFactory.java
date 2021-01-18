@@ -2,6 +2,7 @@ package de.fxnm.toolwindow;
 
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowFactory;
@@ -15,7 +16,7 @@ import de.fxnm.toolwindow.main.toolwindow.CodeTesterToolWindowPanel;
 import de.fxnm.toolwindow.result.toolwindow.ResultToolWindowPanel;
 import de.fxnm.util.CodeTesterBundle;
 
-public class CodeTesterToolWindowFactory implements ToolWindowFactory {
+public class CodeTesterToolWindowFactory implements ToolWindowFactory, DumbAware {
 
     private static final Logger LOG = Logger.getInstance(CodeTesterToolWindowFactory.class);
     private static final int MAX_LENGTH = 10;
