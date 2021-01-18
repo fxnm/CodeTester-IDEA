@@ -2,6 +2,7 @@ package de.fxnm.fixtures
 
 import com.intellij.remoterobot.RemoteRobot
 import com.intellij.remoterobot.data.RemoteComponent
+import com.intellij.remoterobot.fixtures.DefaultXpath
 import com.intellij.remoterobot.fixtures.FixtureName
 import com.intellij.remoterobot.search.locators.byXpath
 import com.intellij.remoterobot.stepsProcessing.step
@@ -11,11 +12,11 @@ import java.time.Duration
 fun RemoteRobot.codeTesterToolWindow(timeout: Duration = Duration.ofSeconds(2),
                                      function: CodeTesterExplorer.() -> Unit) {
     step("CodeTester ToolWindow") {
-        find<CodeTesterExplorer>(byXpath("//div[@class='CodeTesterToolWindowPanel']"), timeout).apply(function)
+        find<CodeTesterExplorer>(CodeTesterExplorer::class.java).apply(function)
     }
 }
 
-@FixtureName("CodeTesterToolWindow")
+@DefaultXpath("type","//div[@class='CodeTesterToolWindowPanel']")
 open class CodeTesterExplorer(remoteRobot: RemoteRobot, remoteComponent: RemoteComponent) :
     DialogFixture(remoteRobot, remoteComponent) {
 
@@ -98,9 +99,5 @@ open class CodeTesterExplorer(remoteRobot: RemoteRobot, remoteComponent: RemoteC
     fun checkIfErrorMessageExists(errorMessage: String): Boolean {
         jLabel(errorMessage)
         return true
-    }
-
-    fun findResultTree(): JTreeFixture {
-        return find<JTreeFixture>(byXpath("//div[@class='Tree']"), Duration.ofSeconds(10))
     }
 }

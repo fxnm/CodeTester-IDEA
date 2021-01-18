@@ -64,7 +64,7 @@ class IdeaFrame(remoteRobot: RemoteRobot, remoteComponent: RemoteComponent) :
 
 
     fun showCodeTesterExplorer() {
-        if (findAll<CodeTesterExplorer>(byXpath("//div[@class='CodeTesterToolWindowPanel']")).isEmpty()) {
+        if (findAll<CodeTesterExplorer>(CodeTesterExplorer::class.java).isEmpty()) {
             find(ComponentFixture::class.java,
                  byXpath("//div[@accessiblename='CodeTester' and @class='StripeButton' and @text='CodeTester']")).click()
         }
