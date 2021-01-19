@@ -7,10 +7,8 @@ import com.intellij.remoterobot.search.locators.byXpath
 import com.intellij.remoterobot.stepsProcessing.step
 import java.time.Duration
 
-fun RemoteRobot.projectStructureDialog(
-    timeout: Duration = Duration.ofSeconds(20),
-    function: ProjectStructureDialog.() -> Unit
-) {
+fun RemoteRobot.projectStructureDialog(timeout: Duration = Duration.ofSeconds(20),
+                                       function: ProjectStructureDialog.() -> Unit) {
     step("Search for Project Structure dialog") {
         val dialog = find<ProjectStructureDialog>(byXpath("//div[@accessiblename='Project Structure']"), timeout)
 
@@ -23,7 +21,5 @@ fun RemoteRobot.projectStructureDialog(
 }
 
 @FixtureName("ProjectStructure")
-open class ProjectStructureDialog(
-    remoteRobot: RemoteRobot,
-    remoteComponent: RemoteComponent
-) : DialogFixture(remoteRobot, remoteComponent)
+open class ProjectStructureDialog(remoteRobot: RemoteRobot, remoteComponent: RemoteComponent) :
+    DialogFixture(remoteRobot, remoteComponent)

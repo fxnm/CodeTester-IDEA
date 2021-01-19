@@ -8,10 +8,7 @@ import com.intellij.remoterobot.search.locators.byXpath
 import com.intellij.remoterobot.stepsProcessing.step
 import java.time.Duration
 
-fun RemoteRobot.preferencesDialog(
-    timeout: Duration = Duration.ofSeconds(20),
-    function: PreferencesDialog.() -> Unit
-) {
+fun RemoteRobot.preferencesDialog(timeout: Duration = Duration.ofSeconds(20), function: PreferencesDialog.() -> Unit) {
     step("Search for preferences dialog") {
         val dialog = find<PreferencesDialog>(DialogFixture.byTitleContains(preferencesTitle()), timeout)
 
@@ -24,10 +21,8 @@ fun RemoteRobot.preferencesDialog(
 }
 
 @FixtureName("Preferences")
-open class PreferencesDialog(
-    remoteRobot: RemoteRobot,
-    remoteComponent: RemoteComponent
-) : DialogFixture(remoteRobot, remoteComponent) {
+open class PreferencesDialog(remoteRobot: RemoteRobot, remoteComponent: RemoteComponent) :
+    DialogFixture(remoteRobot, remoteComponent) {
     fun search(query: String) = step("Search $query") {
         textField(byXpath("//div[@class='TextFieldWithProcessing']")).text = query
     }
