@@ -6,8 +6,12 @@
 
 - Added Ui Testing Ci workflow
 - Added Upload of ui test images
+- Added Result Tree Fixture
+- Added Tool Window Tab Fixture
 
 ### Changed
+
+- Changed Tool Window Factory to Dumb Aware Mode
 
 ### Fixed
 
