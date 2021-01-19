@@ -2,6 +2,7 @@ package de.fxnm.fixtures
 
 import com.intellij.remoterobot.RemoteRobot
 import com.intellij.remoterobot.data.RemoteComponent
+import com.intellij.remoterobot.fixtures.CommonContainerFixture
 import com.intellij.remoterobot.fixtures.ContainerFixture
 import com.intellij.remoterobot.fixtures.DefaultXpath
 import com.intellij.remoterobot.search.locators.byXpath
@@ -17,7 +18,7 @@ fun ContainerFixture.codeTesterTab(function: ToolWindowHeader.() -> Unit = {}) {
 
 @DefaultXpath("type", "//div[@accessiblename='Tool Window Header' and @class='ToolWindowHeader']")
 class ToolWindowHeader(remoteRobot: RemoteRobot, remoteComponent: RemoteComponent) :
-    DialogFixture(remoteRobot, remoteComponent) {
+    CommonContainerFixture(remoteRobot, remoteComponent) {
 
     private val codeTesterTabLabelXpath =
         "//div[@accessiblename='CodeTester:' and @class='BaseLabel' and @text='CodeTester:']"

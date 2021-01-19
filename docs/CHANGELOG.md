@@ -12,6 +12,7 @@
 ### Changed
 
 - Changed Tool Window Factory to Dumb Aware Mode
+- Changed Fixture implementation
 
 ### Fixed
 
