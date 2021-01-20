@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.awt.Desktop
 
-class CodeTesterToolWindowButton : UiTestcaseBase() {
+class MainToolWindowButton : UiTestcaseBase() {
 
     @Test
     fun loggedOutState() {
