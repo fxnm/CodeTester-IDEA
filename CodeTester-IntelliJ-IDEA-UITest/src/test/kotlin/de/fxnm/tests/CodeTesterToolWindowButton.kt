@@ -8,6 +8,7 @@ import de.fxnm.steps.CodeTesterToolWindowSteps
 import de.fxnm.util.EnvironmentVariable
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import java.awt.Desktop
 
 class CodeTesterToolWindowButton : UiTestcaseBase() {
 
@@ -56,7 +57,7 @@ class CodeTesterToolWindowButton : UiTestcaseBase() {
 
                     step("Add new Check Button") {
                         addCheckButton {
-                            Assertions.assertTrue(isEnabled())
+                            Assertions.assertEquals(Desktop.isDesktopSupported(), isEnabled())
                         }
                     }
 
@@ -124,7 +125,7 @@ class CodeTesterToolWindowButton : UiTestcaseBase() {
 
                     step("Add new Check Button") {
                         addCheckButton {
-                            Assertions.assertTrue(isEnabled())
+                            Assertions.assertEquals(Desktop.isDesktopSupported(), isEnabled())
                         }
                     }
 
