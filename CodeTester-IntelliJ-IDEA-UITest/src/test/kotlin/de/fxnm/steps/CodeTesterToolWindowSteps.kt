@@ -3,10 +3,7 @@ package de.fxnm.steps
 import com.intellij.remoterobot.search.locators.byXpath
 import com.intellij.remoterobot.stepsProcessing.step
 import de.fxnm.extensions.uiTest
-import de.fxnm.fixtures.codeTesterTab
-import de.fxnm.fixtures.codeTesterToolWindow
-import de.fxnm.fixtures.idea
-import de.fxnm.fixtures.loginDialogWizard
+import de.fxnm.fixtures.*
 
 class CodeTesterToolWindowSteps {
     companion object {
@@ -17,7 +14,9 @@ class CodeTesterToolWindowSteps {
                         showCodeTesterExplorer()
                         codeTesterToolWindow {
                             step("Open login dialog") {
-                                login()
+                                loginButton {
+                                    clickWhenEnabled()
+                                }
                             }
 
                             step("Fill login information") {
@@ -30,9 +29,6 @@ class CodeTesterToolWindowSteps {
 
                             // Wait till user is logged in
                             waitForBackgroundTasks()
-
-                            // Force update ui
-                            rightClick()
 
                             // Checks if the category reload is finished
                             val combobox = comboBox(byXpath("//div[@class='ComboBox']"))
@@ -58,8 +54,10 @@ class CodeTesterToolWindowSteps {
 
                         codeTesterToolWindow {
                             try {
-                                logout()
-                            } catch (e: Exception) {
+                                logoutButton {
+                                    clickWhenEnabled()
+                                }
+                            } catch (ignore: Exception) {
                             }
                         }
                     }
