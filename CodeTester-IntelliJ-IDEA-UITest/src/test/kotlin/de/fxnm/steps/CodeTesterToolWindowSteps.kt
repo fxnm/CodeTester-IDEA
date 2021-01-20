@@ -15,7 +15,7 @@ class CodeTesterToolWindowSteps {
                         codeTesterToolWindow {
                             step("Open login dialog") {
                                 loginButton {
-                                    clickWhenEnabled()
+                                   click()
                                 }
                             }
 
