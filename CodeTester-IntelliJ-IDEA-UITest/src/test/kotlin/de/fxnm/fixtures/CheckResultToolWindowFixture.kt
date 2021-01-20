@@ -2,6 +2,7 @@ package de.fxnm.fixtures
 
 import com.intellij.remoterobot.RemoteRobot
 import com.intellij.remoterobot.data.RemoteComponent
+import com.intellij.remoterobot.fixtures.ActionButtonFixture
 import com.intellij.remoterobot.fixtures.CommonContainerFixture
 import com.intellij.remoterobot.fixtures.ContainerFixture
 import com.intellij.remoterobot.fixtures.DefaultXpath
@@ -10,7 +11,7 @@ import com.intellij.remoterobot.search.locators.byXpath
 fun ContainerFixture.checkResultToolWindow(checkName: String, function: CheckResultToolWindowFixture.() -> Unit = {}) {
     val fixtureList = findAll(CheckResultToolWindowFixture::class.java)
     for (fixture in fixtureList) {
-        if (fixture.findAllText("$checkName").isNotEmpty()) {
+        if (fixture.findAllText(checkName).isNotEmpty()) {
             fixture.apply(function)
             return
         }
@@ -23,13 +24,13 @@ fun ContainerFixture.checkResultToolWindow(checkName: String, function: CheckRes
 class CheckResultToolWindowFixture(remoteRobot: RemoteRobot, remoteComponent: RemoteComponent) :
     CommonContainerFixture(remoteRobot, remoteComponent) {
 
-    private val closeToolWindowButton =
+    private val closeToolWindowButtonXpath =
         "//div[@accessiblename='Close Code Tester Window' and @class='ActionButton' and @myaction='Close Code Tester Window (Close the Code Tester tool window)']"
-    private val gotToHomeScreenButton =
+    private val gotToHomeScreenButtonXpath =
         "//div[@accessiblename='To Homescreen' and @class='ActionButton' and @myaction='To Homescreen (Jumps to the check result summary)']"
-    private val rerunChecksButton =
+    private val rerunChecksButtonXpath =
         "//div[@accessiblename='Reruns the selected Test' and @class='ActionButton' and @myaction='Reruns the selected Test (Reruns the selected Test on your Code.)']"
-    private val cancelRunChecksButton =
+    private val cancelRunChecksButtonXpath =
         "//div[@accessiblename='Stop the Running Test' and @class='ActionButton' and @myaction='Stop the Running Test (Stop the test currently being executed.)']"
 
     private val titleComponent by lazy {
@@ -55,24 +56,20 @@ class CheckResultToolWindowFixture(remoteRobot: RemoteRobot, remoteComponent: Re
         return ""
     }
 
-    fun closeToolWindow() {
-        val fixture = button(byXpath(closeToolWindowButton))
-        fixture.click()
+    fun closeToolWindowButton(function: ActionButtonFixture.() -> Unit) {
+        actionButton(byXpath(closeToolWindowButtonXpath)).apply(function)
     }
 
-    fun gotToHomeScreen() {
-        val fixture = button(byXpath(gotToHomeScreenButton))
-        fixture.click()
+    fun gotToHomeScreenButton(function: ActionButtonFixture.() -> Unit) {
+        actionButton(byXpath(gotToHomeScreenButtonXpath)).apply(function)
     }
 
-    fun rerunChecks() {
-        val fixture = button(byXpath(rerunChecksButton))
-        fixture.click()
+    fun rerunChecksButton(function: ActionButtonFixture.() -> Unit) {
+        actionButton(byXpath(rerunChecksButtonXpath)).apply(function)
     }
 
-    fun cancelCheckRerun() {
-        val fixture = button(byXpath(cancelRunChecksButton))
-        fixture.click()
+    fun cancelCheckRerunButton(function: ActionButtonFixture.() -> Unit) {
+        actionButton(byXpath(cancelRunChecksButtonXpath)).apply(function)
     }
 }
 
