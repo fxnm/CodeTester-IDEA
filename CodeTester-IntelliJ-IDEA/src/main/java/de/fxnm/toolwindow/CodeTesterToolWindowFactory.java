@@ -69,7 +69,7 @@ public class CodeTesterToolWindowFactory implements ToolWindowFactory, DumbAware
     @Override
     public void createToolWindowContent(@NotNull final Project project, @NotNull final ToolWindow toolWindow) {
         final Content content = toolWindow.getContentManager().getFactory().createContent(
-                new CodeTesterToolWindowPanel(toolWindow, project),
+                new CodeTesterToolWindowPanel( project),
                 CodeTesterBundle.message("plugin.name"),
                 false);
         content.setCloseable(false);

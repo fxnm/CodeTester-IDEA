@@ -46,15 +46,13 @@ public class CodeTesterToolWindowPanel extends JPanel implements ConfigurationLi
     private final CategoryComboBox categoryComboBox;
     private final ErrorMessagePanel errorMessagePanel = new ErrorMessagePanel();
     private final Project project;
-    private final ToolWindow toolWindow;
     private CheckResultSummaryPanel checkResultSummaryPanel;
     private ToolWindowBase toolWindowBase;
 
 
-    public CodeTesterToolWindowPanel(final ToolWindow toolWindow, final Project project) {
+    public CodeTesterToolWindowPanel(final Project project) {
         super(new BorderLayout());
 
-        this.toolWindow = toolWindow;
         this.project = project;
 
         this.categoryComboBox = new CategoryComboBox();
