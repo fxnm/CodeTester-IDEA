@@ -8,6 +8,7 @@
 - Added Upload of ui test images
 - Added Result Tree Fixture
 - Added Tool Window Tab Fixture
+- Added Error Prone
 
 ### Changed
 
