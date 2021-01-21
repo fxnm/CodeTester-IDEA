@@ -1,9 +1,7 @@
 package component.runnable.account.service;
 
 import com.github.hypfvieh.util.StringUtil;
-import com.intellij.credentialStore.Credentials;
 
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 
 import de.fxnm.TestingBase;
@@ -89,7 +87,7 @@ public class LogOutRunnableTest extends TestingBase {
         this.logOutRunnable.run();
 
         Assertions.assertThrows(PasswordSafeException.class, () -> {
-            @NotNull final Credentials c = PasswordManager.retrieve(PasswordManager.LOGIN_KEY);
+            PasswordManager.retrieve(PasswordManager.LOGIN_KEY);
         });
     }
 }
