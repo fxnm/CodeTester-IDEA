@@ -126,8 +126,7 @@ public class CodeTesterToolWindowPanel extends JPanel implements ConfigurationLi
         this.checkResultSummaryPanel.addKeyListener(new ToolWindowKeyboardListener());
 
         final HorizontalComponentBox horizontalComponentBox = new HorizontalComponentBox();
-        horizontalComponentBox.addComponent(new JLabel((
-                CodeTesterBundle.message("plugin.toolWindow.codeTester.createToolWindow.category"))));
+        horizontalComponentBox.addComponent(new JLabel(CodeTesterBundle.message("plugin.toolWindow.codeTester.createToolWindow.category")));
         horizontalComponentBox.addComponent(this.categoryComboBox.getComboBox());
 
 
