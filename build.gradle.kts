@@ -55,7 +55,7 @@ subprojects {
             implementation(group = "org.projectlombok", name = "lombok", version = "1.18.18")
             annotationProcessor(group = "org.projectlombok", name = "lombok", version = "1.18.18")
 
-            testImplementation(group = "org.junit.jupiter", name = "junit-jupiter", version = "5.7.0")
+            testImplementation(group = "org.junit.jupiter", name = "junit-jupiter", version = "5.7.1")
         }
     }
 
