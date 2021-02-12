@@ -19,6 +19,7 @@ dependencies {
 }
 
 changelog {
+    version = pluginVersion
     path = parent?.projectDir!!.path + "/docs/CHANGELOG.md"
     groups = listOf("Added", "Changed", "Fixed", "Removed")
 }
