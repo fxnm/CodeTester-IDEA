@@ -5,8 +5,8 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.ui.content.Content;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +23,7 @@ public class CodeTesterToolWindowManager {
     private static final Logger LOG = Logger.getInstance(CodeTesterToolWindowManager.class);
 
     private final Project project;
-    private final List<ResultToolWindowPanel> resultWindowList = new LinkedList<>();
+    private final List<ResultToolWindowPanel> resultWindowList = new ArrayList<>();
 
     public CodeTesterToolWindowManager(final Project project) {
         this.project = project;
@@ -97,7 +97,7 @@ public class CodeTesterToolWindowManager {
 
         final List<Content> openToolWindows = Arrays.asList(ToolWindowAccess.toolWindow(this.project)
                 .getContentManager().getContents());
-        final List<Check> successful = new LinkedList<>(Arrays.asList(((Successful) submissionResult).getChecks()));
+        final List<Check> successful = new ArrayList<>(Arrays.asList(((Successful) submissionResult).getChecks()));
 
         for (final ResultToolWindowPanel resultToolWindowPanel : this.resultWindowList) {
             if (!openToolWindows.contains(resultToolWindowPanel.getAsContent())) {

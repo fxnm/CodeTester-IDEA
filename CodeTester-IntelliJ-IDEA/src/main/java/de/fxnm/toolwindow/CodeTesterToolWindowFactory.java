@@ -1,5 +1,6 @@
 package de.fxnm.toolwindow;
 
+import com.google.common.base.Splitter;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.DumbAware;
@@ -10,6 +11,10 @@ import com.intellij.openapi.wm.ToolWindowType;
 import com.intellij.ui.content.Content;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import de.fxnm.result.tree.ResultTreeNode;
 import de.fxnm.toolwindow.main.toolwindow.CodeTesterToolWindowPanel;
@@ -30,16 +35,11 @@ public class CodeTesterToolWindowFactory implements ToolWindowFactory, DumbAware
             return string;
         }
 
-        final String[] a = string.split("");
-        final StringBuilder stringBuilder = new StringBuilder();
+        final List<String> characterList = Splitter.on("").splitToList(string);
 
-        for (int i = 0; i < maxLength; i++) {
-            stringBuilder.append(a[i]);
-        }
-
-        stringBuilder.append("...");
-
-        return stringBuilder.toString();
+        return IntStream.range(0, maxLength)
+                .mapToObj(characterList::get)
+                .collect(Collectors.joining("", "", "..."));
     }
 
     public ResultToolWindowPanel createResultToolWindow(final @NotNull ToolWindow toolWindow,
@@ -69,7 +69,7 @@ public class CodeTesterToolWindowFactory implements ToolWindowFactory, DumbAware
     @Override
     public void createToolWindowContent(@NotNull final Project project, @NotNull final ToolWindow toolWindow) {
         final Content content = toolWindow.getContentManager().getFactory().createContent(
-                new CodeTesterToolWindowPanel( project),
+                new CodeTesterToolWindowPanel(project),
                 CodeTesterBundle.message("plugin.name"),
                 false);
         content.setCloseable(false);
