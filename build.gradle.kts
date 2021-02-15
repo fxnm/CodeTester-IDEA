@@ -1,4 +1,3 @@
-import net.ltgt.gradle.errorprone.errorprone
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.net.URI
 
@@ -14,11 +13,11 @@ plugins {
     // Java support
     id("java")
     // Kotlin support
-    id("org.jetbrains.kotlin.jvm") version "1.4.21-2" apply false
+    id("org.jetbrains.kotlin.jvm") version "1.4.30" apply false
     // gradle-intellij-plugin - read more: https://github.com/JetBrains/gradle-intellij-plugin
     id("org.jetbrains.intellij") version "0.6.5"
     // gradle-changelog-plugin - read more: https://github.com/JetBrains/gradle-changelog-plugin
-    id("org.jetbrains.changelog") version "1.0.1" apply false
+    id("org.jetbrains.changelog") version "1.1.2" apply false
     id("net.ltgt.errorprone") version "1.3.0"
 }
 
@@ -55,11 +54,11 @@ subprojects {
 
     apply {
         dependencies {
-            implementation(group = "org.projectlombok", name = "lombok", version = "1.18.16")
-            annotationProcessor(group = "org.projectlombok", name = "lombok", version = "1.18.16")
+            implementation(group = "org.projectlombok", name = "lombok", version = "1.18.18")
+            annotationProcessor(group = "org.projectlombok", name = "lombok", version = "1.18.18")
 
-            testImplementation(group = "org.junit.jupiter", name = "junit-jupiter", version = "5.7.0")
-            
+            testImplementation(group = "org.junit.jupiter", name = "junit-jupiter", version = "5.7.1")
+
             errorprone("com.google.errorprone:error_prone_core:2.5.1")
         }
     }
