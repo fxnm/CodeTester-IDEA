@@ -29,14 +29,14 @@ public class CodeTesterToolWindowFactory implements ToolWindowFactory, DumbAware
         return ServiceManager.getService(project, CodeTesterToolWindowFactory.class);
     }
 
-    private static String restrictStringLength(final int maxLength, final String string) {
-        if (string.length() <= maxLength) {
+    private static String restrictStringLength(final String string) {
+        if (string.length() <= MAX_LENGTH) {
             return string;
         }
 
         final List<String> characterList = List.of(string.split(""));
 
-        return IntStream.range(0, maxLength)
+        return IntStream.range(0, MAX_LENGTH)
                 .mapToObj(characterList::get)
                 .collect(Collectors.joining("", "", "..."));
     }
@@ -48,7 +48,7 @@ public class CodeTesterToolWindowFactory implements ToolWindowFactory, DumbAware
 
         final Content content = toolWindow.getContentManager().getFactory().createContent(
                 resultToolWindowPanel.getComponent(),
-                restrictStringLength(MAX_LENGTH, resultTreeNode.getCheck().getCheckName()),
+                restrictStringLength(resultTreeNode.getCheck().getCheckName()),
                 true);
         resultToolWindowPanel.addThisContent(content);
 
