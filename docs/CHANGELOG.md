@@ -4,6 +4,7 @@
 
 ### Added
 
+- Added Support for IntelliJ 2021.X
 - Added Ui Testing Ci workflow
 - Added Upload of ui test images
 - Added Result Tree Fixture
