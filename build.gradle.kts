@@ -1,3 +1,4 @@
+import net.ltgt.gradle.errorprone.errorprone
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.net.URI
 
@@ -18,6 +19,7 @@ plugins {
     id("org.jetbrains.intellij") version "0.7.2"
     // gradle-changelog-plugin - read more: https://github.com/JetBrains/gradle-changelog-plugin
     id("org.jetbrains.changelog") version "1.1.2" apply false
+    id("net.ltgt.errorprone") version "1.3.0"
 }
 
 
@@ -40,6 +42,7 @@ subprojects {
         plugin("java")
         plugin("org.jetbrains.kotlin.jvm")
         plugin("org.jetbrains.intellij")
+        plugin("net.ltgt.errorprone")
     }
 
     if (project.name != "CodeTester-IntelliJ-IDEA") {
@@ -56,6 +59,8 @@ subprojects {
             annotationProcessor(group = "org.projectlombok", name = "lombok", version = "1.18.18")
 
             testImplementation(group = "org.junit.jupiter", name = "junit-jupiter", version = "5.7.1")
+
+            errorprone("com.google.errorprone:error_prone_core:2.5.1")
         }
     }
 
@@ -65,6 +70,8 @@ subprojects {
             options.encoding = "UTF-8"
             sourceCompatibility = javaVersion
             targetCompatibility = javaVersion
+
+            options.errorprone.disableWarningsInGeneratedCode.set(true)
         }
 
         withType<KotlinCompile> {

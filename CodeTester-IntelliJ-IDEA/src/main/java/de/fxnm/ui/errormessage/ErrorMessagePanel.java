@@ -3,8 +3,8 @@ package de.fxnm.ui.errormessage;
 import com.intellij.openapi.diagnostic.Logger;
 
 import java.awt.GridBagLayout;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -17,7 +17,7 @@ public class ErrorMessagePanel {
     private static final Logger LOG = Logger.getInstance(ErrorMessagePanel.class);
     private static final int MS_TILL_AUTO_REMOVE = 5000;
 
-    private final List<ErrorMessage> errorMessageList = Collections.synchronizedList(new LinkedList<>());
+    private final List<ErrorMessage> errorMessageList = Collections.synchronizedList(new ArrayList<>());
     private final JPanel panel;
 
     public ErrorMessagePanel() {

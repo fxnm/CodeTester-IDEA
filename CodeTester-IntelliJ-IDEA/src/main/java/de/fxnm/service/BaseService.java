@@ -3,7 +3,7 @@ package de.fxnm.service;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Pair;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
 
@@ -12,7 +12,7 @@ import de.fxnm.util.CodeTesterBundle;
 
 public abstract class BaseService {
 
-    private final List<Pair<Future<?>, BaseRunnable>> progress = new LinkedList<>();
+    private final List<Pair<Future<?>, BaseRunnable>> progress = new ArrayList<>();
     private final Project project;
 
 
