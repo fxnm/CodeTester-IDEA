@@ -1,6 +1,5 @@
 package de.fxnm.toolwindow;
 
-import com.google.common.base.Splitter;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.DumbAware;
@@ -35,7 +34,7 @@ public class CodeTesterToolWindowFactory implements ToolWindowFactory, DumbAware
             return string;
         }
 
-        final List<String> characterList = Splitter.on("").splitToList(string);
+        final List<String> characterList = List.of(string.split(""));
 
         return IntStream.range(0, maxLength)
                 .mapToObj(characterList::get)
