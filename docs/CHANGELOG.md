@@ -4,11 +4,25 @@
 
 ### Added
 
+- Added Check Result Tool Window Fixutre
+
+
+### Changed
+
+### Fixed
+
+### Removed
+
+## [2.0.2]
+
+### Added
+
+- Added Support for IntelliJ 2021.X
 - Added Ui Testing Ci workflow
 - Added Upload of ui test images
 - Added Result Tree Fixture
 - Added Tool Window Tab Fixture
-- Added Check Result Tool Window Fixutre
+- Added Error Prone
 
 ### Changed
 

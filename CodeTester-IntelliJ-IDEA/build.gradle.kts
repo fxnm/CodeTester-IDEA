@@ -12,13 +12,14 @@ plugins {
 }
 
 dependencies {
-    implementation(group = "com.squareup.okhttp3", name = "okhttp", version = "4.9.0")
-    implementation(group = "io.sentry", name = "sentry", version = "3.2.1") {
+    implementation(group = "com.squareup.okhttp3", name = "okhttp", version = "4.9.1")
+    implementation(group = "io.sentry", name = "sentry", version = "4.3.0") {
         exclude(group = "org.slf4j")
     }
 }
 
 changelog {
+    version = pluginVersion
     path = parent?.projectDir!!.path + "/docs/CHANGELOG.md"
     groups = listOf("Added", "Changed", "Fixed", "Removed")
 }

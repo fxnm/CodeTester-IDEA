@@ -11,6 +11,10 @@ import com.intellij.ui.content.Content;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import de.fxnm.result.tree.ResultTreeNode;
 import de.fxnm.toolwindow.main.toolwindow.CodeTesterToolWindowPanel;
 import de.fxnm.toolwindow.result.toolwindow.ResultToolWindowPanel;
@@ -25,21 +29,16 @@ public class CodeTesterToolWindowFactory implements ToolWindowFactory, DumbAware
         return ServiceManager.getService(project, CodeTesterToolWindowFactory.class);
     }
 
-    private static String restrictStringLength(final int maxLength, final String string) {
-        if (string.length() <= maxLength) {
+    private static String restrictStringLength(final String string) {
+        if (string.length() <= MAX_LENGTH) {
             return string;
         }
 
-        final String[] a = string.split("");
-        final StringBuilder stringBuilder = new StringBuilder();
+        final List<String> characterList = List.of(string.split(""));
 
-        for (int i = 0; i < maxLength; i++) {
-            stringBuilder.append(a[i]);
-        }
-
-        stringBuilder.append("...");
-
-        return stringBuilder.toString();
+        return IntStream.range(0, MAX_LENGTH)
+                .mapToObj(characterList::get)
+                .collect(Collectors.joining("", "", "..."));
     }
 
     public ResultToolWindowPanel createResultToolWindow(final @NotNull ToolWindow toolWindow,
@@ -49,7 +48,7 @@ public class CodeTesterToolWindowFactory implements ToolWindowFactory, DumbAware
 
         final Content content = toolWindow.getContentManager().getFactory().createContent(
                 resultToolWindowPanel.getComponent(),
-                restrictStringLength(MAX_LENGTH, resultTreeNode.getCheck().getCheckName()),
+                restrictStringLength(resultTreeNode.getCheck().getCheckName()),
                 true);
         resultToolWindowPanel.addThisContent(content);
 
@@ -69,7 +68,7 @@ public class CodeTesterToolWindowFactory implements ToolWindowFactory, DumbAware
     @Override
     public void createToolWindowContent(@NotNull final Project project, @NotNull final ToolWindow toolWindow) {
         final Content content = toolWindow.getContentManager().getFactory().createContent(
-                new CodeTesterToolWindowPanel(toolWindow, project),
+                new CodeTesterToolWindowPanel(project),
                 CodeTesterBundle.message("plugin.name"),
                 false);
         content.setCloseable(false);

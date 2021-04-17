@@ -46,15 +46,13 @@ public class CodeTesterToolWindowPanel extends JPanel implements ConfigurationLi
     private final CategoryComboBox categoryComboBox;
     private final ErrorMessagePanel errorMessagePanel = new ErrorMessagePanel();
     private final Project project;
-    private final ToolWindow toolWindow;
     private CheckResultSummaryPanel checkResultSummaryPanel;
     private ToolWindowBase toolWindowBase;
 
 
-    public CodeTesterToolWindowPanel(final ToolWindow toolWindow, final Project project) {
+    public CodeTesterToolWindowPanel(final Project project) {
         super(new BorderLayout());
 
-        this.toolWindow = toolWindow;
         this.project = project;
 
         this.categoryComboBox = new CategoryComboBox();
@@ -128,8 +126,7 @@ public class CodeTesterToolWindowPanel extends JPanel implements ConfigurationLi
         this.checkResultSummaryPanel.addKeyListener(new ToolWindowKeyboardListener());
 
         final HorizontalComponentBox horizontalComponentBox = new HorizontalComponentBox();
-        horizontalComponentBox.addComponent(new JLabel((
-                CodeTesterBundle.message("plugin.toolWindow.codeTester.createToolWindow.category"))));
+        horizontalComponentBox.addComponent(new JLabel(CodeTesterBundle.message("plugin.toolWindow.codeTester.createToolWindow.category")));
         horizontalComponentBox.addComponent(this.categoryComboBox.getComboBox());
 
 
