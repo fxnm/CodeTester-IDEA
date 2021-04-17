@@ -14,12 +14,12 @@ plugins {
     // Java support
     id("java")
     // Kotlin support
-    id("org.jetbrains.kotlin.jvm") version "1.4.31" apply false
+    id("org.jetbrains.kotlin.jvm") version "1.4.32" apply false
     // gradle-intellij-plugin - read more: https://github.com/JetBrains/gradle-intellij-plugin
     id("org.jetbrains.intellij") version "0.7.2"
     // gradle-changelog-plugin - read more: https://github.com/JetBrains/gradle-changelog-plugin
     id("org.jetbrains.changelog") version "1.1.2" apply false
-    id("net.ltgt.errorprone") version "1.3.0"
+    id("net.ltgt.errorprone") version "2.0.1"
 }
 
 
@@ -60,7 +60,7 @@ subprojects {
 
             testImplementation(group = "org.junit.jupiter", name = "junit-jupiter", version = "5.7.1")
 
-            errorprone("com.google.errorprone:error_prone_core:2.5.1")
+            errorprone("com.google.errorprone:error_prone_core:2.6.0")
         }
     }
 
