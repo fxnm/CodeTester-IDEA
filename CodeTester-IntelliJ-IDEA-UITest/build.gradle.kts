@@ -18,7 +18,7 @@ tasks {
         outputs.upToDateWhen { false }
 
         systemProperty("robot-server.port", remoteRobotPort)
-        systemProperty("junit.jupiter.extensions.autodetection.enabled", true)
+//        systemProperty("junit.jupiter.extensions.autodetection.enabled", true)
         systemProperty("errorScreenShotPath", errorScreenShotPath)
 
         systemProperty("idea.pass.privacy.policy", true)
