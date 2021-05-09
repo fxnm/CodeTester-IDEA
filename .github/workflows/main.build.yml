@@ -78,14 +78,11 @@ jobs:
         with:
           java-version: 11
 
-      - name: Clean
-        run: gradle :CodeTester-IntelliJ-IDEA-UITest:clean
-
       - name: Run Idea
         run: |
           export DISPLAY=:99.0
             Xvfb -ac :99 -screen 0 1920x1080x16 &
-            gradle gradle :CodeTester-IntelliJ-IDEA-UITest:runIdeForUiTests &
+            gradle :CodeTester-IntelliJ-IDEA-UITest:runIdeForUiTests &
 
       - name: Wait for Idea started
         uses: jtalk/url-health-check-action@v1.4
