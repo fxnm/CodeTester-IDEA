@@ -60,7 +60,7 @@ subprojects {
 
             testImplementation(group = "org.junit.jupiter", name = "junit-jupiter", version = "5.7.1")
 
-            errorprone("com.google.errorprone:error_prone_core:2.6.0")
+            errorprone("com.google.errorprone:error_prone_core:2.7.1")
         }
     }
 
