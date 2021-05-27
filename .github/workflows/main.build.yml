@@ -106,9 +106,7 @@ jobs:
       # Run Ui Test
       - name: Run Idea
         run: |
-          export DISPLAY=:99.0
-          Xvfb -ac :99 -screen 0 1920x1080x16 &
-          ./gradlew :CodeTester-IntelliJ-IDEA:runIdeForUiTests &
+           xvfb-run ./gradlew :CodeTester-IntelliJ-IDEA:runIdeForUiTests &
           ./gradlew :CodeTester-IntelliJ-IDEA-UITest:runUiTest
         env:
           CodeTester_USERNAME: ${{ secrets.CodeTester_USERNAME }}
