@@ -4,6 +4,7 @@ import com.intellij.remoterobot.fixtures.*
 import com.intellij.remoterobot.search.locators.byXpath
 import com.intellij.remoterobot.stepsProcessing.step
 import com.intellij.remoterobot.utils.keyboard
+import com.intellij.remoterobot.utils.waitFor
 import java.time.Duration
 
 fun ComponentFixture.rightClick() = step("Right click") {
@@ -48,3 +49,10 @@ fun ContainerFixture.pressYes() = step("""Press the visible "yes" button""") {
  */
 fun CommonContainerFixture.actionButton(buttonText: String) =
     actionButton(byXpath("//div[@accessiblename='$buttonText' and @class='ActionButton']"))
+
+fun ActionButtonFixture.clickWhenEnabled() {
+    waitFor(Duration.ofSeconds(5)) {
+        isEnabled()
+    }
+    click()
+}

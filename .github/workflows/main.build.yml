@@ -72,52 +72,40 @@ jobs:
     name: Ui Test
     needs: gradleValidation
     runs-on: ubuntu-latest
-    container: fxnm/intellij.docker:latest
     steps:
-
-      # Setup Java 11 environment for the next steps
+      - uses: actions/checkout@v2
       - name: Setup Java
         uses: actions/setup-java@v2
         with:
           java-version: 11
           distribution: 'adopt'
 
-      # Check out current repository
-      - name: Fetch Sources
-        uses: actions/checkout@v2
+      - name: Run Idea
+        run: |
+          export DISPLAY=:99.0
+          Xvfb -ac :99 -screen 0 1920x1080x16 &
+          gradle :CodeTester-IntelliJ-IDEA-UITest:runIdeForUiTests &
 
-      # Cache Gradle dependencies
-      - name: Setup Gradle Dependencies Cache
-        uses: actions/cache@v2
+      - name: Wait for Idea started
+        uses: jtalk/url-health-check-action@v1.4
         with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle', '**/*.gradle.kts', 'gradle.properties') }}
+          url: http://127.0.0.1:8082
+          max-attempts: 15
+          retry-delay: 30s
 
-      # Cache Gradle Wrapper
-      - name: Setup Gradle Wrapper Cache
-        uses: actions/cache@v2
-        with:
-          path: ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-
-      # Run Ui Test
-      - name: Run Ui Test
-        run: xvfb-run ./gradlew runUiTest --info
+      - name: Tests
+        run: gradle :CodeTester-IntelliJ-IDEA-UITest:runUiTest
         env:
           CodeTester_USERNAME: ${{ secrets.CodeTester_USERNAME }}
           CodeTester_PASSWORD: ${{ secrets.CODETESTER_PASSWORD }}
 
-      # Uploads Images taken during ui test
-      - name: Upload Ui Test Images
-        if: ${{ always() }}
-        id: upload-release-asset
+      - name: Save fails report
+        if: ${{ failure() }}
         uses: actions/upload-artifact@v2
         with:
-          name: UiTest-Images
-          path: ./CodeTester-IntelliJ-IDEA-UITest/build/screenshots
+          name: ui-test-fails-report-linux
+          path: |
+            CodeTester-IntelliJ-IDEA-UITest/build/reports
 
   # Build plugin with buildPlugin Gradle task and provide the artifact for the next workflow jobs
   # Requires test job to be passed

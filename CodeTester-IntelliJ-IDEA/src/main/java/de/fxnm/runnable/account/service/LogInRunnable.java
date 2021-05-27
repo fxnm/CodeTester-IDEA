@@ -81,7 +81,7 @@ public class LogInRunnable extends BaseRunnable {
                     Objects.requireNonNull(credentials.getUserName()),
                     Objects.requireNonNull(credentials.getPasswordAsString()));
 
-        } catch (final PasswordSafeException | IOException | InternetConnectionException passwordSafeException) {
+        } catch (final PasswordSafeException | IOException | InternetConnectionException | NullPointerException passwordSafeException) {
             return false;
         }
 

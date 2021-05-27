@@ -2,10 +2,7 @@ package de.fxnm.tests
 
 import com.intellij.remoterobot.stepsProcessing.step
 import de.fxnm.extensions.uiTest
-import de.fxnm.fixtures.checkResultTree
-import de.fxnm.fixtures.codeTesterTab
-import de.fxnm.fixtures.codeTesterToolWindow
-import de.fxnm.fixtures.idea
+import de.fxnm.fixtures.*
 import de.fxnm.steps.CodeTesterToolWindowSteps
 import de.fxnm.util.EnvironmentVariable
 import org.junit.jupiter.api.Test
@@ -23,8 +20,13 @@ class RunCodeTester : UiTestcaseBase() {
 
                 codeTesterToolWindow {
                     step("Run Test") {
-                        selectCategory("2020 SS Final 2")
-                        run()
+                        categoryComboBox {
+                            selectItem("2020 SS Final 2")
+                        }
+
+                        runButton {
+                            clickWhenEnabled()
+                        }
 
                         waitForBackgroundTasks()
 
@@ -33,6 +35,15 @@ class RunCodeTester : UiTestcaseBase() {
                         }
                     }
                 }
+
+                checkResultToolWindow("Feiertage-Test (Fehlerhaftes Format der Datei)") {
+                    rerunChecksButton {
+                        clickWhenEnabled()
+                    }
+
+                    waitForBackgroundTasks()
+                }
+
 
                 codeTesterTab {
                     selectMainPanel()

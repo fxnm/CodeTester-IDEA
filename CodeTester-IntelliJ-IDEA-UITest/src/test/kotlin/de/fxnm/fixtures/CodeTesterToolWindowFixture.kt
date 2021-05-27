@@ -2,12 +2,12 @@ package de.fxnm.fixtures
 
 import com.intellij.remoterobot.RemoteRobot
 import com.intellij.remoterobot.data.RemoteComponent
+import com.intellij.remoterobot.fixtures.ActionButtonFixture
+import com.intellij.remoterobot.fixtures.ComboBoxFixture
 import com.intellij.remoterobot.fixtures.CommonContainerFixture
 import com.intellij.remoterobot.fixtures.DefaultXpath
 import com.intellij.remoterobot.search.locators.byXpath
 import com.intellij.remoterobot.stepsProcessing.step
-import com.intellij.remoterobot.utils.waitFor
-import java.time.Duration
 
 fun RemoteRobot.codeTesterToolWindow(function: CodeTesterExplorer.() -> Unit) {
     step("CodeTester ToolWindow") {
@@ -19,84 +19,70 @@ fun RemoteRobot.codeTesterToolWindow(function: CodeTesterExplorer.() -> Unit) {
 open class CodeTesterExplorer(remoteRobot: RemoteRobot, remoteComponent: RemoteComponent) :
     CommonContainerFixture(remoteRobot, remoteComponent) {
 
-    fun selectCategory(category: String) {
-        val combobox = comboBox(byXpath("//div[@class='ComboBox']"), Duration.ofSeconds(2))
+    private val categoryComboBoxXpath = "//div[@class='ComboBox']"
+    private val closeToolWindowButtonXpath =
+        "//div[@accessiblename='Close Code Tester Window' and @class='ActionButton' and @myaction='Close Code Tester Window (Close the Code Tester tool window)']"
+    private val loginButtonXpath =
+        "//div[@accessiblename='Login' and @class='ActionButton' and @myaction='Login (Login in to the codetester)']"
+    private val logoutButtonXpath =
+        "//div[@accessiblename='Logout' and @class='ActionButton' and @myaction='Login (Login in to the codetester)']"
+    private val runButtonXpath =
+        "//div[@accessiblename='Executes the selected Test' and @class='ActionButton' and @myaction='Executes the selected Test (Executes the selected Test on your Code.)']"
+    private val cancelButtonXpath =
+        "//div[@accessiblename='Stop the Running Test' and @class='ActionButton' and @myaction='Stop the Running Test (Stop the test currently being executed.)']"
+    private val displayFailedChecksButtonXpath =
+        "//div[@accessiblename='Display Errors' and @class='ActionButton' and @myaction='Display Errors (Display error results)']"
+    private val displaySuccessfulChecksButtonXpath =
+        "//div[@accessiblename='Display Successes' and @class='ActionButton' and @myaction='Display Successes (Display success results)']"
+    private val addCheckButtonXpath =
+        "//div[@accessiblename='Add Test' and @class='ActionButton' and @myaction='Add Test (Add a Test to the public test set)']"
+    private val closeAllToolWindowsButtonXpath =
+        "//div[@accessiblename='Removes all open Tests' and @class='ActionButton' and @myaction='Removes all open Tests (Removes all previously opend Check Result Tool Windows)']"
+    private val reloadCategoriesButtonXpath =
+        "//div[@accessiblename='Reloads categories' and @class='ActionButton' and @myaction='Reloads categories (Reloads categories)']"
 
-        if (!combobox.listValues().contains(category)) {
-            throw Exception("Selected Category does not exist!")
-        }
 
-        combobox.selectItem(category)
+    fun categoryComboBox(function: ComboBoxFixture.() -> Unit) {
+        comboBox(byXpath(categoryComboBoxXpath)).also(function)
     }
 
-    fun closeToolWindow() {
-        button(byXpath("//div[@accessiblename='Close Code Tester Window' and @class='ActionButton' and @myaction='Close Code Tester Window (Close the Code Tester tool window)']")).click()
+    fun closeToolWindowButton(function: ActionButtonFixture.() -> Unit) {
+        actionButton(byXpath(closeToolWindowButtonXpath)).apply(function)
     }
 
-    fun login() {
-        button(byXpath("//div[@accessiblename='Login' and @class='ActionButton' and @myaction='Login (Login in to the codetester)']")).click()
+    fun loginButton(function: ActionButtonFixture.() -> Unit) {
+        actionButton(byXpath(loginButtonXpath)).apply(function)
     }
 
-    fun logout() {
-        button(byXpath("//div[@accessiblename='Logout' and @class='ActionButton' and @myaction='Login (Login in to the " + "codetester)']"),
-               Duration.ofSeconds(1)).click()
+    fun logoutButton(function: ActionButtonFixture.() -> Unit) {
+        actionButton(byXpath(logoutButtonXpath)).apply(function)
     }
 
-    fun run() {
-        val button =
-            actionButton(byXpath("//div[@accessiblename='Executes the selected Test' and @class='ActionButton' and @myaction='Executes the selected Test (Executes the selected Test on your Code.)']"))
-
-        waitFor(Duration.ofSeconds(5), errorMessage = "Run Button is not enabled") {
-            button.rightClick()
-            button.isEnabled()
-        }
-
-        button.click()
+    fun runButton(function: ActionButtonFixture.() -> Unit) {
+        actionButton(byXpath(runButtonXpath)).apply(function)
     }
 
-    fun cancel() {
-        val button =
-            button(byXpath("//div[@accessiblename='Stop the Running Test' and @class='ActionButton' and @myaction='Stop the Running Test (Stop the test currently being executed.)']"))
-
-        if (!button.isEnabled()) {
-            throw IllegalStateException("Cancel Button is not enabled")
-        }
-
-        button.click()
+    fun cancelButton(function: ActionButtonFixture.() -> Unit) {
+        actionButton(byXpath(cancelButtonXpath)).apply(function)
     }
 
-    fun displaySuccessfulChecks() {
-        button(byXpath("//div[@accessiblename='Display Errors' and @class='ActionButton' and @myaction='Display Errors (Display error results)']")).click()
+    fun displaySuccessfulButton(function: ActionButtonFixture.() -> Unit) {
+        actionButton(byXpath(displaySuccessfulChecksButtonXpath)).apply(function)
     }
 
-    fun displayFailedChecks() {
-        button(byXpath("//div[@accessiblename='Display Successes' and @class='ActionButton' and @myaction='Display Successes (Display success results)']")).click()
+    fun displayFailedChecksButton(function: ActionButtonFixture.() -> Unit) {
+        actionButton(byXpath(displayFailedChecksButtonXpath)).apply(function)
     }
 
-    fun closeAllOpenResultToolWindows() {
-        val button =
-            button(byXpath("//div[@accessiblename='Removes all open Tests' and @class='ActionButton' and @myaction='Removes all open Tests (Removes all previously opend Check Result Tool Windows)']"))
-
-        if (!button.isEnabled()) {
-            throw IllegalStateException("Close all open result tool windows is not enabled")
-        }
-
-        button.click()
+    fun addCheckButton(function: ActionButtonFixture.() -> Unit) {
+        actionButton(byXpath(addCheckButtonXpath)).apply(function)
     }
 
-    fun reload() {
-        val button =
-            button(byXpath("//div[@accessiblename='Reloads categories' and @class='ActionButton' and @myaction='Reloads categories (Reloads categories)']"))
-
-        if (!button.isEnabled()) {
-            throw IllegalStateException("Reload is not enabled")
-        }
-
-        button.click()
+    fun closeOpenToolWindowsButton(function: ActionButtonFixture.() -> Unit) {
+        actionButton(byXpath(closeAllToolWindowsButtonXpath)).apply(function)
     }
 
-    fun checkIfErrorMessageExists(errorMessage: String): Boolean {
-        jLabel(errorMessage)
-        return true
+    fun reloadButton(function: ActionButtonFixture.() -> Unit) {
+        actionButton(byXpath(reloadCategoriesButtonXpath)).apply(function)
     }
 }

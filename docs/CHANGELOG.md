@@ -1,13 +1,18 @@
 # CodeTester-IDEA Changelog
 
 ## [Unreleased]
+
 ### Added
+
+- Added Check Result Tool Window Fixutre
+
 
 ### Changed
 
 ### Fixed
 
 ### Removed
+
 ## [2.0.2]
 
 ### Added
