@@ -2,6 +2,8 @@ package de.fxnm.result.tree;
 
 import com.intellij.openapi.diagnostic.Logger;
 
+import lombok.Getter;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,13 +15,14 @@ import de.fxnm.web.components.submission.SubmissionResult;
 import de.fxnm.web.components.submission.success.Check;
 import de.fxnm.web.components.submission.success.Result;
 import de.fxnm.web.components.submission.success.Successful;
-import lombok.Getter;
 
 public class ResultTreeModel extends DefaultTreeModel {
 
     private static final Logger LOG = Logger.getInstance(ResultTreeNode.class);
+
     @Getter
     private final DefaultMutableTreeNode visibleRootNode;
+
     private Successful successfulCheckResults;
 
     public ResultTreeModel() {

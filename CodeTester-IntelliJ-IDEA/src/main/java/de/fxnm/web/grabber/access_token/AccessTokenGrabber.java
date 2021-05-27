@@ -6,6 +6,12 @@ import com.intellij.openapi.project.Project;
 
 import org.jetbrains.annotations.NotNull;
 
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 import java.io.IOException;
 import java.util.Objects;
 
@@ -15,11 +21,6 @@ import de.fxnm.exceptions.PasswordSafeException;
 import de.fxnm.web.components.token.AccessToken;
 import de.fxnm.web.components.token.LoginToken;
 import de.fxnm.web.grabber.CommonUrl;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 import static de.fxnm.config.settings.password_safe.PasswordManager.LOGIN_KEY;
 

@@ -5,6 +5,8 @@ import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.treeStructure.Tree;
 import com.intellij.util.ui.JBEmptyBorder;
 
+import lombok.Getter;
+
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 
@@ -18,7 +20,6 @@ import de.fxnm.config.settings.project.persistentstate.ProjectPersistentSettings
 import de.fxnm.result.tree.ResultTreeModel;
 import de.fxnm.result.tree.ResultTreeRenderer;
 import de.fxnm.web.components.submission.SubmissionResult;
-import lombok.Getter;
 
 /**
  * Class used to create the visual representation of the overview of the results of the checks.

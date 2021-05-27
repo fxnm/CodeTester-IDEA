@@ -8,6 +8,13 @@ import com.intellij.psi.PsiFile;
 
 import org.jetbrains.annotations.NotNull;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
@@ -20,12 +27,6 @@ import de.fxnm.web.components.submission.error.Diagnostics;
 import de.fxnm.web.components.submission.success.Check;
 import de.fxnm.web.components.submission.success.Successful;
 import de.fxnm.web.components.token.AccessToken;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 public final class SubmitionGrabber {
 

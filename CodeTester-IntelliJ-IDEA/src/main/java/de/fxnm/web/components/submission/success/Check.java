@@ -2,24 +2,30 @@ package de.fxnm.web.components.submission.success;
 
 import org.jetbrains.annotations.NotNull;
 
+import lombok.Getter;
+
 import java.util.Arrays;
 
 import javax.swing.Icon;
 
 import icons.PluginIcons;
-import lombok.Getter;
 
 public class Check implements Comparable<Check> {
 
     private final String check;
-    @Getter
-    private final Result result;
-    @Getter
-    private final CheckOutputLineData[] output;
+
     @Getter
     private final String errorOutput;
+
     @Getter
     private final CheckFileData[] files;
+
+    @Getter
+    private final CheckOutputLineData[] output;
+
+    @Getter
+    private final Result result;
+
     private String message;
 
     public Check(final String check, final Result result, final String message, final CheckOutputLineData[] output,

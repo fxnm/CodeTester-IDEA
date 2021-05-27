@@ -5,9 +5,9 @@ import org.jetbrains.annotations.NotNull;
 import lombok.Getter;
 
 public class Category implements Comparable<Category> {
-    private final String name;
     @Getter
     private final int id;
+    private final String name;
 
     public Category(final int id, final String name) {
         this.id = id;

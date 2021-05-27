@@ -5,6 +5,10 @@ import com.intellij.openapi.project.Project;
 
 import org.jetbrains.annotations.NotNull;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Objects;
@@ -12,9 +16,6 @@ import java.util.Objects;
 import de.fxnm.exceptions.InternetConnectionException;
 import de.fxnm.web.components.category.Category;
 import de.fxnm.web.components.token.AccessToken;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public final class CheckCategoryGrabber {
 

@@ -3,7 +3,7 @@ package de.fxnm.action
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.ToggleAction
 import com.intellij.openapi.project.Project
-import java.util.Optional
+import java.util.*
 
 abstract class BaseToggleAction : ToggleAction() {
 
