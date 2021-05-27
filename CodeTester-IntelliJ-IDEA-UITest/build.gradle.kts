@@ -26,11 +26,12 @@ tasks {
         // we don't want to cache the results of this.
         outputs.upToDateWhen { false }
 
-        systemProperty("robot-server.port", properties("remoteRobotPort"))
-        systemProperty("junit.jupiter.extensions.autodetection.enabled", true)
-        systemProperty("errorScreenShotPath", properties("errorScreenShotPath"))
-
         systemProperty("GRADLE_PROJECT", "CodeTester-IntelliJ-IDEA")
+        systemProperty("errorScreenShotPath", properties("errorScreenShotPath"))
+        systemProperty("robot-server.port", properties("remoteRobotPort"))
+
+        systemProperty("junit.jupiter.extensions.autodetection.enabled", true)
+
         useJUnitPlatform {}
     }
 }

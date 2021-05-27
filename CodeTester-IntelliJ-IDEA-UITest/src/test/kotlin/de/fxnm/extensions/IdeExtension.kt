@@ -21,10 +21,8 @@ import java.time.Duration
 import java.util.concurrent.atomic.AtomicBoolean
 
 private val initialSetup = AtomicBoolean(false)
-private val robotPort = System.getProperty("robot-server.port")?.toInt()
-    ?: throw IllegalStateException("System Property 'robot-server.port' is not set")
+private val robotPort = System.getProperty("robot-server.port").toInt()
 private val errorScreenShotPath = System.getProperty("errorScreenShotPath")
-    ?: throw IllegalStateException("System Property 'errorScreenShotPath' is not set")
 
 fun uiTest(test: RemoteRobot.() -> Unit) {
     if (!initialSetup.getAndSet(true)) {
@@ -35,8 +33,7 @@ fun uiTest(test: RemoteRobot.() -> Unit) {
 }
 
 class Ide : BeforeAllCallback, AfterAllCallback, AfterTestExecutionCallback {
-    private val gradleProject =
-        System.getProperty("GRADLE_PROJECT") ?: throw java.lang.IllegalStateException("GRADLE_PROJECT not set")
+    private val gradleProject = System.getProperty("GRADLE_PROJECT")
     private val gradleProcess = GradleProcess()
 
     override fun beforeAll(context: ExtensionContext) {
