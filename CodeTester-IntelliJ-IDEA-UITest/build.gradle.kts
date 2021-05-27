@@ -26,6 +26,7 @@ tasks {
         // we don't want to cache the results of this.
         outputs.upToDateWhen { false }
 
+        systemProperty("GRADLE_PROJECT", "CodeTester-IntelliJ-IDEA")
         systemProperty("errorScreenShotPath", properties("errorScreenShotPath"))
         systemProperty("robot-server.port", properties("remoteRobotPort"))
 
