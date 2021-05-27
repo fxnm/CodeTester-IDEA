@@ -113,15 +113,15 @@ jobs:
           CodeTester_USERNAME: ${{ secrets.CodeTester_USERNAME }}
           CodeTester_PASSWORD: ${{ secrets.CODETESTER_PASSWORD }}
 
-      - name: Tests
-        run: ./gradlew :CodeTester-IntelliJ-IDEA-UITest:runUiTest
-
       - name: Wait for Idea started
         uses: jtalk/url-health-check-action@v1.4
         with:
           url: http://127.0.0.1:8082
           max-attempts: 15
           retry-delay: 30s
+
+      - name: Tests
+        run: ./gradlew :CodeTester-IntelliJ-IDEA-UITest:runUiTest
 
 
       # Uploads Images taken during ui test
