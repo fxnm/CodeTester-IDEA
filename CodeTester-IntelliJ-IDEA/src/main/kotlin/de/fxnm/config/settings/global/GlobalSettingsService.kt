@@ -9,8 +9,10 @@ import de.fxnm.CodeTesterPlugin
 import de.fxnm.config.settings.global.GlobalSettingsService
 import lombok.Getter
 
-@State(name = CodeTesterPlugin.PLUGIN_ID + "-GlobalSettings",
-       storages = [Storage(value = "CodeTesterGlobalSettings.xml")])
+@State(
+    name = CodeTesterPlugin.PLUGIN_ID + "-GlobalSettings",
+    storages = [Storage(value = "CodeTesterGlobalSettings.xml")]
+)
 
 class GlobalSettingsService : PersistentStateComponent<GlobalSettingsData?> {
 

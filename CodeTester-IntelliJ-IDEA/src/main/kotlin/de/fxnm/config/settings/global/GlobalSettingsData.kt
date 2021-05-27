@@ -1,6 +1,6 @@
 package de.fxnm.config.settings.global
 
-import java.util.LinkedList
+import java.util.*
 
 class GlobalSettingsData {
 

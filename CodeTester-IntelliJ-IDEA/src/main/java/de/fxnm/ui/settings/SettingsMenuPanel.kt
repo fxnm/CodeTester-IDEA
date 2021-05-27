@@ -2,20 +2,18 @@ package de.fxnm.ui.settings
 
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.ComboBox
-import com.intellij.openapi.ui.popup.JBPopupFactory
 import com.intellij.ui.layout.panel
 import de.fxnm.config.settings.global.GlobalSettingsService
 import de.fxnm.config.settings.project.persistentstate.ProjectPersistentSettingsService
 import de.fxnm.util.CodeTesterBundle
-import java.awt.Dimension
-import java.util.LinkedList
-import javax.swing.JComponent
+import java.util.*
 import javax.swing.JPanel
 
 
 class SettingsMenuPanel(val project: Project) {
 
-    var currentLoggedInAccount: String = CodeTesterBundle.message("plugin.ui.settingsMenuPanel.accountSettings.currentUser.none")
+    var currentLoggedInAccount: String =
+        CodeTesterBundle.message("plugin.ui.settingsMenuPanel.accountSettings.currentUser.none")
     private var codeTesterBaseURLs: MutableList<String> = LinkedList()
     private val currentSelectedCodeTesterBaseUrl: String
     var field: ComboBox<String> = ComboBox()
@@ -42,8 +40,10 @@ class SettingsMenuPanel(val project: Project) {
                 }
                 row {
                     label(CodeTesterBundle.message("plugin.ui.settingsMenuPanel.accountSettings.noAccount"))
-                    browserLink(CodeTesterBundle.message("plugin.ui.settingsMenuPanel.accountSettings.signUp"),
-                        ProjectPersistentSettingsService.getService(project).state.selectedCodeTesterBaseURL)
+                    browserLink(
+                        CodeTesterBundle.message("plugin.ui.settingsMenuPanel.accountSettings.signUp"),
+                        ProjectPersistentSettingsService.getService(project).state.selectedCodeTesterBaseURL
+                    )
                 }
             }
 
@@ -57,12 +57,16 @@ class SettingsMenuPanel(val project: Project) {
 
             titledRow(CodeTesterBundle.message("plugin.ui.settingsMenuPanel.helpSettings.title")) {
                 row {
-                    browserLink(CodeTesterBundle.message("plugin.ui.settingsMenuPanel.helpSettings.bugReport"),
-                            "https://github.com/fxnm/CodeTester-IDEA/issues/new/choose")
+                    browserLink(
+                        CodeTesterBundle.message("plugin.ui.settingsMenuPanel.helpSettings.bugReport"),
+                        "https://github.com/fxnm/CodeTester-IDEA/issues/new/choose"
+                    )
                 }
                 row {
-                    browserLink(CodeTesterBundle.message("plugin.ui.settingsMenuPanel.helpSettings.sourceCode"),
-                            "https://github.com/fxnm/CodeTester-IDEA")
+                    browserLink(
+                        CodeTesterBundle.message("plugin.ui.settingsMenuPanel.helpSettings.sourceCode"),
+                        "https://github.com/fxnm/CodeTester-IDEA"
+                    )
                 }
             }
         }

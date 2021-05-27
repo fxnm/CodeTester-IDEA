@@ -1,11 +1,7 @@
 import org.jetbrains.changelog.closure
 import org.jetbrains.changelog.markdownToHTML
 
-val remoteRobotPort: String by project
-val pluginVersion: String by project
-val pluginSinceBuild: String by project
-val pluginUntilBuild: String by project
-val pluginVerifierIdeVersions: String by project
+fun properties(key: String) = project.findProperty(key).toString()
 
 plugins {
     id("org.jetbrains.changelog")
@@ -19,16 +15,16 @@ dependencies {
 }
 
 changelog {
-    version = pluginVersion
+    version = properties("pluginVersion")
     path = parent?.projectDir!!.path + "/docs/CHANGELOG.md"
     groups = listOf("Added", "Changed", "Fixed", "Removed")
 }
 
 tasks {
     patchPluginXml {
-        version(pluginVersion)
-        sinceBuild(pluginSinceBuild)
-        untilBuild(pluginUntilBuild)
+        version(properties("pluginVersion"))
+        sinceBuild(properties("pluginSinceBuild"))
+        untilBuild(properties("pluginUntilBuild"))
 
         // Extract the <!-- Plugin description --> section from README.md and provide for the plugin's manifest
         pluginDescription(
@@ -55,7 +51,6 @@ tasks {
             }
         )
 
-        // Get the latest available change notes from the changelog file
         changeNotes(
             closure {
                 changelog.getLatest().toHTML()
@@ -64,15 +59,15 @@ tasks {
     }
 
     runIdeForUiTests {
-        systemProperty("robot-server.port", remoteRobotPort)
+        systemProperty("robot-server.port", properties("remoteRobotPort"))
     }
 
     downloadRobotServerPlugin {
-        version = "0.10.3"
+        version = properties("dependency-remote-robot")
     }
 
     runPluginVerifier {
-        ideVersions(pluginVerifierIdeVersions)
+        ideVersions(properties("pluginVerifierIdeVersions"))
     }
 
     publishPlugin {

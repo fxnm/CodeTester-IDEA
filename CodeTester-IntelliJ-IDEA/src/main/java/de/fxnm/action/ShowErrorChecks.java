@@ -47,7 +47,7 @@ public class ShowErrorChecks extends BaseToggleAction {
                 ToolWindowAccess.actOnToolWindowPanel(ToolWindowAccess.toolWindow(project),
                         codeTesterToolWindowPanel -> {
                             codeTesterToolWindowPanel.filterDisplayedResults(
-                                            displayingErrors, displayingSuccess);
+                                    displayingErrors, displayingSuccess);
                         });
 
             } catch (final Throwable e) {
