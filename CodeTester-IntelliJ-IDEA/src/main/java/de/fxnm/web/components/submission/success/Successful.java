@@ -1,13 +1,15 @@
 package de.fxnm.web.components.submission.success;
 
 
-import de.fxnm.web.components.submission.SubmissionResult;
 import lombok.Getter;
+
+import de.fxnm.web.components.submission.SubmissionResult;
 
 public class Successful implements SubmissionResult {
 
     @Getter
     private final Check[] checks;
+
     private final String className;
 
     public Successful(final String className, final Check[] checks) {

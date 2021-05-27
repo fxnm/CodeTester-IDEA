@@ -9,8 +9,9 @@ import com.intellij.util.xmlb.XmlSerializerUtil;
 
 import org.jetbrains.annotations.NotNull;
 
-import de.fxnm.CodeTesterPlugin;
 import lombok.Getter;
+
+import de.fxnm.CodeTesterPlugin;
 
 @State(
         name = CodeTesterPlugin.PLUGIN_ID + "-ProjectPersistentSettings",

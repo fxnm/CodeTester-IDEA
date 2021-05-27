@@ -8,7 +8,7 @@ import com.intellij.openapi.progress.Task.Backgroundable
 import com.intellij.openapi.project.Project
 import de.fxnm.listener.Listener
 import de.fxnm.util.CodeTesterBundle
-import java.util.LinkedList
+import java.util.*
 import java.util.function.Consumer
 
 abstract class BaseRunnable(private val project: Project, loggerClass: Class<*>) : Runnable {
@@ -33,7 +33,11 @@ abstract class BaseRunnable(private val project: Project, loggerClass: Class<*>)
         argumentTwo: Any? = null,
         argumentThree: Any? = null
     ) {
-        LOG.info("$loggerMessage - Arguments: ${argumentOne.toString()} | ${argumentTwo.toString()} | ${argumentThree.toString()} - Background ProcessName: $backGroundProcessName")
+        LOG.info(
+            "$loggerMessage - Arguments: ${argumentOne.toString()} " +
+                    "| ${argumentTwo.toString()} " +
+                    "| ${argumentThree.toString()} - Background ProcessName: $backGroundProcessName"
+        )
 
         backgroundLoadingBar(backGroundProcessName)
 
@@ -57,7 +61,11 @@ abstract class BaseRunnable(private val project: Project, loggerClass: Class<*>)
             return
         }
 
-        LOG.info("$loggerMessage - Arguments: $argumentOne | ${argumentTwo.toString()} | ${argumentThree.toString()}")
+        LOG.info(
+            "$loggerMessage - Arguments: $argumentOne " +
+                    "| ${argumentTwo.toString()} " +
+                    "| ${argumentThree.toString()}"
+        )
 
         finished = true
         listeners.forEach(Consumer { listener: Listener ->
@@ -82,7 +90,9 @@ abstract class BaseRunnable(private val project: Project, loggerClass: Class<*>)
         }
 
         LOG.info(
-            "$loggerMessage - Arguments: ${argumentOne.toString()} | ${argumentTwo.toString()} | ${argumentThree.toString()}",
+            "$loggerMessage - Arguments: ${argumentOne.toString()} " +
+                    "| ${argumentTwo.toString()} " +
+                    "| ${argumentThree.toString()}",
             throwable
         )
 

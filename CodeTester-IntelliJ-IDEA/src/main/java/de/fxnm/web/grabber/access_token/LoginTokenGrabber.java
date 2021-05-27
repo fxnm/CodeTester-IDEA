@@ -5,18 +5,19 @@ import com.intellij.openapi.project.Project;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-
-import de.fxnm.exceptions.InternetConnectionException;
-import de.fxnm.web.components.token.LoginToken;
-import de.fxnm.web.grabber.CommonUrl;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+
+import de.fxnm.exceptions.InternetConnectionException;
+import de.fxnm.web.components.token.LoginToken;
+import de.fxnm.web.grabber.CommonUrl;
 
 public final class LoginTokenGrabber {
 

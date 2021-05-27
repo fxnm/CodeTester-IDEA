@@ -2,16 +2,18 @@ package de.fxnm.result.tree;
 
 import org.jetbrains.annotations.NotNull;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import de.fxnm.web.components.submission.success.Check;
-import lombok.Getter;
-import lombok.Setter;
 
 public class ResultTreeNode extends DefaultMutableTreeNode {
 
     @Getter
     private final Check check;
+
     @Setter
     @Getter
     private String toolTip;

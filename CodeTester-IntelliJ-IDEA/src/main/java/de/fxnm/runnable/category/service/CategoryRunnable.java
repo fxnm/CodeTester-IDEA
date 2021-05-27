@@ -2,10 +2,6 @@ package de.fxnm.runnable.category.service;
 
 import com.intellij.openapi.project.Project;
 
-import java.io.IOException;
-
-import de.fxnm.exceptions.InternetConnectionException;
-import de.fxnm.exceptions.PasswordSafeException;
 import de.fxnm.runnable.BaseRunnable;
 import de.fxnm.util.CodeTesterBundle;
 import de.fxnm.web.components.category.Category;

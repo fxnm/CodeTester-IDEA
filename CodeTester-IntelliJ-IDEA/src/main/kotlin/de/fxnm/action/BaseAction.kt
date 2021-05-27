@@ -5,7 +5,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
 import de.fxnm.util.CodeTesterBundle
-import java.util.Optional
+import java.util.*
 
 abstract class BaseAction : AnAction() {
 

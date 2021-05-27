@@ -53,9 +53,9 @@ public class SentryErrorReporter extends ErrorReportSubmitter {
 
     @Override
     public boolean submit(@NotNull final IdeaLoggingEvent @NotNull [] events,
-                        @Nullable final String additionalInfo,
-                        @NotNull final Component parentComponent,
-                        @NotNull final Consumer<? super SubmittedReportInfo> consumer) {
+                          @Nullable final String additionalInfo,
+                          @NotNull final Component parentComponent,
+                          @NotNull final Consumer<? super SubmittedReportInfo> consumer) {
 
         final DataContext context = DataManager.getInstance().getDataContext(parentComponent);
         final Project project = CommonDataKeys.PROJECT.getData(context);
@@ -101,7 +101,7 @@ public class SentryErrorReporter extends ErrorReportSubmitter {
                             CodeTesterBundle.message("plugin.error.sentryErrorReporter.popup.title"),
                             CodeTesterBundle.message("plugin.error.sentryErrorReporter.popup.subtitle"),
                             String.format(CodeTesterBundle.message("plugin.error.sentryErrorReporter.popup.content"),
-                                    captureEventId.toString()),
+                                    captureEventId),
                             NotificationType.INFORMATION,
                             PluginIcons.STATUS_SUCCESS
                     );

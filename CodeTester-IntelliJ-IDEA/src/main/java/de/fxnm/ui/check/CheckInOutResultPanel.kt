@@ -8,7 +8,7 @@ import de.fxnm.web.components.submission.success.CheckOutputLineData
 import icons.PluginIcons
 import java.awt.event.MouseAdapter
 import java.awt.event.MouseEvent
-import java.util.LinkedList
+import java.util.*
 import javax.swing.JComponent
 import javax.swing.JLabel
 import javax.swing.JPanel
