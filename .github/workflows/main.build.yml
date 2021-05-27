@@ -116,7 +116,7 @@ jobs:
       - name: Wait for Idea started
         uses: jtalk/url-health-check-action@v1.4
         with:
-          url: http://127.0.0.1:8082
+          url: http://127.0.0.1:8080
           max-attempts: 15
           retry-delay: 30s
 
