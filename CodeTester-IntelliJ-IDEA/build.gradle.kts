@@ -1,4 +1,3 @@
-import org.jetbrains.changelog.closure
 import org.jetbrains.changelog.markdownToHTML
 
 fun properties(key: String) = project.findProperty(key).toString()
@@ -22,14 +21,13 @@ changelog {
 
 tasks {
     patchPluginXml {
-        version(properties("pluginVersion"))
-        sinceBuild(properties("pluginSinceBuild"))
-        untilBuild(properties("pluginUntilBuild"))
+        version.set((properties("pluginVersion")))
+        sinceBuild.set((properties("pluginSinceBuild")))
+        untilBuild.set((properties("pluginUntilBuild")))
 
         // Extract the <!-- Plugin description --> section from README.md and provide for the plugin's manifest
-        pluginDescription(
-            closure {
-                """
+        pluginDescription.set(
+            """
                         <h1>CodeTester-IDEA</h1>
                         <br/>
                         <a href="https://github.com/fxnm/CodeTester-IDEA">GitHub</a> |
@@ -37,8 +35,8 @@ tasks {
                         <br/>
                         <br/>""" +
 
-                        File(parent?.projectDir!!.path + "/docs/README.md").readText().lines().run {
-                            val start = "<!-- Plugin description -->"
+                    File(parent?.projectDir!!.path + "/docs/README.md").readText().lines().run {
+                        val start = "<!-- Plugin description -->"
                             val end = "<!-- Plugin description end -->"
 
                             if (!containsAll(listOf(start, end))) {
@@ -48,14 +46,10 @@ tasks {
                         }.joinToString("\n\n").run {
                             markdownToHTML(this)
                         }
-            }
+
         )
 
-        changeNotes(
-            closure {
-                changelog.getLatest().toHTML()
-            }
-        )
+        changeNotes.set(provider { changelog.getLatest().toHTML() })
     }
 
     runIdeForUiTests {
@@ -63,16 +57,19 @@ tasks {
     }
 
     downloadRobotServerPlugin {
-        version = properties("dependency-remote-robot")
+        version.set(properties("dependency-remote-robot"))
     }
 
     runPluginVerifier {
-        ideVersions(properties("pluginVerifierIdeVersions"))
+        ideVersions.set(
+            properties("pluginVerifierIdeVersions")
+                .split(',').map(String::trim).filter(String::isNotEmpty)
+        )
     }
 
     publishPlugin {
         dependsOn("patchChangelog")
-        token(System.getenv("PUBLISH_TOKEN"))
-        channels("default")
+        token.set((System.getenv("PUBLISH_TOKEN")))
+        channels.set(listOf("default"))
     }
 }

@@ -9,7 +9,7 @@ plugins {
     id("java")
 
     // Kotlin
-    id("org.jetbrains.kotlin.jvm") version "1.5.10" apply false
+    id("org.jetbrains.kotlin.jvm") version "1.5.10"
 
     // IntelliJ Gradle Plugin
     id("org.jetbrains.intellij") version "1.0"
@@ -94,14 +94,14 @@ subprojects {
     }
 
     intellij {
-        pluginName = properties("pluginName")
-        type = properties("platformType")
-        version = properties("platformVersion")
+        pluginName.set(properties("pluginName"))
+        type.set(properties("platformType"))
+        version.set(properties("platformVersion"))
 
-        downloadSources = properties("platformDownloadSources").toBoolean()
-        updateSinceUntilBuild = true
+        downloadSources.set(properties("platformDownloadSources").toBoolean())
+        updateSinceUntilBuild.set(true)
 
-        setPlugins("com.intellij.java")
+        plugins.set(properties("platformPlugins").split(',').map(String::trim).filter(String::isNotEmpty))
     }
 }
 
