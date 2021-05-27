@@ -40,7 +40,7 @@ public class SettingsMenu implements SearchableConfigurable {
             final Credentials credentials = PasswordManager.retrieve(PasswordManager.LOGIN_KEY);
             this.settingsMenuPanel.setCurrentLoggedInAccount(Objects.requireNonNull(credentials.getUserName()));
         } catch (final PasswordSafeException exception) {
-            LOG.info("Settings Menu get current userer failed", exception);
+            LOG.info("Settings Menu get current user failed", exception);
         }
         return this.settingsMenuPanel.creatUI();
     }
