@@ -15,7 +15,7 @@ plugins {
     id("org.jetbrains.intellij") version "0.7.2"
 
     // IntelliJ Changelog Plugin
-    id("org.jetbrains.changelog") version "1.1.2" apply false
+    id("org.jetbrains.changelog") version "1.2.0" apply false
 
     // Google Error Prone
     id("net.ltgt.errorprone") version "2.0.2"
