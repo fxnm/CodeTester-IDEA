@@ -19,7 +19,7 @@ jobs:
 
       # Validate wrapper
       - name: Gradle Wrapper Validation
-        uses: gradle/wrapper-validation-action@v1.0.3
+        uses: gradle/wrapper-validation-action@v1.0.4
 
   # Run verifyPlugin and test Gradle tasks
   test:
@@ -112,12 +112,15 @@ jobs:
 
       # Uploads Images taken during ui test
       - name: Upload Ui Test Images
-        if: ${{ always() }}
+        if: ${{ failure() }}
         id: upload-release-asset
         uses: actions/upload-artifact@v2
         with:
           name: UiTest-Images
-          path: ./CodeTester-IntelliJ-IDEA-UITest/build/screenshots
+          path: |
+            CodeTester-IntelliJ-IDEA-UITest/build/screenshots
+            CodeTester-IntelliJ-IDEA-UITest/build/reports
+
 
   # Build plugin with buildPlugin Gradle task and provide the artifact for the next workflow jobs
   # Requires test job to be passed

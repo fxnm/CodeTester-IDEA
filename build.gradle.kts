@@ -9,7 +9,7 @@ plugins {
     id("java")
 
     // Kotlin
-    id("org.jetbrains.kotlin.jvm") version "1.5.10"
+    id("org.jetbrains.kotlin.jvm") version "1.5.20" apply false
 
     // IntelliJ Gradle Plugin
     id("org.jetbrains.intellij") version "1.0"
@@ -18,7 +18,7 @@ plugins {
     id("org.jetbrains.changelog") version "1.1.2" apply false
 
     // Google Error Prone
-    id("net.ltgt.errorprone") version "2.0.1"
+    id("net.ltgt.errorprone") version "2.0.2"
 }
 
 
@@ -31,6 +31,10 @@ allprojects {
 
         maven {
             url = URI("https://jetbrains.bintray.com/intellij-third-party-dependencies")
+        }
+
+        maven {
+            url = URI("https://packages.jetbrains.team/maven/p/ij/intellij-dependencies")
         }
     }
 }
