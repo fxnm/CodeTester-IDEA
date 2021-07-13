@@ -12,7 +12,7 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "1.5.20" apply false
 
     // IntelliJ Gradle Plugin
-    id("org.jetbrains.intellij") version "0.7.2"
+    id("org.jetbrains.intellij") version "1.1.2"
 
     // IntelliJ Changelog Plugin
     id("org.jetbrains.changelog") version "1.2.0" apply false
@@ -31,6 +31,10 @@ allprojects {
 
         maven {
             url = URI("https://jetbrains.bintray.com/intellij-third-party-dependencies")
+        }
+
+        maven {
+            url = URI("https://packages.jetbrains.team/maven/p/ij/intellij-dependencies")
         }
     }
 }
@@ -94,14 +98,14 @@ subprojects {
     }
 
     intellij {
-        pluginName = properties("pluginName")
-        type = properties("platformType")
-        version = properties("platformVersion")
+        pluginName.set(properties("pluginName"))
+        type.set(properties("platformType"))
+        version.set(properties("platformVersion"))
 
-        downloadSources = properties("platformDownloadSources").toBoolean()
-        updateSinceUntilBuild = true
+        downloadSources.set(properties("platformDownloadSources").toBoolean())
+        updateSinceUntilBuild.set(true)
 
-        setPlugins("com.intellij.java")
+        plugins.set(properties("platformPlugins").split(',').map(String::trim).filter(String::isNotEmpty))
     }
 }
 
