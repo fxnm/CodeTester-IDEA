@@ -7,6 +7,7 @@
 ### Changed
 
 - Changed Remote Robot Version to 0.11.5
+- Changed Gradle Changelog Plugin Version to 1.2.0
 
 ### Fixed
 
