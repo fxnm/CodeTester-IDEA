@@ -14,9 +14,9 @@ dependencies {
 }
 
 changelog {
-    version = properties("pluginVersion")
-    path = parent?.projectDir!!.path + "/docs/CHANGELOG.md"
-    groups = listOf("Added", "Changed", "Fixed", "Removed")
+    version.set(properties("pluginVersion"))
+    path.set("${project.parent?.projectDir}/docs/CHANGELOG.md")
+    groups.set(listOf("Added", "Changed", "Fixed", "Removed"))
 }
 
 tasks {
