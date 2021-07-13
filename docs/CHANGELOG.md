@@ -1,6 +1,14 @@
 # CodeTester-IDEA Changelog
 
 ## [Unreleased]
+### Added
+
+### Changed
+
+### Fixed
+
+### Removed
+## [2.0.3]
 
 ### Added
 
