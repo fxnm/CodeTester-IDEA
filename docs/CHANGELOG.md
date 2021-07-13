@@ -1,13 +1,17 @@
 # CodeTester-IDEA Changelog
 
 ## [Unreleased]
+
 ### Added
 
 ### Changed
 
+- Changed Remote Robot Version to 0.11.5
+
 ### Fixed
 
 ### Removed
+
 ## [2.0.2]
 
 ### Added

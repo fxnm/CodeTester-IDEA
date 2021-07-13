@@ -32,6 +32,10 @@ allprojects {
         maven {
             url = URI("https://jetbrains.bintray.com/intellij-third-party-dependencies")
         }
+
+        maven {
+            url = URI("https://packages.jetbrains.team/maven/p/ij/intellij-dependencies")
+        }
     }
 }
 
