@@ -9,13 +9,13 @@ plugins {
     id("java")
 
     // Kotlin
-    id("org.jetbrains.kotlin.jvm") version "1.5.20" apply false
+    id("org.jetbrains.kotlin.jvm") version "1.5.21" apply false
 
     // IntelliJ Gradle Plugin
-    id("org.jetbrains.intellij") version "1.1.2"
+    id("org.jetbrains.intellij") version "1.1.3"
 
     // IntelliJ Changelog Plugin
-    id("org.jetbrains.changelog") version "1.2.0" apply false
+    id("org.jetbrains.changelog") version "1.3.0" apply false
 
     // Google Error Prone
     id("net.ltgt.errorprone") version "2.0.2"
