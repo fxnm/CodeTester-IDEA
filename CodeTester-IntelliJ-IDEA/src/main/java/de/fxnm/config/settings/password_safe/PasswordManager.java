@@ -38,8 +38,11 @@ public final class PasswordManager {
 
         final Credentials credentials = PasswordSafe.getInstance().get(credentialAttributes);
 
-        if (credentials == null) {
-            throw new PasswordSafeException(CodeTesterBundle.message("plugin.settings.passwordManager.retrieve.nullReturnException") + key);
+        if (credentials == null
+                || credentials.getUserName() == null
+                || credentials.getPassword() == null) {
+            throw new PasswordSafeException(
+                    CodeTesterBundle.message("plugin.settings.passwordManager.retrieve.nullReturnException") + key);
         }
 
         LOG.info(CodeTesterBundle.message("plugin.settings.passwordManager.retrieve.successful") + key);
