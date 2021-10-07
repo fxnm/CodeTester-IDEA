@@ -1,7 +1,6 @@
 package de.fxnm.service;
 
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
 
 import java.util.concurrent.Future;
@@ -18,7 +17,7 @@ public class ScannerService extends BaseService {
     }
 
     public static ScannerService getService(final Project project) {
-        return ServiceManager.getService(project, ScannerService.class);
+        return project.getService(ScannerService.class);
     }
 
     public void asyncScanFiles(final int checkId) {

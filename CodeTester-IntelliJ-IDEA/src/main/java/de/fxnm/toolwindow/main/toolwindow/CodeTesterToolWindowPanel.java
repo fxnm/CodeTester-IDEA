@@ -96,7 +96,7 @@ public class CodeTesterToolWindowPanel extends JPanel implements ConfigurationLi
 
             PopupNotifier.notify(project,
                     CodeTesterBundle.message("plugin.toolWindow.codeTester.displayResult.error.tile"),
-                    "", submissionResult.toString(),
+                    submissionResult.toString(),
                     NotificationType.ERROR, PluginIcons.STATUS_ERROR);
         }
     }

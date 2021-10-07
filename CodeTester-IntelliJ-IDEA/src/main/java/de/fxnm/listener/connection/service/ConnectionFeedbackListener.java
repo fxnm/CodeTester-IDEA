@@ -37,7 +37,7 @@ public class ConnectionFeedbackListener extends FeedbackListener {
             codeTesterToolWindowPanel.displayErrorMessage(false, toolWindowMessage);
         });
 
-        PopupNotifier.notify(this.project(), toolWindowMessage, "",
+        PopupNotifier.notify(this.project(), toolWindowMessage,
                 (String) argumentOne,
                 NotificationType.ERROR,
                 PluginIcons.STATUS_ERROR);

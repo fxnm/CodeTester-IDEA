@@ -8,9 +8,10 @@ import javax.swing.JPanel
 class ActionToolBar(toolWindowName: String, actionToolbarName: String, horizontal: Boolean) : JPanel() {
     init {
         val actionGroup = ActionManager.getInstance().getAction(actionToolbarName) as ActionGroup
+        val toolBox = Box.createHorizontalBox()
         val actionToolbar = ActionManager.getInstance()
             .createActionToolbar(toolWindowName, actionGroup, horizontal)
-        val toolBox = Box.createHorizontalBox()
+        actionToolbar.setTargetComponent(toolBox)
         toolBox.add(actionToolbar.component)
         this.add(toolBox)
     }

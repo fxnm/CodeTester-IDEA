@@ -1,6 +1,5 @@
 package de.fxnm.service;
 
-import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
 
 import java.util.concurrent.Future;
@@ -19,7 +18,7 @@ public class AccountService extends BaseService {
     }
 
     public static AccountService getService(final Project project) {
-        return ServiceManager.getService(project, AccountService.class);
+        return project.getService(AccountService.class);
     }
 
 

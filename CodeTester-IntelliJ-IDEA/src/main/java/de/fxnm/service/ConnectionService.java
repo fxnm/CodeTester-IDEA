@@ -1,6 +1,5 @@
 package de.fxnm.service;
 
-import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
 
 import java.util.concurrent.Future;
@@ -17,7 +16,7 @@ public class ConnectionService extends BaseService {
     }
 
     public static ConnectionService getService(final Project project) {
-        return ServiceManager.getService(project, ConnectionService.class);
+        return project.getService(ConnectionService.class);
     }
 
     public void asyncCheckConnection() {

@@ -98,8 +98,8 @@ public class SentryErrorReporter extends ErrorReportSubmitter {
 
                 ApplicationManager.getApplication().invokeLater(() -> {
                     PopupNotifier.notify(project,
-                            CodeTesterBundle.message("plugin.error.sentryErrorReporter.popup.title"),
-                            CodeTesterBundle.message("plugin.error.sentryErrorReporter.popup.subtitle"),
+                            CodeTesterBundle.message("plugin.error.sentryErrorReporter.popup.title") + " -"
+                                    + CodeTesterBundle.message("plugin.error.sentryErrorReporter.popup.subtitle"),
                             String.format(CodeTesterBundle.message("plugin.error.sentryErrorReporter.popup.content"),
                                     captureEventId),
                             NotificationType.INFORMATION,

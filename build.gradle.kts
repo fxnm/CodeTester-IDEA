@@ -58,6 +58,8 @@ subprojects {
 
     apply {
         dependencies {
+            implementation(kotlin("stdlib"))
+
             implementation(
                 group = "org.projectlombok",
                 name = "lombok",
