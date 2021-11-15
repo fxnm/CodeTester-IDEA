@@ -9,7 +9,7 @@ plugins {
     id("java")
 
     // Kotlin
-    id("org.jetbrains.kotlin.jvm") version "1.5.21" apply false
+    id("org.jetbrains.kotlin.jvm") version "1.6.0" apply false
 
     // IntelliJ Gradle Plugin
     id("org.jetbrains.intellij") version "1.1.3"
