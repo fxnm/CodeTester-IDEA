@@ -34,10 +34,7 @@
 
         <errorHandler implementation="de.fxnm.errorhandling.SentryErrorReporter"/>
 
-        <notification.parentGroup id="CodeTesterNotifications" title="CodeTester Notifications"/>
-        <notification.group title="CodeTester Error Notifications"
-                            parentId="CodeTesterNotifications"
-                            groupId="CodeTesterNotifications.Error"/>
+        <notificationGroup id="CodeTesterNotifications" displayType="BALLOON"/>
 
         <projectConfigurable parentId="tools"
                              instance="de.fxnm.ui.settings.SettingsMenu"

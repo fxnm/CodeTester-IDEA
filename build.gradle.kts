@@ -12,7 +12,7 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "1.6.0" apply false
 
     // IntelliJ Gradle Plugin
-    id("org.jetbrains.intellij") version "1.1.3"
+    id("org.jetbrains.intellij") version "1.1.5"
 
     // IntelliJ Changelog Plugin
     id("org.jetbrains.changelog") version "1.3.1" apply false
@@ -58,6 +58,8 @@ subprojects {
 
     apply {
         dependencies {
+            implementation(kotlin("stdlib"))
+
             implementation(
                 group = "org.projectlombok",
                 name = "lombok",

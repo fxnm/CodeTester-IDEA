@@ -1,6 +1,5 @@
 package de.fxnm.service;
 
-import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
 
 import java.util.concurrent.Future;
@@ -17,7 +16,7 @@ public class CategoryService extends BaseService {
     }
 
     public static CategoryService getService(final Project project) {
-        return ServiceManager.getService(project, CategoryService.class);
+        return project.getService(CategoryService.class);
     }
 
     public void asyncReloadCategories() {

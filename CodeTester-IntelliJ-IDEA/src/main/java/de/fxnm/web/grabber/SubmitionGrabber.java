@@ -3,7 +3,7 @@ package de.fxnm.web.grabber;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VfsUtil;
+import com.intellij.openapi.vfs.VfsUtilCore;
 import com.intellij.psi.PsiFile;
 
 import org.jetbrains.annotations.NotNull;
@@ -54,7 +54,7 @@ public final class SubmitionGrabber {
         for (final PsiFile file : files) {
             builder.addFormDataPart(file.getName(),
                     file.getName(),
-                    RequestBody.create(VfsUtil.loadText(file.getVirtualFile()), MediaType.parse("application/octet-stream")));
+                    RequestBody.create(VfsUtilCore.loadText(file.getVirtualFile()), MediaType.parse("application/octet-stream")));
         }
 
 
