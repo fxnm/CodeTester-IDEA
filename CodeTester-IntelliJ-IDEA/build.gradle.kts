@@ -8,7 +8,7 @@ plugins {
 
 dependencies {
     implementation(group = "com.squareup.okhttp3", name = "okhttp", version = "4.9.3")
-    implementation(group = "io.sentry", name = "sentry", version = "5.4.2") {
+    implementation(group = "io.sentry", name = "sentry", version = "5.4.3") {
         exclude(group = "org.slf4j")
     }
 }
